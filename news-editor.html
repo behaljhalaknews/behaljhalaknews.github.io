@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>News Editor | बहल झलक</title>
+<link rel="stylesheet" href="./style.css">
+<style>
+.editor-page{max-width:900px;margin:28px auto;padding:0 15px}.editor-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}.editor-card h1{margin-bottom:8px;color:var(--navy)}.editor-note{background:#fff8df;border-left:4px solid var(--yellow);padding:12px;margin:15px 0 22px}.editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.editor-field{display:flex;flex-direction:column;gap:6px}.editor-field.full{grid-column:1/-1}.editor-field label{font-weight:700;color:#222}.editor-field input,.editor-field select,.editor-field textarea{width:100%;padding:11px;border:1px solid #ccd3da;border-radius:6px;font:inherit;background:#fff}.editor-field textarea{min-height:130px;resize:vertical}.editor-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.editor-button{border:0;border-radius:6px;padding:11px 16px;background:var(--navy);color:#fff;font-weight:700;cursor:pointer}.editor-button.secondary{background:var(--red)}.editor-output{margin-top:22px}.editor-output textarea{width:100%;min-height:280px;font-family:monospace;font-size:13px}.editor-status{margin-top:10px;font-weight:700}.check-list{margin:0;padding-left:20px;line-height:1.8}@media(max-width:700px){.editor-grid{grid-template-columns:1fr}.editor-field.full{grid-column:auto}.editor-card{padding:16px}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="header-container"><div class="site-branding"><a href="./index.html" class="logo-box" aria-label="बहल झलक मुख्य पृष्ठ"><span class="logo-red">बहल</span><span class="logo-yellow">झलक</span><span class="logo-tagline">खबर आपकी, नज़र हमारी</span></a></div></div></header>
+<main class="editor-page">
+<div class="editor-card">
+<h1>📝 बहल झलक — News Editor</h1>
+<p>नई खबर का डेटा तैयार करें। यह पेज GitHub में अपने-आप publish नहीं करता; यह सुरक्षित JavaScript template तैयार करता है जिसे <code>news-data.js</code> में जोड़ा जा सकता है।</p>
+<div class="editor-note"><strong>सुरक्षा:</strong> इस static website में GitHub token/password डालना नहीं है।</div>
+<div class="editor-grid">
+<div class="editor-field"><label for="title">खबर का शीर्षक *</label><input id="title" placeholder="उदाहरण: बहल में..."></div>
+<div class="editor-field"><label for="category">श्रेणी *</label><select id="category"><option>बहल</option><option>भिवानी</option><option>हरियाणा</option><option>राजनीति</option><option>अपराध</option><option>खेल</option><option>वीडियो</option></select></div>
+<div class="editor-field"><label for="location">स्थान</label><input id="location" placeholder="बहल, भिवानी"></div>
+<div class="editor-field"><label for="date">तारीख / समय *</label><input id="date" placeholder="28 सितंबर 2026 | 5:00 बजे"></div>
+<div class="editor-field full"><label for="image">फोटो URL *</label><input id="image" placeholder="https://..."></div>
+<div class="editor-field full"><label for="excerpt">संक्षिप्त विवरण *</label><textarea id="excerpt" placeholder="1–2 लाइन का तथ्यात्मक परिचय"></textarea></div>
+<div class="editor-field full"><label for="content">पूरी खबर — हर पैराग्राफ नई लाइन में *</label><textarea id="content" placeholder="पहला पैराग्राफ...
+दूसरा पैराग्राफ...
+तीसरा पैराग्राफ..."></textarea></div>
+<div class="editor-field"><label><input type="checkbox" id="featured"> Homepage की प्रमुख खबर बनाएं</label></div>
+</div>
+<div class="editor-actions"><button class="editor-button" id="generate">Code तैयार करें</button><button class="editor-button secondary" id="copy" type="button">Code Copy करें</button></div>
+<div class="editor-status" id="status"></div>
+<div class="editor-output"><label for="output"><strong>Generated news object</strong></label><textarea id="output" readonly></textarea></div>
+<div class="editor-note"><strong>Publish checklist</strong><ul class="check-list"><li>तथ्य, नाम, स्थान और समय verify करें।</li><li>फोटो के उपयोग का अधिकार सुनिश्चित करें।</li><li>फिर generated object को <code>news-data.js</code> के <code>BAHAL_JHALAK_NEWS</code> array में जोड़ें और GitHub commit करें।</li></ul></div>
+<a href="./index.html" class="back-home-button">← मुख्य वेबसाइट पर जाएँ</a>
+</div></main>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+function slug(s){return s.toLowerCase().normalize("NFKD").replace(/[^a-z0-9\s-]/g,"").trim().replace(/\s+/g,"-").slice(0,45)||"news";}
+function generate(){
+ const title=$("title").value.trim(),category=$("category").value,location=$("location").value.trim(),date=$("date").value.trim(),image=$("image").value.trim(),excerpt=$("excerpt").value.trim(),content=$("content").value.trim();
+ if(!title||!date||!image||!excerpt||!content){$("status").textContent="⚠️ Title, Date/Time, Image URL, Short Description और Full News भरें।";return;}
+ const id=slug(title)+"-"+new Date().toISOString().slice(0,10);
+ const paragraphs=content.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+ const obj={id,title,category,location,date,image,excerpt,content:paragraphs};
+ if($("featured").checked)obj.featured=true;
+ $("output").value=JSON.stringify(obj,null,2)+",";
+ $("status").textContent="✅ News object तैयार है।";
+}
+$("generate").addEventListener("click",generate);
+$("copy").addEventListener("click",async()=>{if(!$("output").value)generate();if($("output").value){try{await navigator.clipboard.writeText($("output").value);$("status").textContent="✅ Code clipboard में copy हो गया।";}catch(e){$("output").select();$("status").textContent="Code select कर दिया गया है—Copy करें।";}}});
+})();
+</script>
+</body>
+</html>
