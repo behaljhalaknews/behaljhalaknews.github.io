@@ -37,8 +37,8 @@
 तीसरा पैराग्राफ..."></textarea></div>
 <div class="editor-field"><label><input type="checkbox" id="featured"> Homepage की प्रमुख खबर बनाएं</label></div>
 </div>
-<div class="editor-actions"><button class="editor-button" id="generate">Code तैयार करें</button><button class="editor-button secondary" id="copy" type="button">Code Copy करें</button></div>
-<div class="editor-status" id="status"></div>
+<div class="editor-actions"><button class="editor-button" id="generate">✅ खबर तैयार करें</button><button class="editor-button secondary" id="copy" type="button">📋 खबर का डेटा Copy करें</button><button class="editor-button" type="button" id="clear-editor">🗑️ फॉर्म साफ करें</button></div>
+<div class="editor-status" id="status"></div><p id="content-count" style="margin:6px 0;color:#68707d;font-size:13px;">खबर के पैराग्राफ: 0</p>
 <div class="editor-output"><label for="output"><strong>Generated news object</strong></label><textarea id="output" readonly></textarea></div>
 <div class="editor-note">
 <strong>📷 फोटो GitHub में डालने का सबसे आसान तरीका</strong>
@@ -65,7 +65,7 @@
 <li>नीचे <strong>Run workflow</strong> दबाएँ और कुछ समय इंतज़ार करें।</li>
 <li>Workflow पूरा होने के बाद वेबसाइट खोलकर खबर देखें। GitHub Pages को update होने में थोड़ा समय लग सकता है।</li>
 </ol>
-<p><strong>महत्वपूर्ण:</strong> अभी News Editor का Code Copy और GitHub Actions दो अलग चरण हैं। GitHub password या personal access token इस वेबसाइट में कभी न डालें।</p>
+<p><strong>महत्वपूर्ण:</strong> News Editor अभी सुरक्षित तैयारी/Preview के लिए है; GitHub Actions में खबर की जानकारी दोबारा भरनी पड़ती है। GitHub password या personal access token इस वेबसाइट में कभी न डालें।</p>
 </div>
 <div class="editor-note"><strong>Publish checklist</strong><ul class="check-list"><li>तथ्य, नाम, स्थान और समय verify करें।</li><li>फोटो के उपयोग का अधिकार सुनिश्चित करें।</li><li>फोटो GitHub के <code>images</code> folder में upload करने के बाद path रखें: <code>./images/filename.jpg</code></li><li>Generated object को workflow के जरिए publish करें।</li></ul></div>
 <a href="./index.html" class="back-home-button">← मुख्य वेबसाइट पर जाएँ</a>
@@ -74,7 +74,7 @@
 (function(){
 const $=id=>document.getElementById(id);\nfunction updatePreview(){const value=$("image").value.trim(),box=$("image-preview");if(!value){box.textContent="फोटो preview यहाँ दिखाई देगा।";return;}box.innerHTML="<span>Preview:</span><img src=\""+value.replace(/&/g,"&amp;").replace(/\\"/g,"&quot;")+"\" alt=\"Photo preview\" onerror=\"this.remove();this.previousElementSibling.textContent=\"⚠️ फोटो URL/path load नहीं हुआ।\"\">";}
 function slug(s){return s.toLowerCase().normalize("NFKD").replace(/[^a-z0-9\s-]/g,"").trim().replace(/\s+/g,"-").slice(0,45)||"news";}
-function generate(){
+function setDefaults(){const now=new Date();const months=["जनवरी","फरवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"];const d=now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear();$("date").value=d+" | "+now.toLocaleTimeString("hi-IN",{hour:"2-digit",minute:"2-digit"});}function updateCount(){const n=$("content").value.split(/\\n+/).map(x=>x.trim()).filter(Boolean).length;$("content-count").textContent="खबर के पैराग्राफ: "+n;}function generate(){
  const title=$("title").value.trim(),category=$("category").value,location=$("location").value.trim(),date=$("date").value.trim(),image=$("image").value.trim(),excerpt=$("excerpt").value.trim(),content=$("content").value.trim();
  if(!title||!date||!image||!excerpt||!content){$("status").textContent="⚠️ Title, Date/Time, Image URL, Short Description और Full News भरें।";return;}
  const id=slug(title)+"-"+new Date().toISOString().slice(0,10);
@@ -84,7 +84,7 @@ function generate(){
  $("output").value=JSON.stringify(obj,null,2)+",";
  $("status").textContent="✅ News object तैयार है।";
 }
-$("image").addEventListener("input",updatePreview);\n$("generate").addEventListener("click",generate);
+$("image").addEventListener("input",updatePreview);$("content").addEventListener("input",updateCount);$("clear-editor").addEventListener("click",()=>{if(confirm("क्या पूरा फॉर्म साफ करना है?")){document.querySelectorAll(".editor-field input,.editor-field textarea").forEach(el=>{if(el.type!=="checkbox")el.value="";});$("featured").checked=false;$("output").value="";$("status").textContent="";updatePreview();updateCount();setDefaults();}});setDefaults();updateCount();\n$("generate").addEventListener("click",generate);
 $("copy").addEventListener("click",async()=>{if(!$("output").value)generate();if($("output").value){try{await navigator.clipboard.writeText($("output").value);$("status").textContent="✅ Code clipboard में copy हो गया।";}catch(e){$("output").select();$("status").textContent="Code select कर दिया गया है—Copy करें।";}}});
 })();
 </script>
