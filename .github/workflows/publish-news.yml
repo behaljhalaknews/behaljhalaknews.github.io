@@ -143,6 +143,21 @@ jobs:
           <meta name="twitter:description" content="{h(excerpt)}">
           <meta name="twitter:image" content="{h(image_url)}">
           <link rel="canonical" href="{h(page_url)}">
+          <script type="application/ld+json">
+          {json.dumps({
+              "@context": "https://schema.org",
+              "@type": "NewsArticle",
+              "headline": title,
+              "description": excerpt,
+              "datePublished": date.today().isoformat(),
+              "dateModified": date.today().isoformat(),
+              "mainEntityOfPage": {"@type": "WebPage", "@id": page_url},
+              "image": [image_url],
+              "author": {"@type": "Organization", "name": "बहल झलक"},
+              "publisher": {"@type": "Organization", "name": "बहल झलक", "url": site_url + "/"},
+              "articleSection": category
+          }, ensure_ascii=False)}
+          </script>
           <link rel="stylesheet" href="./style.css">
           </head>
           <body>
