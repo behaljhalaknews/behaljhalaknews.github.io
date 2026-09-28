@@ -157,8 +157,7 @@ jobs:
           </article></main>
           <footer class="site-footer"><div class="footer-container"><p>© 2026 बहल झलक — खबर आपकी, नज़र हमारी</p></div></footer>
           </body></html>"""
-          article_path = f"articles/{news_id}.html"
-          os.makedirs("articles", exist_ok=True)
+          article_path = f"{news_id}.html"
           with open(article_path, "w", encoding="utf-8") as f:
               f.write(article_html)
           PY
