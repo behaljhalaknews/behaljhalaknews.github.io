@@ -1,68 +1,126 @@
+/* =========================================================
+   बहल झलक — STEP 2A Responsive News Website Styles
+   ========================================================= */
+
+:root {
+    --navy: #0b2545;
+    --navy-dark: #071a31;
+    --red: #d90429;
+    --red-dark: #b30322;
+    --yellow: #ffcc00;
+    --white: #ffffff;
+    --text: #1d2430;
+    --muted: #68707d;
+    --bg: #f4f6f8;
+    --border: #e2e6ea;
+    --shadow: 0 4px 14px rgba(11, 37, 69, 0.08);
+    --radius: 8px;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-    background-color: #f4f4f4;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, "Noto Sans Devanagari", sans-serif;
+    line-height: 1.5;
 }
 
-/* 1. हेडर और लोगो स्टाइल */
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+}
+
+.container {
+    width: min(1200px, calc(100% - 30px));
+    margin-inline: auto;
+}
+
+/* =========================
+   1. HEADER
+   ========================= */
+
 .site-header {
-    background-color: #0b2545;
-    border-bottom: 3px solid #d90429;
+    background: var(--navy);
+    border-bottom: 3px solid var(--red);
+    position: relative;
+    z-index: 1000;
 }
 
 .header-container {
-    max-width: 1200px;
-    margin: 0 auto;
+    width: min(1200px, calc(100% - 30px));
+    min-height: 78px;
+    margin-inline: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 20px;
-    flex-wrap: wrap;
+    gap: 20px;
+    padding: 10px 0;
+}
+
+.site-branding {
+    flex: 0 0 auto;
 }
 
 .logo-box {
-    text-decoration: none;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.logo-red,
+.logo-yellow {
+    font-size: clamp(25px, 3vw, 34px);
+    font-weight: 900;
 }
 
 .logo-red {
-    font-size: 28px;
-    font-weight: 900;
-    color: #d90429;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    background: #ffffff;
-    padding: 2px 8px;
+    color: var(--red);
+    background: var(--white);
+    padding: 4px 9px;
     border-radius: 4px;
     display: inline-block;
 }
 
 .logo-yellow {
-    font-size: 28px;
-    font-weight: 900;
-    color: #ffcc00;
-    display: inline-block;
-    margin-left: 5px;
+    color: var(--yellow);
+    margin-left: 7px;
+    margin-top: -2px;
 }
 
 .logo-tagline {
+    color: #d9e0e8;
     font-size: 11px;
-    color: #cccccc;
-    margin-top: 2px;
-    letter-spacing: 0.5px;
+    margin-top: 6px;
+    letter-spacing: .4px;
 }
 
-/* 2. मेन्यू बार स्टाइल */
+/* =========================
+   2. DESKTOP NAVIGATION
+   ========================= */
+
+.main-navigation {
+    margin-left: auto;
+}
+
 .main-navigation .menu {
     display: flex;
+    align-items: center;
+    gap: 3px;
     list-style: none;
-    gap: 5px;
 }
 
 .main-navigation .menu li {
@@ -71,168 +129,220 @@ body {
 
 .main-navigation .menu a {
     display: block;
-    padding: 10px 14px;
-    color: #ffffff;
+    padding: 10px 12px;
+    color: var(--white);
     text-decoration: none;
-    font-size: 15px;
-    font-weight: bold;
-    border-radius: 4px;
-    transition: background 0.3s;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 5px;
+    white-space: nowrap;
+    transition: background .2s ease, color .2s ease;
 }
 
 .main-navigation .menu a:hover,
 .main-navigation .menu a.active {
-    background-color: #d90429;
-    color: #ffffff;
+    background: var(--red);
+    color: var(--white);
 }
 
-/* सब-मेन्यू/ड्रॉपडाउन */
+/* Dropdown */
 .main-navigation .sub-menu {
     display: none;
     position: absolute;
-    top: 100%;
+    top: calc(100% + 3px);
     left: 0;
-    background-color: #0b2545;
-    min-width: 140px;
+    min-width: 170px;
     list-style: none;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    z-index: 100;
+    background: var(--navy-dark);
+    border-top: 3px solid var(--red);
+    box-shadow: 0 8px 18px rgba(0,0,0,.25);
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
 }
 
-.main-navigation .menu li:hover .sub-menu {
+.main-navigation .menu li:hover > .sub-menu,
+.main-navigation .menu li:focus-within > .sub-menu {
     display: block;
 }
 
 .main-navigation .sub-menu a {
-    padding: 8px 12px;
+    padding: 10px 13px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    border-radius: 0;
     font-size: 14px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-/* 3. ब्रेकिंग न्यूज़ टिकर */
+/* =========================
+   3. BREAKING NEWS TICKER
+   ========================= */
+
 .breaking-news-container {
     display: flex;
-    background-color: #d90429;
-    color: #ffffff;
     align-items: center;
-    font-weight: bold;
+    min-height: 38px;
+    background: var(--red);
+    color: var(--white);
+    font-weight: 700;
+    overflow: hidden;
 }
 
 .breaking-title {
-    background-color: #111;
+    flex: 0 0 auto;
+    background: #111;
     padding: 8px 15px;
     white-space: nowrap;
     font-size: 14px;
 }
 
 .breaking-news-text {
+    min-width: 0;
     width: 100%;
-    padding: 6px 10px;
+    padding: 5px 10px;
     font-size: 14px;
 }
 
-/* 4. मुख्य लेआउट */
+/* =========================
+   4. MAIN NEWS LAYOUT
+   ========================= */
+
 .main-content-area {
-    max-width: 1200px;
-    margin: 20px auto;
+    width: min(1200px, calc(100% - 30px));
+    margin: 22px auto;
     display: grid;
-    grid-template-columns: 2.5fr 1fr;
-    gap: 20px;
-    padding: 0 15px;
+    grid-template-columns: minmax(0, 2.5fr) minmax(260px, 1fr);
+    gap: 22px;
+    align-items: start;
+}
+
+.featured-news-card,
+.small-news-card,
+.sidebar-widget {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.featured-news-card,
+.small-news-card {
+    overflow: hidden;
 }
 
 .featured-news-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .featured-news-card img {
     width: 100%;
-    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: #dfe4e8;
 }
 
 .featured-news-content {
-    padding: 15px;
+    padding: 17px;
 }
 
 .category-tag {
-    background-color: #d90429;
-    color: #fff;
-    padding: 3px 8px;
-    font-size: 12px;
-    border-radius: 3px;
     display: inline-block;
+    background: var(--red);
+    color: var(--white);
+    padding: 4px 9px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
     margin-bottom: 8px;
 }
 
 .category-tag.dark {
-    background-color: #0b2545;
+    background: var(--navy);
 }
 
 .featured-news-content h2 {
-    font-size: 22px;
     color: #111;
+    font-size: clamp(20px, 2.2vw, 28px);
+    line-height: 1.3;
     margin-bottom: 8px;
 }
 
 .featured-news-content p {
-    color: #666;
+    color: var(--muted);
     font-size: 14px;
 }
 
+/* =========================
+   5. SMALL NEWS CARDS
+   ========================= */
+
 .news-grid-2 {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
 }
 
 .small-news-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.small-news-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 18px rgba(11,37,69,.12);
 }
 
 .small-news-card img {
     width: 100%;
-    height: 140px;
+    aspect-ratio: 16 / 10;
     object-fit: cover;
+    background: #dfe4e8;
 }
 
 .small-news-content {
-    padding: 10px;
+    padding: 12px;
 }
 
 .small-news-content h3 {
-    font-size: 15px;
     color: #222;
-    margin-top: 5px;
+    font-size: 16px;
+    line-height: 1.45;
+    margin-top: 3px;
+}
+
+/* =========================
+   6. LOCAL NEWS SECTION
+   ========================= */
+
+.local-news-block {
+    margin-top: 24px;
 }
 
 .section-heading {
-    font-size: 18px;
-    color: #0b2545;
-    border-bottom: 3px solid #d90429;
-    padding-bottom: 5px;
-    margin: 25px 0 15px 0;
+    color: var(--navy);
+    font-size: 20px;
+    line-height: 1.3;
+    border-bottom: 3px solid var(--red);
+    padding-bottom: 7px;
+    margin-bottom: 15px;
 }
 
-/* 5. साइडबार */
+/* =========================
+   7. SIDEBAR
+   ========================= */
+
+.sidebar-section {
+    position: sticky;
+    top: 15px;
+}
+
 .sidebar-widget {
-    background: #fff;
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 6px;
+    padding: 16px;
 }
 
 .widget-title {
-    font-size: 16px;
-    color: #0b2545;
-    border-bottom: 2px solid #d90429;
-    padding-bottom: 5px;
+    color: var(--navy);
+    font-size: 17px;
+    line-height: 1.35;
+    border-bottom: 2px solid var(--red);
+    padding-bottom: 8px;
     margin-bottom: 12px;
 }
 
@@ -241,42 +351,293 @@ body {
 }
 
 .trending-list li {
-    margin-bottom: 10px;
-    border-bottom: 1px dashed #eee;
-    padding-bottom: 6px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+}
+
+.trending-list li:last-child {
+    border-bottom: 0;
 }
 
 .trending-list a {
-    text-decoration: none;
-    color: #333;
-    font-size: 13px;
     display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.trending-list a:hover {
+    color: var(--red);
 }
 
 .trending-list span {
-    background: #0b2545;
-    color: #fff;
-    width: 20px;
-    height: 20px;
+    flex: 0 0 22px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
+    background: var(--navy);
+    color: var(--white);
     text-align: center;
     font-size: 11px;
-    line-height: 20px;
-    margin-right: 8px;
-    flex-shrink: 0;
+    line-height: 22px;
+    font-weight: 700;
 }
 
-/* रिस्पॉन्सिव (मोबाइल) */
-@media (max-width: 768px) {
+/* =========================
+   8. SOCIAL FOLLOW
+   ========================= */
+
+.social-follow-block {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.section-title {
+    color: var(--navy);
+    font-size: 24px;
+    line-height: 1.3;
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 7px;
+    margin-bottom: 20px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 145px;
+    padding: 10px 18px;
+    border-radius: 6px;
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: 0 3px 8px rgba(0,0,0,.1);
+    transition: transform .2s ease, opacity .2s ease;
+}
+
+.social-link:hover {
+    transform: translateY(-2px);
+    opacity: .92;
+}
+
+.social-link.youtube { background: #ff0000; }
+.social-link.facebook { background: #1877f2; }
+.social-link.instagram { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
+.social-link.whatsapp { background: #25d366; }
+
+/* =========================
+   9. FOOTER
+   ========================= */
+
+.site-footer {
+    background: var(--navy);
+    color: #d9e0e8;
+    border-top: 3px solid var(--red);
+    margin-top: 25px;
+}
+
+.footer-container {
+    width: min(1200px, calc(100% - 30px));
+    margin-inline: auto;
+    padding: 18px 0;
+    text-align: center;
+    font-size: 13px;
+}
+
+/* =========================
+   10. TABLET
+   ========================= */
+
+@media (max-width: 980px) {
     .header-container {
-        flex-direction: column;
         align-items: flex-start;
+        flex-direction: column;
     }
+
+    .main-navigation {
+        width: 100%;
+        margin-left: 0;
+    }
+
     .main-navigation .menu {
         flex-wrap: wrap;
-        margin-top: 10px;
     }
-    .main-content-area, .news-grid-2 {
+
+    .main-content-area {
+        grid-template-columns: minmax(0, 1fr) 300px;
+    }
+
+    .main-navigation .menu a {
+        padding: 9px 10px;
+    }
+}
+
+/* =========================
+   11. MOBILE
+   ========================= */
+
+@media (max-width: 768px) {
+    .container,
+    .header-container,
+    .main-content-area,
+    .footer-container {
+        width: min(100% - 20px, 1200px);
+    }
+
+    .site-header {
+        border-bottom-width: 2px;
+    }
+
+    .header-container {
+        min-height: auto;
+        padding: 10px 0 12px;
+        gap: 10px;
+    }
+
+    .site-branding {
+        width: 100%;
+    }
+
+    .logo-red,
+    .logo-yellow {
+        font-size: 27px;
+    }
+
+    .logo-tagline {
+        font-size: 10px;
+    }
+
+    .main-navigation {
+        width: 100%;
+        overflow-x: auto;
+        scrollbar-width: thin;
+    }
+
+    .main-navigation .menu {
+        flex-wrap: nowrap;
+        width: max-content;
+        gap: 3px;
+        padding-bottom: 2px;
+    }
+
+    .main-navigation .menu a {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+
+    .main-navigation .sub-menu {
+        position: absolute;
+        top: 100%;
+    }
+
+    .breaking-title {
+        padding: 7px 10px;
+        font-size: 12px;
+    }
+
+    .breaking-news-text {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+
+    .main-content-area {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .sidebar-section {
+        position: static;
+    }
+
+    .news-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .featured-news-content {
+        padding: 13px;
+    }
+
+    .featured-news-content h2 {
+        font-size: 20px;
+    }
+
+    .small-news-content h3 {
+        font-size: 15px;
+    }
+
+    .section-heading {
+        font-size: 18px;
+    }
+
+    .social-follow-block {
+        margin-top: 22px;
+        margin-bottom: 22px;
+    }
+
+    .section-title {
+        font-size: 20px;
+    }
+
+    .social-links {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .social-link {
+        min-width: 0;
+        width: 100%;
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+}
+
+/* =========================
+   12. SMALL PHONES
+   ========================= */
+
+@media (max-width: 420px) {
+    .social-links {
         grid-template-columns: 1fr;
     }
+
+    .social-link {
+        min-height: 42px;
+    }
+
+    .featured-news-card img {
+        aspect-ratio: 16 / 10;
+    }
+
+    .sidebar-widget {
+        padding: 13px;
+    }
+
+    .widget-title {
+        font-size: 16px;
+    }
+}
+
+/* =========================
+   13. ACCESSIBILITY
+   ========================= */
+
+:focus-visible {
+    outline: 3px solid var(--yellow);
+    outline-offset: 2px;
 }
