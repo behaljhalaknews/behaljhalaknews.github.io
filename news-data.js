@@ -3,10 +3,6 @@
    image: अपनी image URL
    category: बहल / भिवानी / हरियाणा / राजनीति / अपराध / खेल / वीडियो
 */
-window.BAHAL_JHALAK_BREAKING_NEWS = [
-  "बिजली बोर्ड कॉलोनी में पेड़ पर काली थैली में मिला नवजात, फैली सनसनी; जांच में जुटी पुलिस"
-];
-
 window.BAHAL_JHALAK_NEWS = [
   {
     id: "bhiwani-electricity-board-colony-newborn-2026-09-28",
