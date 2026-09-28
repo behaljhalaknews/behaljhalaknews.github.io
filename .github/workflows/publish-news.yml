@@ -91,7 +91,8 @@ jobs:
               "date": news_date,
               "image": image,
               "excerpt": excerpt,
-              "content": paragraphs
+              "content": paragraphs,
+              "page": f"./articles/{news_id}.html"
           }
           if featured:
               entry["featured"] = True
@@ -114,12 +115,57 @@ jobs:
 
           with open(path, "w", encoding="utf-8") as f:
               f.write(text)
+
+          def h(value):
+              import html
+              return html.escape(str(value), quote=True)
+
+          site_url = "https://behaljhalaknews.github.io"
+          page_url = f"{site_url}/articles/{news_id}.html"
+          image_url = image if image.startswith("http") else site_url + "/" + image.lstrip("./")
+          body_html = "\n".join(f"<p>{h(p)}</p>" for p in paragraphs)
+          article_html = f"""<!DOCTYPE html>
+          <html lang="hi">
+          <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>{h(title)} | बहल झलक</title>
+          <meta name="description" content="{h(excerpt)}">
+          <meta property="og:type" content="article">
+          <meta property="og:site_name" content="बहल झलक">
+          <meta property="og:title" content="{h(title)} | बहल झलक">
+          <meta property="og:description" content="{h(excerpt)}">
+          <meta property="og:image" content="{h(image_url)}">
+          <meta property="og:url" content="{h(page_url)}">
+          <meta property="og:image:alt" content="{h(title)}">
+          <meta name="twitter:card" content="summary_large_image">
+          <meta name="twitter:title" content="{h(title)} | बहल झलक">
+          <meta name="twitter:description" content="{h(excerpt)}">
+          <meta name="twitter:image" content="{h(image_url)}">
+          <link rel="canonical" href="{h(page_url)}">
+          <link rel="stylesheet" href="../style.css">
+          </head>
+          <body>
+          <header class="site-header"><div class="header-container"><div class="site-branding"><a href="../index.html" class="logo-box" aria-label="बहल झलक मुख्य पृष्ठ"><span class="logo-red">बहल</span><span class="logo-yellow">झलक</span><span class="logo-tagline">खबर आपकी, नज़र हमारी</span></a></div></div></header>
+          <div class="breaking-news-container"><div class="breaking-title">बहल झलक</div><div class="breaking-news-text">खबर आपकी, नज़र हमारी</div></div>
+          <main class="article-page container"><article class="article-card">
+          <div class="article-header"><span class="category-tag">{h(category)}</span><h1>{h(title)}</h1><div class="article-meta"><span>{h(date)}</span><span>•</span><span>बहल झलक न्यूज़</span></div></div>
+          <img class="article-image" src="{h("../" + image.lstrip("./") if image.startswith("./") else image_url)}" alt="{h(title)}">
+          <div class="article-body">{body_html}</div>
+          <div class="article-actions"><a href="../index.html" class="back-home-button">← वापस मुख्य पृष्ठ</a></div>
+          </article></main>
+          <footer class="site-footer"><div class="footer-container"><p>© 2026 बहल झलक — खबर आपकी, नज़र हमारी</p></div></footer>
+          </body></html>"""
+          article_path = f"articles/{news_id}.html"
+          os.makedirs("articles", exist_ok=True)
+          with open(article_path, "w", encoding="utf-8") as f:
+              f.write(article_html)
           PY
 
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add news-data.js
+          git add news-data.js articles/
           git diff --cached --quiet || git commit -m "Publish news from News Editor"
           git push
