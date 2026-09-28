@@ -54,8 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const cls = small ? "small-news-card" : "news-card";
         const contentCls = small ? "small-news-content" : "news-card-content";
         return '<article class="' + cls + '">' +
-            '<a href="' + esc(item.page || ("./article.html?id=" + encodeURIComponent(item.id))) + '" class="news-card-image-link">' +
-            '<img src="' + esc(item.image) + '" alt="' + esc(item.title) + '" loading="lazy"></a>' +
+            (item.image ? '<a href="' + esc(item.page || ("./article.html?id=" + encodeURIComponent(item.id))) + '" class="news-card-image-link"><img src="' + esc(item.image) + '" alt="' + esc(item.title) + '" loading="lazy"></a>' : '') +
             '<div class="' + contentCls + '">' +
             '<span class="category-tag' + (item.category === "हरियाणा" || item.category === "राज्य अपडेट" ? " dark" : "") + '">' + esc(item.category) + '</span>' +
             '<h3><a href="' + esc(item.page || ("./article.html?id=" + encodeURIComponent(item.id))) + '">' + esc(item.title) + '</a></h3>' +
@@ -72,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("featured-news").innerHTML =
             '<article class="featured-news-card">' +
             '<a href="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '" class="news-card-image-link">' +
-            '<img src="' + esc(featured.image) + '" alt="' + esc(featured.title) + '"></a>' +
+            (featured.image ? '<a href="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '" class="news-card-image-link"><img src="' + esc(featured.image) + '" alt="' + esc(featured.title) + '"></a>' : '') +
             '<div class="featured-news-content"><span class="category-tag">' + esc(featured.category) + '</span>' +
             '<h2><a href="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '">' + esc(featured.title) + '</a></h2>' +
             '<p>' + esc(featured.excerpt) + '</p><div class="news-meta"><span>' + esc(featured.location || "बहल झलक") + '</span><span>•</span><span>' + esc(featured.date) + '</span></div></div></article>';
