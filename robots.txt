@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /news-editor.html
 
 Sitemap: https://behaljhalaknews.github.io/sitemap.xml
