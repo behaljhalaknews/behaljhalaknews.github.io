@@ -1,28 +1,73 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // news.json फ़ाइल से खबरें लोड करने के लिए
-    fetch('news.json')
-        .then(response => response.json())
-        .then(data => {
-            const localNewsGrid = document.querySelector('.local-news-block .news-grid-2');
-            if (localNewsGrid && data.length > 0) {
-                // पुराने डमी कार्ड्स को साफ करें
-                localNewsGrid.innerHTML = '';
-                
-                // जेसन फ़ाइल से एक-एक करके खबरें जोड़ें
-                data.forEach(news => {
-                    const newsCard = `
-                        <div class="small-news-card">
-                            <img src="${news.image}" alt="${news.title}">
-                            <div class="small-news-content">
-                                <span class="category-tag dark">${news.category}</span>
-                                <h3>${news.title}</h3>
-                                <p>${news.description}</p>
-                            </div>
-                        </div>
-                    `;
-                    localNewsGrid.innerHTML += newsCard;
-                });
+/* बहल झलक — Mobile Navigation */
+
+document.addEventListener("DOMContentLoaded", function () {
+    const menuButton = document.querySelector(".menu-toggle");
+    const navigation = document.querySelector(".main-navigation");
+    const categoryItem = document.querySelector(".has-submenu");
+    const categoryButton = document.querySelector(".submenu-toggle");
+
+    if (!menuButton || !navigation) return;
+
+    function closeMenu() {
+        navigation.classList.remove("is-open");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "मेन्यू खोलें");
+
+        if (categoryItem) {
+            categoryItem.classList.remove("is-open");
+        }
+
+        if (categoryButton) {
+            categoryButton.setAttribute("aria-expanded", "false");
+        }
+    }
+
+    menuButton.addEventListener("click", function () {
+        const isOpen = navigation.classList.toggle("is-open");
+
+        menuButton.setAttribute("aria-expanded", String(isOpen));
+        menuButton.setAttribute(
+            "aria-label",
+            isOpen ? "मेन्यू बंद करें" : "मेन्यू खोलें"
+        );
+    });
+
+    if (categoryButton && categoryItem) {
+        categoryButton.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const isOpen = categoryItem.classList.toggle("is-open");
+            categoryButton.setAttribute("aria-expanded", String(isOpen));
+        });
+    }
+
+    navigation.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+            if (window.innerWidth <= 768) {
+                closeMenu();
             }
-        })
-        .catch(error => console.error('खबरें लोड करने में एरर:', error));
+        });
+    });
+
+    document.addEventListener("click", function (event) {
+        if (
+            window.innerWidth <= 768 &&
+            navigation.classList.contains("is-open") &&
+            !navigation.contains(event.target) &&
+            !menuButton.contains(event.target)
+        ) {
+            closeMenu();
+        }
+    });
+
+    window.addEventListener("resize", function () {
+        if (window.innerWidth > 768) {
+            navigation.classList.remove("is-open");
+            menuButton.setAttribute("aria-expanded", "false");
+            menuButton.setAttribute("aria-label", "मेन्यू खोलें");
+
+            if (categoryItem) categoryItem.classList.remove("is-open");
+            if (categoryButton) categoryButton.setAttribute("aria-expanded", "false");
+        }
+    });
 });
