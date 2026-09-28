@@ -1,0 +1,121 @@
+name: Publish News
+
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: "खबर का शीर्षक"
+        required: true
+        type: string
+      category:
+        description: "श्रेणी"
+        required: true
+        type: choice
+        options:
+          - बहल
+          - भिवानी
+          - हरियाणा
+          - राजनीति
+          - अपराध
+          - खेल
+          - वीडियो
+      location:
+        description: "स्थान"
+        required: true
+        type: string
+      date:
+        description: "तारीख / समय"
+        required: true
+        type: string
+      image:
+        description: "फोटो URL"
+        required: true
+        type: string
+      excerpt:
+        description: "संक्षिप्त विवरण"
+        required: true
+        type: string
+      content:
+        description: "पूरी खबर — हर पैराग्राफ नई लाइन में"
+        required: true
+        type: string
+      featured:
+        description: "Homepage की प्रमुख खबर बनाएं"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add news entry
+        env:
+          NEWS_TITLE: ${{ inputs.title }}
+          NEWS_CATEGORY: ${{ inputs.category }}
+          NEWS_LOCATION: ${{ inputs.location }}
+          NEWS_DATE: ${{ inputs.date }}
+          NEWS_IMAGE: ${{ inputs.image }}
+          NEWS_EXCERPT: ${{ inputs.excerpt }}
+          NEWS_CONTENT: ${{ inputs.content }}
+          NEWS_FEATURED: ${{ inputs.featured }}
+        run: |
+          python3 - <<'PY'
+          import json, os, re
+          from datetime import date
+
+          path = "news-data.js"
+          title = os.environ["NEWS_TITLE"].strip()
+          category = os.environ["NEWS_CATEGORY"].strip()
+          location = os.environ["NEWS_LOCATION"].strip()
+          news_date = os.environ["NEWS_DATE"].strip()
+          image = os.environ["NEWS_IMAGE"].strip()
+          excerpt = os.environ["NEWS_EXCERPT"].strip()
+          paragraphs = [p.strip() for p in os.environ["NEWS_CONTENT"].splitlines() if p.strip()]
+          featured = os.environ["NEWS_FEATURED"].lower() == "true"
+
+          slug = re.sub(r"[^a-z0-9-]+", "-", title.lower()).strip("-")[:45] or "news"
+          news_id = f"{slug}-{date.today().isoformat()}"
+
+          entry = {
+              "id": news_id,
+              "title": title,
+              "category": category,
+              "location": location,
+              "date": news_date,
+              "image": image,
+              "excerpt": excerpt,
+              "content": paragraphs
+          }
+          if featured:
+              entry["featured"] = True
+
+          with open(path, "r", encoding="utf-8") as f:
+              text = f.read()
+
+          marker = "];"
+          pos = text.rfind(marker)
+          if pos == -1:
+              raise SystemExit("news-data.js का expected array ending नहीं मिला")
+
+          new_entry = "  " + json.dumps(entry, ensure_ascii=False, indent=2).replace("\n", "\n  ")
+          insert = ("," if text[:pos].rstrip().endswith("}") else "") + "\n" + new_entry + "\n"
+          text = text[:pos] + insert + text[pos:]
+
+          with open(path, "w", encoding="utf-8") as f:
+              f.write(text)
+          PY
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add news-data.js
+          git diff --cached --quiet || git commit -m "Publish news from News Editor"
+          git push
