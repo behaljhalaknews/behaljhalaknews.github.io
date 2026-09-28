@@ -80,8 +80,8 @@ jobs:
           paragraphs = [p.strip() for p in os.environ["NEWS_CONTENT"].splitlines() if p.strip()]
           featured = os.environ["NEWS_FEATURED"].lower() == "true"
 
-          slug = re.sub(r"[^a-z0-9-]+", "-", title.lower()).strip("-")[:45] or "news"
-          news_id = f"{slug}-{date.today().isoformat()}"
+          slug = re.sub(r"[^\w-]+", "-", title.lower(), flags=re.UNICODE).strip("-")[:45] or "news"
+          news_id = f"{slug}-{date.today().isoformat()}-{os.environ.get(\"GITHUB_RUN_ID\", \"0\")}"
 
           entry = {
               "id": news_id,
@@ -94,6 +94,8 @@ jobs:
               "content": paragraphs
           }
           if featured:
+              # Only the newly published story becomes featured.
+              text_before = None
               entry["featured"] = True
 
           with open(path, "r", encoding="utf-8") as f:
