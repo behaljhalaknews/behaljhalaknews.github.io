@@ -10,7 +10,7 @@ window.BAHAL_JHALAK_NEWS = [
     category: "भिवानी",
     location: "भिवानी",
     date: "28 सितंबर 2026",
-    image: "",
+    image: "./images/bhiwani-newborn.jpg?v=20260928-1",
     page: "./bhiwani-electricity-board-colony-newborn-2026-09-28.html",
     excerpt: "भिवानी की बिजली बोर्ड कॉलोनी में सोमवार सुबह एक पेड़ पर काली थैली में बंधा नवजात शिशु मिला। पुलिस ने मौके पर पहुंचकर जांच शुरू की और आसपास के सीसीटीवी फुटेज खंगाले जा रहे हैं।",
     content: [
