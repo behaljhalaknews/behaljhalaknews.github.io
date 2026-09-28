@@ -20,15 +20,27 @@
             </a>
         </div>
 
+        <!-- मोबाइल मेन्यू बटन -->
+        <button class="menu-toggle" type="button" aria-label="मेन्यू खोलें" aria-controls="main-menu" aria-expanded="false">
+            <span class="menu-icon" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+            <span class="menu-label">मेन्यू</span>
+        </button>
+
         <!-- मुख्य नेविगेशन मेन्यू -->
         <nav class="main-navigation" aria-label="मुख्य नेविगेशन">
-            <ul class="menu">
+            <ul class="menu" id="main-menu">
                 <li><a href="#" class="active">मुख्य पृष्ठ</a></li>
                 <li><a href="#">ताज़ा ख़बरें</a></li>
                 <li><a href="#">भिवानी</a></li>
                 <li><a href="#">बहल</a></li>
                 <li class="has-submenu">
-                    <a href="#">श्रेणियाँ ▾</a>
+                    <button class="submenu-toggle" type="button" aria-expanded="false">
+                        श्रेणियाँ <span aria-hidden="true">▾</span>
+                    </button>
                     <ul class="sub-menu">
                         <li><a href="#">राजनीति</a></li>
                         <li><a href="#">अपराध</a></li>
@@ -113,15 +125,12 @@
         <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-link youtube">
             <span aria-hidden="true">📺</span> YouTube
         </a>
-
         <a href="https://www.facebook.com/share/1JQLY1vQ9k/" target="_blank" rel="noopener noreferrer" class="social-link facebook">
             <span aria-hidden="true">🔵</span> Facebook
         </a>
-
         <a href="https://www.instagram.com/behaljhalak?stkn=d3BiZHc3djhvMmc0" target="_blank" rel="noopener noreferrer" class="social-link instagram">
             <span aria-hidden="true">📸</span> Instagram
         </a>
-
         <a href="https://whatsapp.com/channel/0029Vb8J2087j6g1F4oEO646" target="_blank" rel="noopener noreferrer" class="social-link whatsapp">
             <span aria-hidden="true">🟢</span> WhatsApp Channel
         </a>
