@@ -92,7 +92,7 @@ jobs:
               "image": image,
               "excerpt": excerpt,
               "content": paragraphs,
-              "page": f"./articles/{news_id}.html"
+              "page": f"./{news_id}.html"
           }
           if featured:
               entry["featured"] = True
@@ -121,7 +121,7 @@ jobs:
               return html.escape(str(value), quote=True)
 
           site_url = "https://behaljhalaknews.github.io"
-          page_url = f"{site_url}/articles/{news_id}.html"
+          page_url = f"{site_url}/{news_id}.html"
           image_url = image if image.startswith("http") else site_url + "/" + image.lstrip("./")
           body_html = "\n".join(f"<p>{h(p)}</p>" for p in paragraphs)
           article_html = f"""<!DOCTYPE html>
@@ -143,16 +143,17 @@ jobs:
           <meta name="twitter:description" content="{h(excerpt)}">
           <meta name="twitter:image" content="{h(image_url)}">
           <link rel="canonical" href="{h(page_url)}">
-          <link rel="stylesheet" href="../style.css">
+          <link rel="stylesheet" href="./style.css">
           </head>
           <body>
-          <header class="site-header"><div class="header-container"><div class="site-branding"><a href="../index.html" class="logo-box" aria-label="बहल झलक मुख्य पृष्ठ"><span class="logo-red">बहल</span><span class="logo-yellow">झलक</span><span class="logo-tagline">खबर आपकी, नज़र हमारी</span></a></div></div></header>
+          <header class="site-header"><div class="header-container"><div class="site-branding"><a href="./index.html" class="logo-box" aria-label="बहल झलक मुख्य पृष्ठ"><span class="logo-red">बहल</span><span class="logo-yellow">झलक</span><span class="logo-tagline">खबर आपकी, नज़र हमारी</span></a></div></div></header>
           <div class="breaking-news-container"><div class="breaking-title">बहल झलक</div><div class="breaking-news-text">खबर आपकी, नज़र हमारी</div></div>
           <main class="article-page container"><article class="article-card">
           <div class="article-header"><span class="category-tag">{h(category)}</span><h1>{h(title)}</h1><div class="article-meta"><span>{h(date)}</span><span>•</span><span>बहल झलक न्यूज़</span></div></div>
-          <img class="article-image" src="{h("../" + image.lstrip("./") if image.startswith("./") else image_url)}" alt="{h(title)}">
+          <img class="article-image" src="{h(image_url)}" alt="{h(title)}">
           <div class="article-body">{body_html}</div>
-          <div class="article-actions"><a href="../index.html" class="back-home-button">← वापस मुख्य पृष्ठ</a></div>
+          <div class="article-actions"><a href="./index.html" class="back-home-button">← वापस मुख्य पृष्ठ</a><button type="button" class="share-button" onclick="navigator.share ? navigator.share({title:document.title,url:location.href}) : navigator.clipboard.writeText(location.href).then(()=>alert('लिंक कॉपी हो गया'))">📤 खबर शेयर करें</button></div>
+          <div class="social-share-panel"><div class="social-share-title">सोशल मीडिया पर शेयर करें</div><div class="social-share-buttons"><a class="social-share-btn facebook-share" href="https://www.facebook.com/sharer/sharer.php?u={h(page_url)}" target="_blank" rel="noopener noreferrer">Facebook</a><a class="social-share-btn whatsapp-share" href="https://api.whatsapp.com/send?text={h(title + " - " + page_url)}" target="_blank" rel="noopener noreferrer">WhatsApp</a></div></div>
           </article></main>
           <footer class="site-footer"><div class="footer-container"><p>© 2026 बहल झलक — खबर आपकी, नज़र हमारी</p></div></footer>
           </body></html>"""
@@ -166,6 +167,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add news-data.js articles/
+          git add news-data.js *.html
           git diff --cached --quiet || git commit -m "Publish news from News Editor"
           git push
