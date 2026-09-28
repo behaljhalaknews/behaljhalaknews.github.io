@@ -10,7 +10,7 @@ window.BAHAL_JHALAK_NEWS = [
     category: "बहल",
     location: "सादुलपुर",
     date: "28 सितंबर 2026",
-    image: "./images/hansiyawas-dam-mahila-andolan-26-09-20.jpg",
+    image: "./images/hansiyawas-dam-mahila-andolan-26-09-20.jpg?v=20260928-2",
     page: "./yamuna-jal-hansiyawas-dam-andolan-2026-09-28.html",
     excerpt: "सादुलपुर में हंसियावास डेम विरोध प्रदर्शन 41वें दिन भी जारी रहा। प्रदर्शनकारियों के अनुसार 72 घंटे की भूख हड़ताल पूरी होने के बाद पांच महिलाओं ने अनिश्चितकालीन भूख हड़ताल शुरू की।",
     content: [
