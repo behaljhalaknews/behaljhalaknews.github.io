@@ -596,3 +596,57 @@ button { font: inherit; }
     .back-home-button, .share-button { width: 100%; }
     .article-actions { flex-direction: column; }
 }
+
+
+/* SOCIAL SHARE SYSTEM */
+.social-share-panel {
+    margin: 0 26px 26px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #f8fafc;
+}
+.social-share-title {
+    color: var(--navy);
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 11px;
+}
+.social-share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+.social-share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 8px 13px;
+    border: 0;
+    border-radius: 6px;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+}
+.facebook-share { background: #1877f2; }
+.whatsapp-share { background: #25d366; }
+.telegram-share { background: #229ed9; }
+.copy-share { background: var(--navy); }
+.native-share { background: var(--red); }
+.social-share-btn:hover { opacity: .9; }
+.instagram-note {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 12px;
+}
+@media (max-width: 768px) {
+    .social-share-panel { margin: 0 15px 18px; }
+    .social-share-buttons { display: grid; grid-template-columns: 1fr 1fr; }
+    .social-share-btn { width: 100%; }
+}
+@media (max-width: 420px) {
+    .social-share-buttons { grid-template-columns: 1fr; }
+}
