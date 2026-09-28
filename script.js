@@ -116,19 +116,54 @@ document.addEventListener("DOMContentLoaded", function () {
         const body = document.getElementById("article-body");
         const paragraphs = Array.isArray(data.content) ? data.content : [data.content];
         body.innerHTML = paragraphs.map(p => "<p>" + esc(p) + "</p>").join("");
-        const shareButton = document.getElementById("share-button");
-        if (shareButton) shareButton.addEventListener("click", async function () {
-            const shareData = { title: data.title, text: data.title, url: window.location.href };
+        const pageUrl = window.location.href;
+        const encodedUrl = encodeURIComponent(pageUrl);
+        const encodedTitle = encodeURIComponent(data.title);
+        const shareData = { title: data.title, text: data.title, url: pageUrl };
+
+        const description = data.excerpt || data.title;
+        document.getElementById("article-description")?.setAttribute("content", description);
+        document.getElementById("og-title")?.setAttribute("content", data.title);
+        document.getElementById("og-description")?.setAttribute("content", description);
+        document.getElementById("og-image")?.setAttribute("content", new URL(data.image, window.location.href).href);
+        document.getElementById("og-url")?.setAttribute("content", pageUrl);
+
+        const facebookShare = document.getElementById("facebook-share");
+        const whatsappShare = document.getElementById("whatsapp-share");
+        const telegramShare = document.getElementById("telegram-share");
+        const copyShare = document.getElementById("copy-share");
+        const nativeShare = document.getElementById("native-share");
+        if (facebookShare) facebookShare.href = "https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl;
+        if (whatsappShare) whatsappShare.href = "https://api.whatsapp.com/send?text=" + encodeURIComponent(data.title + " — " + pageUrl);
+        if (telegramShare) telegramShare.href = "https://t.me/share/url?url=" + encodedUrl + "&text=" + encodedTitle;
+
+        async function copyNewsLink(button) {
+            try {
+                await navigator.clipboard.writeText(pageUrl);
+                if (button) {
+                    const oldText = button.textContent;
+                    button.textContent = "✓ लिंक कॉपी हो गया";
+                    setTimeout(() => { button.textContent = oldText; }, 1800);
+                }
+            } catch (error) {
+                window.prompt("इस लिंक को कॉपी करें:", pageUrl);
+            }
+        }
+
+        if (copyShare) copyShare.addEventListener("click", function () { copyNewsLink(copyShare); });
+
+        const nativeShareAction = async function (button) {
             try {
                 if (navigator.share) await navigator.share(shareData);
-                else if (navigator.clipboard) {
-                    await navigator.clipboard.writeText(window.location.href);
-                    shareButton.textContent = "✓ लिंक कॉपी हो गया";
-                } else window.prompt("इस लिंक को कॉपी करें:", window.location.href);
+                else await copyNewsLink(button);
             } catch (error) {
-                if (error.name !== "AbortError") shareButton.textContent = "शेयर नहीं हो सका";
+                if (error.name !== "AbortError") button.textContent = "शेयर नहीं हो सका";
             }
-        });
+        };
+
+        const shareButton = document.getElementById("share-button");
+        if (shareButton) shareButton.addEventListener("click", function () { nativeShareAction(shareButton); });
+        if (nativeShare) nativeShare.addEventListener("click", function () { nativeShareAction(nativeShare); });
     }
 
     renderHomepage();
