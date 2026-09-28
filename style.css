@@ -1,5 +1,5 @@
 /* =========================================================
-   बहल झलक — STEP 2A Responsive News Website Styles
+   बहल झलक — STEP 2B Responsive + Mobile Hamburger
    ========================================================= */
 
 :root {
@@ -17,15 +17,9 @@
     --radius: 8px;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-html {
-    scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
     background: var(--bg);
@@ -34,24 +28,16 @@ body {
     line-height: 1.5;
 }
 
-img {
-    display: block;
-    max-width: 100%;
-}
-
-a {
-    color: inherit;
-}
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+button { font: inherit; }
 
 .container {
     width: min(1200px, calc(100% - 30px));
     margin-inline: auto;
 }
 
-/* =========================
-   1. HEADER
-   ========================= */
-
+/* HEADER */
 .site-header {
     background: var(--navy);
     border-bottom: 3px solid var(--red);
@@ -70,9 +56,7 @@ a {
     padding: 10px 0;
 }
 
-.site-branding {
-    flex: 0 0 auto;
-}
+.site-branding { flex: 0 0 auto; }
 
 .logo-box {
     display: inline-flex;
@@ -92,7 +76,6 @@ a {
     background: var(--white);
     padding: 4px 9px;
     border-radius: 4px;
-    display: inline-block;
 }
 
 .logo-yellow {
@@ -108,13 +91,42 @@ a {
     letter-spacing: .4px;
 }
 
-/* =========================
-   2. DESKTOP NAVIGATION
-   ========================= */
-
-.main-navigation {
-    margin-left: auto;
+/* HAMBURGER — desktop पर hidden */
+.menu-toggle {
+    display: none;
+    border: 1px solid rgba(255,255,255,.25);
+    background: transparent;
+    color: var(--white);
+    border-radius: 6px;
+    padding: 8px 10px;
+    cursor: pointer;
+    align-items: center;
+    gap: 8px;
 }
+
+.menu-icon {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+}
+
+.menu-icon span {
+    display: block;
+    width: 23px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: transform .2s ease, opacity .2s ease;
+}
+
+.menu-label {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* NAVIGATION */
+.main-navigation { margin-left: auto; }
 
 .main-navigation .menu {
     display: flex;
@@ -123,29 +135,34 @@ a {
     list-style: none;
 }
 
-.main-navigation .menu li {
-    position: relative;
-}
+.main-navigation .menu li { position: relative; }
 
-.main-navigation .menu a {
+.main-navigation .menu a,
+.submenu-toggle {
     display: block;
+    width: 100%;
     padding: 10px 12px;
     color: var(--white);
+    background: transparent;
+    border: 0;
     text-decoration: none;
     font-size: 14px;
     font-weight: 700;
     border-radius: 5px;
     white-space: nowrap;
+    text-align: left;
+    cursor: pointer;
     transition: background .2s ease, color .2s ease;
 }
 
 .main-navigation .menu a:hover,
-.main-navigation .menu a.active {
+.main-navigation .menu a.active,
+.submenu-toggle:hover,
+.submenu-toggle[aria-expanded="true"] {
     background: var(--red);
     color: var(--white);
 }
 
-/* Dropdown */
 .main-navigation .sub-menu {
     display: none;
     position: absolute;
@@ -160,8 +177,9 @@ a {
     overflow: hidden;
 }
 
-.main-navigation .menu li:hover > .sub-menu,
-.main-navigation .menu li:focus-within > .sub-menu {
+.main-navigation .has-submenu:hover > .sub-menu,
+.main-navigation .has-submenu:focus-within > .sub-menu,
+.main-navigation .has-submenu.is-open > .sub-menu {
     display: block;
 }
 
@@ -172,10 +190,7 @@ a {
     font-size: 14px;
 }
 
-/* =========================
-   3. BREAKING NEWS TICKER
-   ========================= */
-
+/* BREAKING NEWS */
 .breaking-news-container {
     display: flex;
     align-items: center;
@@ -201,10 +216,7 @@ a {
     font-size: 14px;
 }
 
-/* =========================
-   4. MAIN NEWS LAYOUT
-   ========================= */
-
+/* MAIN LAYOUT */
 .main-content-area {
     width: min(1200px, calc(100% - 30px));
     margin: 22px auto;
@@ -224,13 +236,9 @@ a {
 }
 
 .featured-news-card,
-.small-news-card {
-    overflow: hidden;
-}
+.small-news-card { overflow: hidden; }
 
-.featured-news-card {
-    margin-bottom: 18px;
-}
+.featured-news-card { margin-bottom: 18px; }
 
 .featured-news-card img {
     width: 100%;
@@ -239,9 +247,7 @@ a {
     background: #dfe4e8;
 }
 
-.featured-news-content {
-    padding: 17px;
-}
+.featured-news-content { padding: 17px; }
 
 .category-tag {
     display: inline-block;
@@ -254,9 +260,7 @@ a {
     margin-bottom: 8px;
 }
 
-.category-tag.dark {
-    background: var(--navy);
-}
+.category-tag.dark { background: var(--navy); }
 
 .featured-news-content h2 {
     color: #111;
@@ -265,14 +269,7 @@ a {
     margin-bottom: 8px;
 }
 
-.featured-news-content p {
-    color: var(--muted);
-    font-size: 14px;
-}
-
-/* =========================
-   5. SMALL NEWS CARDS
-   ========================= */
+.featured-news-content p { color: var(--muted); font-size: 14px; }
 
 .news-grid-2 {
     display: grid;
@@ -296,9 +293,7 @@ a {
     background: #dfe4e8;
 }
 
-.small-news-content {
-    padding: 12px;
-}
+.small-news-content { padding: 12px; }
 
 .small-news-content h3 {
     color: #222;
@@ -307,13 +302,7 @@ a {
     margin-top: 3px;
 }
 
-/* =========================
-   6. LOCAL NEWS SECTION
-   ========================= */
-
-.local-news-block {
-    margin-top: 24px;
-}
+.local-news-block { margin-top: 24px; }
 
 .section-heading {
     color: var(--navy);
@@ -324,10 +313,7 @@ a {
     margin-bottom: 15px;
 }
 
-/* =========================
-   7. SIDEBAR
-   ========================= */
-
+/* SIDEBAR */
 .sidebar-section {
     position: sticky;
     top: 15px;
@@ -346,18 +332,14 @@ a {
     margin-bottom: 12px;
 }
 
-.trending-list {
-    list-style: none;
-}
+.trending-list { list-style: none; }
 
 .trending-list li {
     padding: 10px 0;
     border-bottom: 1px dashed var(--border);
 }
 
-.trending-list li:last-child {
-    border-bottom: 0;
-}
+.trending-list li:last-child { border-bottom: 0; }
 
 .trending-list a {
     display: flex;
@@ -369,9 +351,7 @@ a {
     line-height: 1.45;
 }
 
-.trending-list a:hover {
-    color: var(--red);
-}
+.trending-list a:hover { color: var(--red); }
 
 .trending-list span {
     flex: 0 0 22px;
@@ -386,10 +366,7 @@ a {
     font-weight: 700;
 }
 
-/* =========================
-   8. SOCIAL FOLLOW
-   ========================= */
-
+/* SOCIAL */
 .social-follow-block {
     margin-top: 30px;
     margin-bottom: 30px;
@@ -437,10 +414,7 @@ a {
 .social-link.instagram { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
 .social-link.whatsapp { background: #25d366; }
 
-/* =========================
-   9. FOOTER
-   ========================= */
-
+/* FOOTER */
 .site-footer {
     background: var(--navy);
     color: #d9e0e8;
@@ -456,10 +430,7 @@ a {
     font-size: 13px;
 }
 
-/* =========================
-   10. TABLET
-   ========================= */
-
+/* TABLET */
 @media (max-width: 980px) {
     .header-container {
         align-items: flex-start;
@@ -471,23 +442,19 @@ a {
         margin-left: 0;
     }
 
-    .main-navigation .menu {
-        flex-wrap: wrap;
-    }
+    .main-navigation .menu { flex-wrap: wrap; }
 
     .main-content-area {
         grid-template-columns: minmax(0, 1fr) 300px;
     }
 
-    .main-navigation .menu a {
+    .main-navigation .menu a,
+    .submenu-toggle {
         padding: 9px 10px;
     }
 }
 
-/* =========================
-   11. MOBILE
-   ========================= */
-
+/* MOBILE HAMBURGER */
 @media (max-width: 768px) {
     .container,
     .header-container,
@@ -496,50 +463,95 @@ a {
         width: min(100% - 20px, 1200px);
     }
 
-    .site-header {
-        border-bottom-width: 2px;
-    }
+    .site-header { border-bottom-width: 2px; }
 
     .header-container {
         min-height: auto;
         padding: 10px 0 12px;
-        gap: 10px;
+        gap: 8px;
+        position: relative;
     }
 
-    .site-branding {
-        width: 100%;
-    }
+    .site-branding { width: auto; }
 
     .logo-red,
-    .logo-yellow {
-        font-size: 27px;
+    .logo-yellow { font-size: 27px; }
+
+    .logo-tagline { font-size: 10px; }
+
+    .menu-toggle {
+        display: inline-flex;
+        position: absolute;
+        right: 0;
+        top: 18px;
+        z-index: 20;
     }
 
-    .logo-tagline {
-        font-size: 10px;
+    .menu-toggle[aria-expanded="true"] .menu-icon span:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+    }
+
+    .menu-toggle[aria-expanded="true"] .menu-icon span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle[aria-expanded="true"] .menu-icon span:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
     }
 
     .main-navigation {
         width: 100%;
-        overflow-x: auto;
-        scrollbar-width: thin;
+        margin-left: 0;
+        display: none;
+        overflow: visible;
+    }
+
+    .main-navigation.is-open {
+        display: block;
     }
 
     .main-navigation .menu {
-        flex-wrap: nowrap;
-        width: max-content;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
         gap: 3px;
-        padding-bottom: 2px;
+        margin-top: 8px;
+        padding: 8px 0 2px;
+        list-style: none;
+        border-top: 1px solid rgba(255,255,255,.12);
     }
 
-    .main-navigation .menu a {
-        padding: 8px 10px;
-        font-size: 13px;
+    .main-navigation .menu li,
+    .main-navigation .menu a,
+    .submenu-toggle {
+        width: 100%;
+    }
+
+    .main-navigation .menu a,
+    .submenu-toggle {
+        padding: 10px 12px;
+        font-size: 14px;
     }
 
     .main-navigation .sub-menu {
-        position: absolute;
-        top: 100%;
+        position: static;
+        min-width: 0;
+        margin: 2px 0 3px;
+        border-top: 0;
+        border-left: 3px solid var(--red);
+        border-radius: 0;
+        box-shadow: none;
+        background: rgba(0,0,0,.15);
+    }
+
+    .main-navigation .has-submenu:hover > .sub-menu {
+        display: none;
+    }
+
+    .main-navigation .has-submenu.is-open > .sub-menu,
+    .main-navigation .has-submenu:focus-within > .sub-menu {
+        display: block;
     }
 
     .breaking-title {
@@ -559,39 +571,27 @@ a {
         margin-bottom: 15px;
     }
 
-    .sidebar-section {
-        position: static;
-    }
+    .sidebar-section { position: static; }
 
     .news-grid-2 {
         grid-template-columns: 1fr;
         gap: 12px;
     }
 
-    .featured-news-content {
-        padding: 13px;
-    }
+    .featured-news-content { padding: 13px; }
 
-    .featured-news-content h2 {
-        font-size: 20px;
-    }
+    .featured-news-content h2 { font-size: 20px; }
 
-    .small-news-content h3 {
-        font-size: 15px;
-    }
+    .small-news-content h3 { font-size: 15px; }
 
-    .section-heading {
-        font-size: 18px;
-    }
+    .section-heading { font-size: 18px; }
 
     .social-follow-block {
         margin-top: 22px;
         margin-bottom: 22px;
     }
 
-    .section-title {
-        font-size: 20px;
-    }
+    .section-title { font-size: 20px; }
 
     .social-links {
         display: grid;
@@ -607,36 +607,20 @@ a {
     }
 }
 
-/* =========================
-   12. SMALL PHONES
-   ========================= */
-
+/* SMALL PHONES */
 @media (max-width: 420px) {
-    .social-links {
-        grid-template-columns: 1fr;
-    }
+    .social-links { grid-template-columns: 1fr; }
 
-    .social-link {
-        min-height: 42px;
-    }
+    .social-link { min-height: 42px; }
 
-    .featured-news-card img {
-        aspect-ratio: 16 / 10;
-    }
+    .featured-news-card img { aspect-ratio: 16 / 10; }
 
-    .sidebar-widget {
-        padding: 13px;
-    }
+    .sidebar-widget { padding: 13px; }
 
-    .widget-title {
-        font-size: 16px;
-    }
+    .widget-title { font-size: 16px; }
 }
 
-/* =========================
-   13. ACCESSIBILITY
-   ========================= */
-
+/* ACCESSIBILITY */
 :focus-visible {
     outline: 3px solid var(--yellow);
     outline-offset: 2px;
