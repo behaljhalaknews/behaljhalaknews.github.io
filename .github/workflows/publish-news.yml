@@ -99,14 +99,14 @@ jobs:
           with open(path, "r", encoding="utf-8") as f:
               text = f.read()
 
+          if featured:
+              # Remove the previous featured flag so there is only one homepage hero.
+              text = re.sub(r",?\s*[\"\']featured[\"\']\s*:\s*true", "", text)
+
           marker = "];"
           pos = text.rfind(marker)
           if pos == -1:
               raise SystemExit("news-data.js का expected array ending नहीं मिला")
-
-          if featured:
-              # Remove the previous featured flag so there is only one homepage hero.
-              text = re.sub(r",?\s*[\"\']featured[\"\']\s*:\s*true", "", text)
 
           new_entry = "  " + json.dumps(entry, ensure_ascii=False, indent=2).replace("\n", "\n  ")
           insert = ("," if text[:pos].rstrip().endswith("}") else "") + "\n" + new_entry + "\n"
