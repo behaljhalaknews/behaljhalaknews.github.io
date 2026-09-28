@@ -44,6 +44,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const news = Array.isArray(window.BAHAL_JHALAK_NEWS) ? window.BAHAL_JHALAK_NEWS : [];
 
+    const breakingNews = Array.isArray(window.BAHAL_JHALAK_BREAKING_NEWS) ? window.BAHAL_JHALAK_BREAKING_NEWS : [];
+    const breakingTicker = document.getElementById("breaking-news-ticker");
+    if (breakingTicker && breakingNews.length) {
+        breakingTicker.textContent = breakingNews.filter(Boolean).join("   •   ");
+    }
+
     function esc(value) {
         return String(value ?? "").replace(/[&<>"']/g, function (char) {
             return ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;" })[char];
