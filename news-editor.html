@@ -7,7 +7,7 @@
 <title>News Editor | बहल झलक</title>
 <link rel="stylesheet" href="./style.css">
 <style>
-.editor-page{max-width:900px;margin:28px auto;padding:0 15px}.editor-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}.editor-card h1{margin-bottom:8px;color:var(--navy)}.editor-note{background:#fff8df;border-left:4px solid var(--yellow);padding:12px;margin:15px 0 22px}.editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.editor-field{display:flex;flex-direction:column;gap:6px}.editor-field.full{grid-column:1/-1}.editor-field label{font-weight:700;color:#222}.editor-field input,.editor-field select,.editor-field textarea{width:100%;padding:11px;border:1px solid #ccd3da;border-radius:6px;font:inherit;background:#fff}.editor-field textarea{min-height:130px;resize:vertical}.editor-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.editor-button{border:0;border-radius:6px;padding:11px 16px;background:var(--navy);color:#fff;font-weight:700;cursor:pointer}.editor-button.secondary{background:var(--red)}.image-preview{margin-top:8px;min-height:80px;padding:10px;border:1px dashed #ccd3da;border-radius:6px;background:#f7f9fb;color:#68707d;font-size:13px}.image-preview img{display:block;width:100%;max-width:520px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;margin-top:6px}.editor-output{margin-top:22px}.editor-output textarea{width:100%;min-height:280px;font-family:monospace;font-size:13px}.editor-status{margin-top:10px;font-weight:700}.check-list{margin:0;padding-left:20px;line-height:1.8}@media(max-width:700px){.editor-grid{grid-template-columns:1fr}.editor-field.full{grid-column:auto}.editor-card{padding:16px}}
+.editor-page{max-width:900px;margin:28px auto;padding:0 15px}.editor-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}.editor-card h1{margin-bottom:8px;color:var(--navy)}.editor-note{background:#fff8df;border-left:4px solid var(--yellow);padding:12px;margin:15px 0 22px}.editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.editor-field{display:flex;flex-direction:column;gap:6px}.editor-field.full{grid-column:1/-1}.editor-field label{font-weight:700;color:#222}.editor-field input,.editor-field select,.editor-field textarea{width:100%;padding:11px;border:1px solid #ccd3da;border-radius:6px;font:inherit;background:#fff}.editor-field textarea{min-height:130px;resize:vertical}.editor-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.editor-button{border:0;border-radius:6px;padding:11px 16px;background:var(--navy);color:#fff;font-weight:700;cursor:pointer}.editor-button.secondary{background:var(--red)}.image-preview{margin-top:8px;min-height:80px;padding:10px;border:1px dashed #ccd3da;border-radius:6px;background:#f7f9fb;color:#68707d;font-size:13px}.image-preview img{display:block;width:100%;max-width:520px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;margin-top:6px}.editor-output{margin-top:22px}.editor-output textarea{width:100%;min-height:280px;font-family:monospace;font-size:13px}.editor-status{margin-top:10px;font-weight:700}.check-list{margin:0;padding-left:20px;line-height:1.8}.guide-list{margin:10px 0 8px;padding-left:22px;line-height:1.9}.guide-list li{margin-bottom:3px}.guide-link{display:inline-block;text-decoration:none;margin-top:8px}@media(max-width:700px){.editor-grid{grid-template-columns:1fr}.editor-field.full{grid-column:auto}.editor-card{padding:16px}}
 </style>
 </head>
 <body>
@@ -32,7 +32,21 @@
 <div class="editor-actions"><button class="editor-button" id="generate">Code तैयार करें</button><button class="editor-button secondary" id="copy" type="button">Code Copy करें</button></div>
 <div class="editor-status" id="status"></div>
 <div class="editor-output"><label for="output"><strong>Generated news object</strong></label><textarea id="output" readonly></textarea></div>
-<div class="editor-note"><strong>Publish checklist</strong><ul class="check-list"><li>तथ्य, नाम, स्थान और समय verify करें।</li><li>फोटो के उपयोग का अधिकार सुनिश्चित करें।</li><li>फिर generated object को <code>news-data.js</code> के <code>BAHAL_JHALAK_NEWS</code> array में जोड़ें और GitHub commit करें।</li></ul></div>
+<div class="editor-note">
+<strong>📷 फोटो GitHub में डालने का सबसे आसान तरीका</strong>
+<ol class="guide-list">
+<li>GitHub में अपनी repository खोलें: <strong>behaljhalaknews.github.io</strong></li>
+<li><strong>images</strong> folder खोलें। अगर folder नहीं है, तो पहले <strong>Add file → Create new file</strong> से <code>images/README.md</code> बना दें।</li>
+<li><strong>Add file → Upload files</strong> दबाएँ और अपने मोबाइल से फोटो चुनें।</li>
+<li>फोटो का नाम आसान रखें, जैसे <code>bahal-market-fire-2026-09-28.jpg</code>। spaces और बहुत लंबे नाम न रखें।</li>
+<li>नीचे <strong>Commit changes</strong> दबाएँ। फोटो अब GitHub के <code>images</code> folder में आ जाएगी।</li>
+<li>अब News Editor में फोटो का सही path ऐसे लिखें: <code>./images/bahal-market-fire-2026-09-28.jpg</code></li>
+<li><strong>Preview</strong> में फोटो दिखाई दे तो path सही है। फिर <strong>Code तैयार करें</strong> दबाएँ।</li>
+</ol>
+<p><strong>याद रखें:</strong> <code>./images/</code> के बाद GitHub में रखी गई फोटो का <strong>exact filename</strong> ही लिखना है। बड़े-छोटे अक्षर भी बिल्कुल वही रखें।</p>
+<a class="editor-button guide-link" href="https://github.com/behaljhalaknews/behaljhalaknews.github.io/actions/workflows/publish-news.yml" target="_blank" rel="noopener">⚙️ GitHub में Publish News खोलें</a>
+</div>
+<div class="editor-note"><strong>Publish checklist</strong><ul class="check-list"><li>तथ्य, नाम, स्थान और समय verify करें।</li><li>फोटो के उपयोग का अधिकार सुनिश्चित करें।</li><li>फोटो GitHub के <code>images</code> folder में upload करने के बाद path रखें: <code>./images/filename.jpg</code></li><li>Generated object को workflow के जरिए publish करें।</li></ul></div>
 <a href="./index.html" class="back-home-button">← मुख्य वेबसाइट पर जाएँ</a>
 </div></main>
 <script>
