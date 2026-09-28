@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="बहल झलक - भिवानी, बहल और हरियाणा की ताज़ा खबरें">
+    <meta name="description" content="बहल झलक - भिवानी, बहल और हरियाणा की ताज़ा खबरों के लिए स्थानीय न्यूज़ पोर्टल।">
+    <meta name="theme-color" content="#0b2545">
     <title>बहल झलक | खबर आपकी, नज़र हमारी</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
-<!-- साइट हेडर -->
 <header class="site-header">
     <div class="header-container">
         <div class="site-branding">
@@ -20,41 +20,35 @@
             </a>
         </div>
 
-        <!-- मोबाइल मेन्यू बटन -->
         <button class="menu-toggle" type="button" aria-label="मेन्यू खोलें" aria-controls="main-menu" aria-expanded="false">
-            <span class="menu-icon" aria-hidden="true">
-                <span></span>
-                <span></span>
-                <span></span>
-            </span>
+            <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
             <span class="menu-label">मेन्यू</span>
         </button>
 
-        <!-- मुख्य नेविगेशन मेन्यू -->
         <nav class="main-navigation" aria-label="मुख्य नेविगेशन">
             <ul class="menu" id="main-menu">
                 <li><a href="#" class="active">मुख्य पृष्ठ</a></li>
-                <li><a href="#">ताज़ा ख़बरें</a></li>
-                <li><a href="#">भिवानी</a></li>
-                <li><a href="#">बहल</a></li>
+                <li><a href="#latest-news">ताज़ा ख़बरें</a></li>
+                <li><a href="#bhiwani-news">भिवानी</a></li>
+                <li><a href="#bahal-news">बहल</a></li>
                 <li class="has-submenu">
                     <button class="submenu-toggle" type="button" aria-expanded="false">
                         श्रेणियाँ <span aria-hidden="true">▾</span>
                     </button>
                     <ul class="sub-menu">
-                        <li><a href="#">राजनीति</a></li>
-                        <li><a href="#">अपराध</a></li>
-                        <li><a href="#">खेल</a></li>
+                        <li><a href="#haryana-news">हरियाणा</a></li>
+                        <li><a href="#politics-news">राजनीति</a></li>
+                        <li><a href="#crime-news">अपराध</a></li>
+                        <li><a href="#sports-news">खेल</a></li>
                     </ul>
                 </li>
-                <li><a href="#">वीडियो</a></li>
-                <li><a href="#">संपर्क करें</a></li>
+                <li><a href="#video-news">वीडियो</a></li>
+                <li><a href="#contact">संपर्क करें</a></li>
             </ul>
         </nav>
     </div>
 </header>
 
-<!-- ब्रेकिंग न्यूज़ टिकर -->
 <div class="breaking-news-container">
     <div class="breaking-title">ब्रेकिंग न्यूज़</div>
     <div class="breaking-news-text">
@@ -64,80 +58,221 @@
     </div>
 </div>
 
-<!-- मुख्य न्यूज़ लेआउट -->
 <main class="main-content-area">
-    <section class="top-news-section">
-        <div class="featured-news-card">
-            <img src="https://via.placeholder.com/800x450" alt="मुख्य खबर">
-            <div class="featured-news-content">
-                <span class="category-tag">बड़ी ख़बर</span>
-                <h2>हरियाणा: प्रदेश भर में विकास योजनाओं को लेकर नई घोषणाएँ जारी</h2>
-                <p>राज्य सरकार ने बुनियादी ढांचे और जन-सुविधाओं में सुधार के लिए नए प्रशासनिक निर्देश जारी किए हैं...</p>
-            </div>
-        </div>
+    <div class="news-content-column">
 
-        <div class="news-grid-2">
-            <div class="small-news-card">
-                <img src="https://via.placeholder.com/400x250" alt="खबर 1">
-                <div class="small-news-content">
-                    <span class="category-tag">हरियाणा</span>
-                    <h3>मौसम विभाग का अलर्ट: आगामी दिनों में तापमान में बदलाव के आसार</h3>
+        <!-- HERO / MAIN NEWS -->
+        <section class="top-news-section" id="latest-news" aria-labelledby="latest-news-title">
+            <div class="section-heading-row">
+                <h1 class="section-heading" id="latest-news-title">ताज़ा और प्रमुख खबरें</h1>
+                <a class="section-more-link" href="#latest-news">सभी खबरें →</a>
+            </div>
+
+            <article class="featured-news-card">
+                <a href="#" class="news-card-image-link" aria-label="मुख्य खबर पढ़ें">
+                    <img src="https://placehold.co/1000x560?text=BAHAL+JHALAK" alt="मुख्य खबर के लिए स्थान">
+                </a>
+                <div class="featured-news-content">
+                    <span class="category-tag">मुख्य खबर</span>
+                    <h2><a href="#">मुख्य खबर का शीर्षक यहाँ दिखाई देगा</a></h2>
+                    <p>यह होमपेज का प्रमुख समाचार कार्ड है। वास्तविक खबर प्रकाशित करते समय यहाँ सत्यापित शीर्षक, संक्षिप्त विवरण और संबंधित फोटो जोड़ी जाएगी।</p>
+                    <div class="news-meta">
+                        <span>बहल झलक</span><span>•</span><span>ताज़ा अपडेट</span>
+                    </div>
                 </div>
-            </div>
+            </article>
 
-            <div class="small-news-card">
-                <img src="https://via.placeholder.com/400x250" alt="खबर 2">
-                <div class="small-news-content">
-                    <span class="category-tag">राजनीति</span>
-                    <h3>आगामी स्थानीय चुनावों को लेकर क्षेत्र में राजनीतिक हलचल तेज़</h3>
-                </div>
-            </div>
-        </div>
-
-        <div class="local-news-block">
-            <h2 class="section-heading">📍 भिवानी एवं बहल विशेष खबरें</h2>
             <div class="news-grid-2">
-                <!-- स्थानीय खबरें बाद में यहाँ जोड़ी जाएँगी -->
-            </div>
-        </div>
-    </section>
+                <article class="small-news-card">
+                    <a href="#" class="news-card-image-link" aria-label="खबर पढ़ें">
+                        <img src="https://placehold.co/600x380?text=LOCAL+NEWS" alt="स्थानीय खबर के लिए स्थान">
+                    </a>
+                    <div class="small-news-content">
+                        <span class="category-tag">स्थानीय</span>
+                        <h3><a href="#">स्थानीय खबर का शीर्षक यहाँ दिखाई देगा</a></h3>
+                        <p>खबर का छोटा परिचय यहाँ जोड़ा जाएगा।</p>
+                    </div>
+                </article>
 
-    <!-- साइडबार -->
-    <aside class="sidebar-section">
+                <article class="small-news-card">
+                    <a href="#" class="news-card-image-link" aria-label="खबर पढ़ें">
+                        <img src="https://placehold.co/600x380?text=HARYANA+NEWS" alt="हरियाणा खबर के लिए स्थान">
+                    </a>
+                    <div class="small-news-content">
+                        <span class="category-tag dark">हरियाणा</span>
+                        <h3><a href="#">हरियाणा की खबर का शीर्षक यहाँ दिखाई देगा</a></h3>
+                        <p>खबर का छोटा परिचय यहाँ जोड़ा जाएगा।</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- BAHAL -->
+        <section class="news-section" id="bahal-news" aria-labelledby="bahal-title">
+            <div class="section-heading-row">
+                <h2 class="section-heading" id="bahal-title">📍 बहल की खबरें</h2>
+                <a class="section-more-link" href="#bahal-news">और देखें →</a>
+            </div>
+            <div class="news-grid-3">
+                <article class="news-card">
+                    <a href="#" class="news-card-image-link"><img src="https://placehold.co/600x380?text=BAHAL+1" alt="बहल खबर फोटो स्थान"></a>
+                    <div class="news-card-content">
+                        <span class="category-tag">बहल</span>
+                        <h3><a href="#">बहल क्षेत्र की खबर का शीर्षक यहाँ दिखाई देगा</a></h3>
+                        <p>सत्यापित स्थानीय खबर का संक्षिप्त विवरण यहाँ जोड़ा जाएगा।</p>
+                    </div>
+                </article>
+                <article class="news-card">
+                    <a href="#" class="news-card-image-link"><img src="https://placehold.co/600x380?text=BAHAL+2" alt="बहल खबर फोटो स्थान"></a>
+                    <div class="news-card-content">
+                        <span class="category-tag">बहल</span>
+                        <h3><a href="#">गांव और आसपास की खबर का शीर्षक यहाँ दिखाई देगा</a></h3>
+                        <p>स्थानीय अपडेट का संक्षिप्त विवरण यहाँ जोड़ा जाएगा।</p>
+                    </div>
+                </article>
+                <article class="news-card">
+                    <a href="#" class="news-card-image-link"><img src="https://placehold.co/600x380?text=BAHAL+3" alt="बहल खबर फोटो स्थान"></a>
+                    <div class="news-card-content">
+                        <span class="category-tag">बहल</span>
+                        <h3><a href="#">जनता से जुड़ी खबर का शीर्षक यहाँ दिखाई देगा</a></h3>
+                        <p>समाचार का छोटा परिचय यहाँ जोड़ा जाएगा।</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- BHIWANI -->
+        <section class="news-section" id="bhiwani-news" aria-labelledby="bhiwani-title">
+            <div class="section-heading-row">
+                <h2 class="section-heading" id="bhiwani-title">📰 भिवानी की खबरें</h2>
+                <a class="section-more-link" href="#bhiwani-news">और देखें →</a>
+            </div>
+            <div class="news-grid-3">
+                <article class="news-card">
+                    <a href="#" class="news-card-image-link"><img src="https://placehold.co/600x380?text=BHIWANI+1" alt="भिवानी खबर फोटो स्थान"></a>
+                    <div class="news-card-content">
+                        <span class="category-tag">भिवानी</span>
+                        <h3><a href="#">भिवानी की खबर का शीर्षक यहाँ दिखाई देगा</a></h3>
+                        <p>सत्यापित समाचार का संक्षिप्त विवरण यहाँ जोड़ा जाएगा।</p>
+                    </div>
+                </article>
+                <article class="news-card">
+                    <a href="#" class="news-card-image-link"><img src="https://placehold.co/600x380?text=BHIWANI+2" alt="भिवानी खबर फोटो स्थान"></a>
+                    <div class="news-card-content">
+                        <span class="category-tag">भिवानी</span>
+                        <h3><a href="#">शहर और जिले से जुड़ी खबर यहाँ दिखाई देगी</a></h3>
+                        <p>समाचार का छोटा परिचय यहाँ जोड़ा जाएगा।</p>
+                    </div>
+                </article>
+                <article class="news-card">
+                    <a href="#" class="news-card-image-link"><img src="https://placehold.co/600x380?text=BHIWANI+3" alt="भिवानी खबर फोटो स्थान"></a>
+                    <div class="news-card-content">
+                        <span class="category-tag">भिवानी</span>
+                        <h3><a href="#">स्थानीय प्रशासन से जुड़ी खबर यहाँ दिखाई देगी</a></h3>
+                        <p>सत्यापित अपडेट का संक्षिप्त विवरण यहाँ जोड़ा जाएगा।</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- HARYANA -->
+        <section class="news-section" id="haryana-news" aria-labelledby="haryana-title">
+            <div class="section-heading-row">
+                <h2 class="section-heading" id="haryana-title">हरियाणा की खबरें</h2>
+                <a class="section-more-link" href="#haryana-news">और देखें →</a>
+            </div>
+            <div class="news-grid-2">
+                <article class="small-news-card">
+                    <a href="#" class="news-card-image-link"><img src="https://placehold.co/700x430?text=HARYANA+NEWS" alt="हरियाणा खबर फोटो स्थान"></a>
+                    <div class="small-news-content">
+                        <span class="category-tag dark">हरियाणा</span>
+                        <h3><a href="#">प्रदेश की प्रमुख खबर का शीर्षक यहाँ दिखाई देगा</a></h3>
+                        <p>वास्तविक प्रकाशन के समय सत्यापित विवरण यहाँ जोड़ा जाएगा।</p>
+                    </div>
+                </article>
+                <article class="small-news-card">
+                    <a href="#" class="news-card-image-link"><img src="https://placehold.co/700x430?text=STATE+UPDATE" alt="हरियाणा अपडेट फोटो स्थान"></a>
+                    <div class="small-news-content">
+                        <span class="category-tag dark">राज्य अपडेट</span>
+                        <h3><a href="#">हरियाणा अपडेट का शीर्षक यहाँ दिखाई देगा</a></h3>
+                        <p>समाचार का संक्षिप्त परिचय यहाँ जोड़ा जाएगा।</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- CATEGORY STRUCTURE -->
+        <section class="news-section" id="politics-news" aria-labelledby="politics-title">
+            <div class="section-heading-row">
+                <h2 class="section-heading" id="politics-title">राजनीति</h2>
+            </div>
+            <div class="category-placeholder">
+                <strong>राजनीति सेक्शन तैयार है</strong>
+                <span>सत्यापित खबर प्रकाशित करते समय यहाँ संबंधित न्यूज़ कार्ड जोड़े जाएंगे।</span>
+            </div>
+        </section>
+
+        <section class="news-section" id="crime-news" aria-labelledby="crime-title">
+            <div class="section-heading-row">
+                <h2 class="section-heading" id="crime-title">अपराध</h2>
+            </div>
+            <div class="category-placeholder">
+                <strong>अपराध सेक्शन तैयार है</strong>
+                <span>सत्यापित खबर प्रकाशित करते समय यहाँ संबंधित न्यूज़ कार्ड जोड़े जाएंगे।</span>
+            </div>
+        </section>
+
+        <section class="news-section" id="sports-news" aria-labelledby="sports-title">
+            <div class="section-heading-row">
+                <h2 class="section-heading" id="sports-title">खेल</h2>
+            </div>
+            <div class="category-placeholder">
+                <strong>खेल सेक्शन तैयार है</strong>
+                <span>सत्यापित खबर प्रकाशित करते समय यहाँ संबंधित न्यूज़ कार्ड जोड़े जाएंगे।</span>
+            </div>
+        </section>
+
+        <section class="news-section" id="video-news" aria-labelledby="video-title">
+            <div class="section-heading-row">
+                <h2 class="section-heading" id="video-title">वीडियो न्यूज़</h2>
+            </div>
+            <div class="category-placeholder">
+                <strong>वीडियो सेक्शन तैयार है</strong>
+                <span>यहाँ आगे YouTube/वीडियो समाचार कार्ड जोड़े जा सकते हैं।</span>
+            </div>
+        </section>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar-section" aria-label="साइडबार">
         <div class="sidebar-widget">
-            <h3 class="widget-title">ताज़ा खबरें (भिवानी-बहल)</h3>
-            <ul class="trending-list">
-                <li><a href="#"><span>1</span> बहल मंडी में नई व्यवस्थाओं पर व्यापारियों से चर्चा</a></li>
-                <li><a href="#"><span>2</span> भिवानी में स्वास्थ्य विभाग का विशेष जागरूकता अभियान</a></li>
-                <li><a href="#"><span>3</span> बहल और आसपास के गांवों में बिजली आपूर्ति में सुधार</a></li>
-                <li><a href="#"><span>4</span> भिवानी खेल परिसर में युवाओं का उत्कृष्ट प्रदर्शन</a></li>
-                <li><a href="#"><span>5</span> स्थानीय मुद्दों को लेकर ग्रामीणों ने प्रशासन को सौंपा ज्ञापन</a></li>
+            <h2 class="widget-title">ताज़ा खबरें</h2>
+            <ul class="trending-list" id="latest-list">
+                <li><a href="#latest-news"><span>1</span> ताज़ा खबर का शीर्षक यहाँ दिखाई देगा</a></li>
+                <li><a href="#bahal-news"><span>2</span> बहल क्षेत्र की नई खबर यहाँ दिखाई देगी</a></li>
+                <li><a href="#bhiwani-news"><span>3</span> भिवानी जिले की खबर यहाँ दिखाई देगी</a></li>
+                <li><a href="#haryana-news"><span>4</span> हरियाणा की खबर यहाँ दिखाई देगी</a></li>
+                <li><a href="#video-news"><span>5</span> नई वीडियो खबर यहाँ दिखाई देगी</a></li>
             </ul>
+        </div>
+
+        <div class="sidebar-widget sidebar-note">
+            <h2 class="widget-title">बहल झलक</h2>
+            <p>स्थानीय खबरों के लिए सत्यापित जानकारी, स्पष्ट प्रस्तुति और जिम्मेदार रिपोर्टिंग को प्राथमिकता दें।</p>
         </div>
     </aside>
 </main>
 
-<!-- Social Media Follow Section -->
-<section class="social-follow-block container">
-    <h2 class="section-title">📱 हमारे साथ जुड़ें (Follow Us)</h2>
-
+<section class="social-follow-block container" id="contact">
+    <h2 class="section-title">📱 हमारे साथ जुड़ें</h2>
     <div class="social-links">
-        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-link youtube">
-            <span aria-hidden="true">📺</span> YouTube
-        </a>
-        <a href="https://www.facebook.com/share/1JQLY1vQ9k/" target="_blank" rel="noopener noreferrer" class="social-link facebook">
-            <span aria-hidden="true">🔵</span> Facebook
-        </a>
-        <a href="https://www.instagram.com/behaljhalak?stkn=d3BiZHc3djhvMmc0" target="_blank" rel="noopener noreferrer" class="social-link instagram">
-            <span aria-hidden="true">📸</span> Instagram
-        </a>
-        <a href="https://whatsapp.com/channel/0029Vb8J2087j6g1F4oEO646" target="_blank" rel="noopener noreferrer" class="social-link whatsapp">
-            <span aria-hidden="true">🟢</span> WhatsApp Channel
-        </a>
+        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-link youtube"><span aria-hidden="true">📺</span> YouTube</a>
+        <a href="https://www.facebook.com/share/1JQLY1vQ9k/" target="_blank" rel="noopener noreferrer" class="social-link facebook"><span aria-hidden="true">🔵</span> Facebook</a>
+        <a href="https://www.instagram.com/behaljhalak?stkn=d3BiZHc3djhvMmc0" target="_blank" rel="noopener noreferrer" class="social-link instagram"><span aria-hidden="true">📸</span> Instagram</a>
+        <a href="https://whatsapp.com/channel/0029Vb8J2087j6g1F4oEO646" target="_blank" rel="noopener noreferrer" class="social-link whatsapp"><span aria-hidden="true">🟢</span> WhatsApp Channel</a>
     </div>
 </section>
 
-<!-- फुटर -->
 <footer class="site-footer">
     <div class="footer-container">
         <p>© 2026 बहल झलक — खबर आपकी, नज़र हमारी</p>
