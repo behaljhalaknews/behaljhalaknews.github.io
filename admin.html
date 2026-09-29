@@ -42,7 +42,7 @@ img{max-width:100%;max-height:240px;object-fit:contain;border-radius:8px;backgro
 <label><input id="newFeatured" type="checkbox" style="width:auto"> Featured खबर</label>
 <label><input id="newBreaking" type="checkbox" style="width:auto"> Breaking News में शामिल करें</label>
 <button id="prepareNewsBtn" type="button">खबर तैयार करें</button>
-<div id="newsDraft" class="status" style="word-break:break-word"></div>\n<button id="copyNewsPackageBtn" type="button" class="secondary" style="display:none">Publish Package कॉपी करें</button>\n<div id="publishPackageStatus" class="status" style="display:none"></div>
+<div id="newsDraft" class="status" style="word-break:break-word"></div>\n<button id="copyNewsPackageBtn" type="button" class="secondary" style="display:none">Publish Package कॉपी करें</button>\n<a id="githubPublishLink" href="https://github.com/behaljhalaknews/behaljhalaknews.github.io/actions/workflows/publish-news.yml" target="_blank" rel="noopener noreferrer" style="display:none;text-decoration:none"><button type="button" class="secondary">GitHub में Publish Workflow खोलें</button></a>\n<div id="publishPackageStatus" class="status" style="display:none"></div>
 </div>
 <div class="card"><h2>नई फोटो</h2><input id="fileInput" type="file" accept="image/*"><button id="uploadBtn" type="button">फोटो Upload करें</button><div id="status" class="status"></div></div>
 </div>
@@ -105,7 +105,7 @@ prepareNewsBtn.addEventListener("click",async()=>{
       if(db.error){draft.textContent="फोटो Database error: "+db.error.message;return;}
     }
     const obj={id,title,category,location,date,image:imageUrl,page:"./"+id+".html",featured,breaking,excerpt,content:paragraphs};
-    latestNewsPackage=JSON.stringify(obj,null,2);\n    draft.innerHTML="<strong>खबर और फोटो तैयार हैं।</strong><br>Article ID: "+id+(imageUrl?"<br>फोटो: सफलतापूर्वक इसी खबर से जुड़ गई।":"<br>फोटो नहीं चुनी गई।")+"<br><br>"+latestNewsPackage.replace(/</g,"&lt;");\n    copyNewsPackageBtn.style.display="block";
+    latestNewsPackage=JSON.stringify(obj,null,2);\n    draft.innerHTML="<strong>खबर और फोटो तैयार हैं।</strong><br>Article ID: "+id+(imageUrl?"<br>फोटो: सफलतापूर्वक इसी खबर से जुड़ गई।":"<br>फोटो नहीं चुनी गई।")+"<br><br>"+latestNewsPackage.replace(/</g,"&lt;");\n    copyNewsPackageBtn.style.display="block";\n    document.getElementById("githubPublishLink").style.display="block";
     document.getElementById("newImage").value="";
   }catch(e){draft.textContent="समस्या: "+(e.message||e);}
 });
