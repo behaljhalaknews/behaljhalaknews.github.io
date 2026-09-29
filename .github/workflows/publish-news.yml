@@ -61,6 +61,7 @@ jobs:
               "image": obj.get("image", ""),
               "page": obj["page"],
               "featured": bool(obj.get("featured", False)),
+              "breaking": bool(obj.get("breaking", False)),
               "excerpt": obj["excerpt"],
               "content": obj["content"]
           }
@@ -86,7 +87,7 @@ jobs:
           site = "https://behaljhalaknews.github.io"
           page_url = site + "/" + news_id + ".html"
           image = str(obj.get("image", ""))
-          image_url = image if image.startswith("http") else site + "/" + image.lstrip("./")
+          image_url = (image if image.startswith("http") else site + "/" + image.lstrip("./")) if image else ""
 
           paragraphs = []
           for p in obj["content"]:
@@ -101,7 +102,7 @@ jobs:
               "datePublished": str(obj["date"]),
               "dateModified": str(obj["date"]),
               "mainEntityOfPage": {"@type": "WebPage", "@id": page_url},
-              "image": [image_url],
+              "image": [image_url] if image_url else [],
               "author": {"@type": "Organization", "name": "बहल झलक"},
               "publisher": {"@type": "Organization", "name": "बहल झलक"},
               "articleSection": obj["category"]
@@ -133,7 +134,7 @@ jobs:
               '<header class="site-header"><div class="header-container"><div class="site-branding"><a href="./index.html" class="logo-box"><span class="logo-red">बहल</span><span class="logo-yellow">झलक</span><span class="logo-tagline">खबर आपकी, नज़र हमारी</span></a></div></div></header>',
               '<main class="article-page container"><article class="article-card">',
               '<div class="article-header"><span class="category-tag">' + category + '</span><h1>' + title + '</h1><div class="article-meta"><span>' + location + '</span><span>•</span><span>' + news_date + '</span></div></div>',
-              '<img class="article-image" src="' + html.escape(image_url, quote=True) + '" alt="' + title + '">',
+              ('<img class="article-image" src="' + html.escape(image_url, quote=True) + '" alt="' + title + '">') if image_url else '',
               '<div class="article-body">' + body + '</div>',
               '<div class="article-actions"><a href="./index.html" class="back-home-button">← वापस मुख्य पृष्ठ</a></div>',
               '</article></main>',
