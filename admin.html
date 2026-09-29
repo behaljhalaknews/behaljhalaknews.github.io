@@ -61,7 +61,7 @@ async function showCurrent(){
   const n=news.find(x=>x.id===select.value);if(!n)return;
   const r=await sb.from("article_images").select("image_url").eq("article_id",n.id).maybeSingle();
   const url=(r.data&&r.data.image_url)||n.image||"";
-  current.innerHTML="<h3>"+String(n.title||"").replace(/</g,"&lt;")+"</h3>"+(url?'<img src="'+url.replace(/"/g,"&quot;")+'">':"<p>अभी कोई फोटो नहीं है।</p>");
+  current.innerHTML="<h3>"+String(n.title||"").replace(/</g,"&lt;")+"</h3>"+(url?'<img src="'+url.replace(/"/g,"&quot;")+'"><button type="button" id="copyUrlBtn" class="secondary">फोटो URL कॉपी करें</button><div id="photoUrl" class="status" style="word-break:break-all">'+url.replace(/</g,"&lt;").replace(/>/g,"&gt;")+"</div>":"<p>अभी कोई फोटो नहीं है।</p>"); if(url){const b=document.getElementById("copyUrlBtn");b.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(url);statusBox.textContent="फोटो URL कॉपी हो गया।";}catch(e){statusBox.textContent="URL कॉपी नहीं हुआ: "+(e.message||e);}});}
 }
 select.addEventListener("change",showCurrent);
 
