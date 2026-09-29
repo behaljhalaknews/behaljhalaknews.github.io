@@ -114,13 +114,35 @@ $("newImage").addEventListener("change",()=>{
  p.innerHTML="<strong>फोटो चुनी गई:</strong> "+f.name+"<br><img src=\""+URL.createObjectURL(f)+"\" alt=\"Preview\">";
 });
 
-async function uploadNewsPhoto(id,photo){
+async function preparePhoto(file){
+ return new Promise((resolve,reject)=>{
+  if(!file.type.startsWith("image/")) return reject(new Error(file.name+" फोटो फाइल नहीं है।"));
+  const img=new Image(),url=URL.createObjectURL(file);
+  img.onload=()=>{
+   try{
+    const max=1800,scale=Math.min(1,max/Math.max(img.width,img.height));
+    const w=Math.max(1,Math.round(img.width*scale)),h=Math.max(1,Math.round(img.height*scale));
+    const canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;
+    const ctx=canvas.getContext("2d");ctx.drawImage(img,0,0,w,h);
+    canvas.toBlob(blob=>{
+     URL.revokeObjectURL(url);
+     if(!blob)return reject(new Error(file.name+" को तैयार नहीं किया जा सका।"));
+     resolve(new File([blob],file.name.replace(/\.[^.]+$/,"")+".jpg",{type:"image/jpeg"}));
+    },"image/jpeg",0.82);
+   }catch(e){URL.revokeObjectURL(url);reject(e);}
+  };
+  img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error(file.name+" फोटो पढ़ी नहीं जा सकी।"));};
+  img.src=url;
+ });
+}
+async function uploadNewsPhoto(id,photo,index=0){
  const ur=await sb.auth.getUser(),uid=ur.data&&ur.data.user&&ur.data.user.id;
  if(!uid) throw new Error("Admin Login session नहीं मिला।");
- const safe=photo.name.replace(/[^a-zA-Z0-9._-]/g,"-");
- const path=id+"/"+Date.now()+"-"+safe;
- const up=await sb.storage.from("news-images").upload(path,photo,{upsert:false,contentType:photo.type});
- if(up.error) throw new Error("फोटो Upload error: "+up.error.message);
+ const prepared=await preparePhoto(photo);
+ const safe=prepared.name.replace(/[^a-zA-Z0-9._-]/g,"-");
+ const path=id+"/"+Date.now()+"-"+index+"-"+Math.random().toString(36).slice(2,8)+"-"+safe;
+ const up=await sb.storage.from("news-images").upload(path,prepared,{upsert:false,contentType:"image/jpeg"});
+ if(up.error) throw new Error("फोटो Upload error ("+photo.name+"): "+up.error.message);
  return sb.storage.from("news-images").getPublicUrl(up.data.path).data.publicUrl;
 }
 function parseImages(value){
@@ -211,7 +233,7 @@ async function handlePhotoUpload(replaceAll){
  $("status").textContent="⏳ "+files.length+" फोटो Upload हो रही हैं...";
  try{
   const urls=[];
-  for(const file of files) urls.push(await uploadNewsPhoto(articleId,file));
+  for(let i=0;i<files.length;i++){ $("status").textContent="⏳ फोटो "+(i+1)+"/"+files.length+" Upload हो रही है..."; urls.push(await uploadNewsPhoto(articleId,files[i],i)); }
   const all=await saveArticleImages(articleId,urls,replaceAll);
   $("status").textContent="✅ "+urls.length+" फोटो इसी खबर में लग गईं। कुल फोटो: "+all.length;
   $("fileInput").value="";showCurrent();
