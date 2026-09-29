@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    let news = Array.isArray(window.BAHAL_JHALAK_NEWS) ? window.BAHAL_JHALAK_NEWS : [];
+    let news = Array.isArray(window.BAHAL_JHALAK_NEWS) ? window.BAHAL_JHALAK_NEWS.slice().reverse() : [];
 
     // Supabase image overrides: only the selected article_id is changed.
     try {
