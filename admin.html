@@ -43,7 +43,7 @@ img{max-width:100%;max-height:260px;object-fit:contain;border-radius:8px;backgro
 <input id="newTitle" placeholder="खबर का शीर्षक">
 
 <label><strong>श्रेणी</strong></label>
-<select id="newCategory"><option>बहल</option><option>भिवानी</option><option>हरियाणा</option><option>राजनीति</option><option>अपराध</option><option>खेल</option><option>वीडियो</option></select>
+<select id="newCategory" required><option value="" selected disabled>— श्रेणी चुनें —</option><option value="बहल">बहल</option><option value="भिवानी">भिवानी</option><option value="हरियाणा">हरियाणा</option><option value="राजनीति">राजनीति</option><option value="अपराध">अपराध</option><option value="खेल">खेल</option><option value="वीडियो">वीडियो</option></select>
 
 <label><strong>स्थान</strong></label>
 <input id="newLocation" placeholder="जैसे: हंसियावास / बहल">
@@ -103,7 +103,7 @@ let latestNewsPackage="";
 // मोबाइल पर अधूरी खबर बंद/रिफ्रेश होने पर न खोए, इसलिए केवल इसी ब्राउज़र में Draft सुरक्षित रखा जाता है।
 const draftFields=["newTitle","newCategory","newLocation","newDate","newExcerpt","newContent","newFeatured","newBreaking"];
 function saveDraft(){const d={};draftFields.forEach(id=>{const el=$(id);d[id]=el.type==="checkbox"?el.checked:el.value;});localStorage.setItem("bahal_news_draft",JSON.stringify(d));}
-function restoreDraft(){try{const d=JSON.parse(localStorage.getItem("bahal_news_draft")||"null");if(!d)return;const hasNewsDraft=!!(d.newTitle||d.newLocation||d.newExcerpt||d.newContent);if(!hasNewsDraft)return;draftFields.forEach(id=>{const el=$(id);if(d[id]!==undefined){if(el.type==="checkbox")el.checked=!!d[id];else el.value=d[id];}});}catch(e){}}
+function restoreDraft(){try{const d=JSON.parse(localStorage.getItem("bahal_news_draft")||"null");if(!d)return;const hasNewsDraft=!!(d.newTitle||d.newLocation||d.newExcerpt||d.newContent);if(!hasNewsDraft)return;draftFields.forEach(id=>{if(id==="newCategory")return;const el=$(id);if(d[id]!==undefined){if(el.type==="checkbox")el.checked=!!d[id];else el.value=d[id];}});}catch(e){}}
 draftFields.forEach(id=>$(id).addEventListener("input",saveDraft));
 $("newDate").value=$("newDate").value||new Intl.DateTimeFormat("hi-IN",{day:"numeric",month:"long",year:"numeric"}).format(new Date());
 restoreDraft();
@@ -167,7 +167,7 @@ $("publishNewsBtn").addEventListener("click",async()=>{
  const title=$("newTitle").value.trim(),category=$("newCategory").value,location=$("newLocation").value.trim(),date=$("newDate").value.trim(),excerpt=$("newExcerpt").value.trim();
  const paragraphs=$("newContent").value.split(/\n+/).map(x=>x.trim()).filter(Boolean);
  const photos=Array.from($("newImage").files||[]),featured=$("newFeatured").checked,breaking=$("newBreaking").checked;
- const missing=[]; if(!title)missing.push("शीर्षक"); if(!location)missing.push("स्थान"); if(!date)missing.push("तारीख"); if(!excerpt)missing.push("संक्षिप्त खबर"); if(!paragraphs.length)missing.push("पूरी खबर");
+ const missing=[]; if(!title)missing.push("शीर्षक"); if(!category)missing.push("श्रेणी"); if(!location)missing.push("स्थान"); if(!date)missing.push("तारीख"); if(!excerpt)missing.push("संक्षिप्त खबर"); if(!paragraphs.length)missing.push("पूरी खबर");
  if(missing.length){newsStatus.textContent="⚠️ ये जानकारी भरें: "+missing.join(" • ");return;}
  const slug=title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"news";
  const id=slug+"-"+Date.now();
