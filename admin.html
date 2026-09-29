@@ -76,6 +76,20 @@ img{max-width:100%;max-height:260px;object-fit:contain;border-radius:8px;backgro
 </div>
 
 <div class="card">
+<h2>🗑️ प्रकाशित खबर हटाएँ</h2>
+<p class="help">जिस खबर को हटाना है उसे चुनें। हटाने से वेबसाइट की खबर और उसकी HTML page हटेगी। Supabase में पुरानी फोटो अपने-आप delete नहीं होगी।</p>
+<select id="deleteNewsSelect"></select>
+<div id="deletePreview" class="status">खबर चुनें।</div>
+<button id="deleteNewsBtn" type="button" style="background:#b42318">🗑️ खबर हटाएँ</button>
+<div id="deleteStatus" class="status"></div>
+<div id="deleteFallback" style="display:none;margin-top:12px;padding:12px;background:#fff7ed;border:2px solid #f97316;border-radius:10px">
+<strong>सुरक्षित Delete चरण</strong>
+<p class="help">Delete Package कॉपी हो गया है। नीचे बटन दबाएँ और GitHub Actions में package पेस्ट करके Run करें। Browser में GitHub token नहीं रखा गया है।</p>
+<button id="githubDeleteLink" type="button" style="background:#dc2626">GitHub Delete Form खोलें</button>
+</div>
+</div>
+
+<div class="card">
 <h2>📷 मौजूदा खबर की फोटो बदलें</h2>
 <select id="articleSelect"></select>
 <div id="current"></div>
@@ -99,6 +113,7 @@ const $=id=>document.getElementById(id);
 const loginBox=$("login"),app=$("app"),loginStatus=$("loginStatus"),newsStatus=$("newsStatus");
 const news=Array.isArray(window.BAHAL_JHALAK_NEWS)?window.BAHAL_JHALAK_NEWS:[];
 let latestNewsPackage="";
+let latestDeletePackage="";
 
 // मोबाइल पर अधूरी खबर बंद/रिफ्रेश होने पर न खोए, इसलिए केवल इसी ब्राउज़र में Draft सुरक्षित रखा जाता है।
 const draftFields=["newTitle","newCategory","newLocation","newDate","newExcerpt","newContent","newFeatured","newBreaking"];
@@ -205,7 +220,9 @@ async function refreshSession(){
 }
 function initArticles(){
  $("articleSelect").innerHTML=news.map(n=>'<option value="'+String(n.id).replace(/"/g,"&quot;")+'">'+String(n.title||"").replace(/</g,"&lt;")+"</option>").join("");
+ $("deleteNewsSelect").innerHTML='<option value="" selected disabled>— हटाने के लिए खबर चुनें —</option>'+news.map(n=>'<option value="'+String(n.id).replace(/"/g,"&quot;")+'">'+String(n.date||"")+" — "+String(n.title||"").replace(/</g,"&lt;")+"</option>").join("");
  showCurrent();
+ showDeletePreview();
 }
 async function showCurrent(){
  const n=news.find(x=>x.id===$("articleSelect").value);if(!n)return;
@@ -215,6 +232,36 @@ async function showCurrent(){
  $("current").innerHTML="<h3>"+String(n.title||"").replace(/</g,"&lt;")+"</h3>"+(images.length?"<p>कुल फोटो: "+images.length+"</p>"+thumbs:"<p>अभी कोई फोटो नहीं है।</p>");
 }
 $("articleSelect").addEventListener("change",showCurrent);
+
+function showDeletePreview(){
+ const id=$("deleteNewsSelect").value,n=news.find(x=>x.id===id);
+ $("deletePreview").textContent=n?("चयनित खबर: "+n.title+" | ID: "+n.id+" | तारीख: "+(n.date||"")):"खबर चुनें।";
+}
+$("deleteNewsSelect").addEventListener("change",showDeletePreview);
+
+$("deleteNewsBtn").addEventListener("click",async()=>{
+ const id=$("deleteNewsSelect").value,n=news.find(x=>x.id===id);
+ if(!n){$("deleteStatus").textContent="पहले हटाने के लिए खबर चुनें।";return;}
+ const ok=confirm("क्या यह खबर हटानी है?\n\n"+n.title+"\nID: "+n.id+"\n\nयह कार्रवाई वेबसाइट की खबर और HTML page हटाने के लिए Delete Workflow चलाएगी।");
+ if(!ok)return;
+ const page=String(n.page||("./"+n.id+".html")).replace(/^\.\//,"");
+ latestDeletePackage=JSON.stringify({action:"delete",id:n.id,page});
+ $("deleteNewsBtn").disabled=true;
+ $("deleteStatus").textContent="⏳ Delete Package तैयार हो रहा है...";
+ try{
+   await navigator.clipboard.writeText(latestDeletePackage);
+   $("deleteStatus").innerHTML="<strong>✅ Delete Package तैयार और Clipboard में कॉपी हो गया।</strong><br><br>अब नीचे वाला सुरक्षित चरण खोलें।";
+ }catch(e){
+   $("deleteStatus").textContent="⚠️ Package तैयार है, लेकिन Clipboard में कॉपी नहीं हो सका।";
+ }
+ $("deleteFallback").style.display="block";
+ $("deleteNewsBtn").disabled=false;
+});
+
+$("githubDeleteLink").addEventListener("click",()=>{
+ if(!latestDeletePackage){$("deleteStatus").textContent="पहले खबर चुनकर Delete बटन दबाएँ।";return;}
+ window.open("https://github.com/behaljhalaknews/behaljhalaknews.github.io/actions/workflows/delete-news.yml","_blank","noopener");
+});
 
 $("loginBtn").addEventListener("click",async()=>{
  loginStatus.textContent="Login हो रहा है..."; $("loginBtn").disabled=true;
