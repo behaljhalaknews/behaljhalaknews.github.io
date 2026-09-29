@@ -109,13 +109,14 @@ prepareNewsBtn.addEventListener("click",async()=>{
   if(!title||!location||!date||!excerpt||!paragraphs.length){draft.textContent="शीर्षक, स्थान, तारीख, संक्षिप्त खबर और पूरी खबर भरें।";return;}
   const slug=title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"news";
   const id=slug+"-"+Date.now();
-  draft.textContent="खबर तैयार हो रही है...";
+  draft.style.display="block";
+  draft.textContent="खबर तैयार की जा रही है...";
   try{
-    const ur=await sb.auth.getUser();
-    const uid=ur.data&&ur.data.user&&ur.data.user.id;
-    if(!uid){draft.textContent="पहले Admin Login करें।";return;}
     let imageUrl="";
     if(photo){
+      const ur=await sb.auth.getUser();
+      const uid=ur.data&&ur.data.user&&ur.data.user.id;
+      if(!uid){draft.textContent="Admin Login session नहीं मिला। पहले Login करें।";return;}
       const safe=photo.name.replace(/[^a-zA-Z0-9._-]/g,"-");
       const path=id+"/"+Date.now()+"-"+safe;
       const up=await sb.storage.from("news-images").upload(path,photo,{upsert:false,contentType:photo.type});
@@ -126,11 +127,13 @@ prepareNewsBtn.addEventListener("click",async()=>{
     }
     const obj={id,title,category,location,date,image:imageUrl,page:"./"+id+".html",featured,breaking,excerpt,content:paragraphs};
     latestNewsPackage=JSON.stringify(obj,null,2);
-    draft.innerHTML="<strong>खबर और फोटो तैयार हैं।</strong><br>Article ID: "+id+(imageUrl?"<br>फोटो: सफलतापूर्वक इसी खबर से जुड़ गई।":"<br>फोटो नहीं चुनी गई।")+"<br><br>"+latestNewsPackage.replace(/</g,"&lt;");
+    draft.innerHTML="<strong>✅ Publish Package तैयार है।</strong><br>Article ID: "+id+(imageUrl?"<br>फोटो: सफलतापूर्वक इसी खबर से जुड़ गई।":"<br>फोटो नहीं चुनी गई — यह ठीक है।")+"<br><br>"+latestNewsPackage.replace(/</g,"&lt;");
     copyNewsPackageBtn.style.display="block";
     document.getElementById("githubPublishLink").style.display="block";
     document.getElementById("newImage").value="";
-  }catch(e){draft.textContent="समस्या: "+(e.message||e);}
+  }catch(e){
+    draft.textContent="❌ समस्या: "+(e.message||e);
+  }
 });
 
 async function refreshSession(){
