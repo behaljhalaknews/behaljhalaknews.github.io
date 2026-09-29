@@ -23,25 +23,54 @@ jobs:
           NEWS_ID: ${{ inputs.id }}
         run: |
           python3 <<'PY'
-          import os, re
+          import os, re, json
+
           news_id=os.environ.get("NEWS_ID","").strip()
-          if not re.fullmatch(r"[a-z0-9-]+",news_id): raise SystemExit("Invalid article ID")
+          if not re.fullmatch(r"[a-z0-9-]+",news_id):
+              raise SystemExit("Invalid article ID")
+
           page=news_id+".html"
           raw=open("news-data.js",encoding="utf-8").read()
+
           prefix="window.BAHAL_JHALAK_NEWS = "
-          if not raw.startswith(prefix): raise SystemExit("Unexpected news-data.js format")
-          payload=raw[len(prefix):].strip()
-          if payload.endswith(";"): payload=payload[:-1].rstrip()
-          data=json.loads(payload)
-          matches=[x for x in data if str(x.get("id",""))==news_id]
-          if len(matches)!=1: raise SystemExit("Expected exactly one matching news item")
+          if not raw.lstrip().startswith("/*") and not raw.startswith(prefix):
+              pass
+
+          start=raw.find(prefix)
+          if start < 0:
+              raise SystemExit("Unexpected news-data.js format")
+
+          payload=raw[start+len(prefix):].strip()
+          if payload.endswith(";"):
+              payload=payload[:-1].rstrip()
+
+          # news-data.js uses a trailing comma before the closing array.
+          payload=re.sub(r",\s*\]$", "\n]", payload)
+
+          try:
+              data=json.loads(payload)
+          except json.JSONDecodeError as e:
+              raise SystemExit("Could not parse news-data.js: "+str(e))
+
+          if not isinstance(data,list):
+              raise SystemExit("news-data.js does not contain a news array")
+
+          matches=[x for x in data if isinstance(x,dict) and str(x.get("id",""))==news_id]
+          if len(matches)!=1:
+              raise SystemExit("Expected exactly one matching news item; found "+str(len(matches)))
+
           data=[x for x in data if str(x.get("id",""))!=news_id]
+
           with open("news-data.js","w",encoding="utf-8") as f:
+              f.write("/* बहल झलक — News Data */\n")
+              f.write("window.BAHAL_JHALAK_NEWS = ")
               json.dump(data,f,ensure_ascii=False,indent=2)
-              f.write(",\n];\n")
+              f.write(";\n")
+
           if os.path.exists(page):
               with open(page,"w",encoding="utf-8") as f:
                   f.write("<!doctype html><html lang='hi'><head><meta charset='utf-8'><meta name='robots' content='noindex'><title>खबर उपलब्ध नहीं है</title></head><body><h1>यह खबर अब उपलब्ध नहीं है।</h1></body></html>\n")
+
           print("Removed from site index:",news_id)
           PY
 
