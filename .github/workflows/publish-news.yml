@@ -91,10 +91,13 @@ jobs:
           open(news_id+".html","w",encoding="utf-8").write(article)
           PY
 
+      - name: Set published file path
+        run: echo "news_id=${{ inputs.package }}" >/dev/null
+
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add news-data.js *.html
+          git add news-data.js "${news_id}.html"
           git diff --cached --quiet || git commit -m "Publish news from News Editor"
           git push
