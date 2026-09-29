@@ -44,6 +44,27 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     let news = Array.isArray(window.BAHAL_JHALAK_NEWS) ? window.BAHAL_JHALAK_NEWS.slice().reverse() : [];
 
+    // Fallback: if news-data.js was blocked or served from an old cache,
+    // load the same local data file directly and parse only its JSON array.
+    if (!news.length) {
+        try {
+            const dataResponse = await fetch("./news-data.js?fallback=20260929-01", { cache: "no-store" });
+            if (dataResponse.ok) {
+                const rawData = await dataResponse.text();
+                const marker = "window.BAHAL_JHALAK_NEWS =";
+                const markerIndex = rawData.indexOf(marker);
+                if (markerIndex !== -1) {
+                    let jsonText = rawData.slice(markerIndex + marker.length).trim();
+                    if (jsonText.endsWith(";")) jsonText = jsonText.slice(0, -1).trim();
+                    const fallbackNews = JSON.parse(jsonText);
+                    if (Array.isArray(fallbackNews)) news = fallbackNews.slice().reverse();
+                }
+            }
+        } catch (error) {
+            console.error("News data fallback failed:", error);
+        }
+    }
+
     // Supabase image overrides are loaded in the background.
     // The homepage must render immediately even if Supabase is slow or unavailable.
     try {
