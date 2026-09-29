@@ -33,11 +33,16 @@ img{max-width:100%;max-height:240px;object-fit:contain;border-radius:8px;backgro
 <div class="card">
 <h2>नई खबर तैयार करें</h2>
 <p>अब खबर की जानकारी और फोटो एक ही जगह से तैयार की जा सकती है।</p>
+<label for="newTitle"><strong>खबर का शीर्षक</strong></label>
 <input id="newTitle" placeholder="खबर का शीर्षक">
 <select id="newCategory"><option>बहल</option><option>भिवानी</option><option>हरियाणा</option><option>राजनीति</option><option>अपराध</option><option>खेल</option><option>वीडियो</option></select>
+<label for="newLocation"><strong>स्थान</strong></label>
 <input id="newLocation" placeholder="स्थान">
+<label for="newDate"><strong>तारीख</strong></label>
 <input id="newDate" placeholder="तारीख, जैसे 29 सितंबर 2026">
+<label for="newExcerpt"><strong>संक्षिप्त खबर</strong></label>
 <textarea id="newExcerpt" placeholder="संक्षिप्त खबर / Excerpt" rows="3"></textarea>
+<label for="newContent"><strong>पूरी खबर</strong></label>
 <textarea id="newContent" placeholder="पूरी खबर लिखें। हर पैराग्राफ नई लाइन में रखें।" rows="8"></textarea>
 <input id="newImage" type="file" accept="image/*">
 <p style="margin:6px 0;color:#667085">फोटो चुनना वैकल्पिक है। Publish करने पर फोटो इसी खबर से जुड़ेगी।</p>
@@ -115,7 +120,17 @@ prepareNewsBtn.addEventListener("click",async()=>{
   const breaking=document.getElementById("newBreaking").checked;
   const photo=document.getElementById("newImage").files[0];
   const draft=document.getElementById("newsDraft");
-  if(!title||!location||!date||!excerpt||!paragraphs.length){draft.textContent="शीर्षक, स्थान, तारीख, संक्षिप्त खबर और पूरी खबर भरें।";return;}
+  const missing=[];
+  if(!title) missing.push("शीर्षक");
+  if(!location) missing.push("स्थान");
+  if(!date) missing.push("तारीख");
+  if(!excerpt) missing.push("संक्षिप्त खबर");
+  if(!paragraphs.length) missing.push("पूरी खबर");
+  if(missing.length){
+    draft.style.display="block";
+    draft.innerHTML="<strong>⚠️ अभी ये जानकारी खाली है:</strong><br>"+missing.join(" • ")+"<br><br>इन बॉक्स में जानकारी भरने के बाद फिर “खबर तैयार करें” दबाएँ।";
+    return;
+  }
   const slug=title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"news";
   const id=slug+"-"+Date.now();
   draft.style.display="block";
