@@ -42,7 +42,7 @@ img{max-width:100%;max-height:240px;object-fit:contain;border-radius:8px;backgro
 <label><input id="newFeatured" type="checkbox" style="width:auto"> Featured खबर</label>
 <label><input id="newBreaking" type="checkbox" style="width:auto"> Breaking News में शामिल करें</label>
 <button id="prepareNewsBtn" type="button">खबर तैयार करें</button>
-<div id="newsDraft" class="status" style="word-break:break-word"></div>
+<div id="newsDraft" class="status" style="word-break:break-word"></div>\n<button id="copyNewsPackageBtn" type="button" class="secondary" style="display:none">Publish Package कॉपी करें</button>\n<div id="publishPackageStatus" class="status" style="display:none"></div>
 </div>
 <div class="card"><h2>नई फोटो</h2><input id="fileInput" type="file" accept="image/*"><button id="uploadBtn" type="button">फोटो Upload करें</button><div id="status" class="status"></div></div>
 </div>
@@ -59,6 +59,21 @@ const current=document.getElementById("current");
 const statusBox=document.getElementById("status");
 const fileInput=document.getElementById("fileInput");
 const news=Array.isArray(window.BAHAL_JHALAK_NEWS)?window.BAHAL_JHALAK_NEWS:[];
+const copyNewsPackageBtn=document.getElementById("copyNewsPackageBtn");
+const publishPackageStatus=document.getElementById("publishPackageStatus");
+let latestNewsPackage="";
+copyNewsPackageBtn.addEventListener("click",async()=>{
+  if(!latestNewsPackage)return;
+  try{
+    await navigator.clipboard.writeText(latestNewsPackage);
+    publishPackageStatus.style.display="block";
+    publishPackageStatus.textContent="Publish Package कॉपी हो गया। इसे सुरक्षित रूप से आगे Publish करने के लिए इस्तेमाल किया जा सकता है।";
+  }catch(e){
+    publishPackageStatus.style.display="block";
+    publishPackageStatus.textContent="कॉपी नहीं हो सकी। नीचे दिया डेटा manually copy करें।";
+  }
+});
+
 const prepareNewsBtn=document.getElementById("prepareNewsBtn");
 prepareNewsBtn.addEventListener("click",async()=>{
   const title=document.getElementById("newTitle").value.trim();
@@ -90,7 +105,7 @@ prepareNewsBtn.addEventListener("click",async()=>{
       if(db.error){draft.textContent="फोटो Database error: "+db.error.message;return;}
     }
     const obj={id,title,category,location,date,image:imageUrl,page:"./"+id+".html",featured,breaking,excerpt,content:paragraphs};
-    draft.innerHTML="<strong>खबर और फोटो तैयार हैं।</strong><br>Article ID: "+id+(imageUrl?"<br>फोटो: सफलतापूर्वक इसी खबर से जुड़ गई।":"<br>फोटो नहीं चुनी गई।")+"<br><br>"+JSON.stringify(obj,null,2).replace(/</g,"&lt;");
+    latestNewsPackage=JSON.stringify(obj,null,2);\n    draft.innerHTML="<strong>खबर और फोटो तैयार हैं।</strong><br>Article ID: "+id+(imageUrl?"<br>फोटो: सफलतापूर्वक इसी खबर से जुड़ गई।":"<br>फोटो नहीं चुनी गई।")+"<br><br>"+latestNewsPackage.replace(/</g,"&lt;");\n    copyNewsPackageBtn.style.display="block";
     document.getElementById("newImage").value="";
   }catch(e){draft.textContent="समस्या: "+(e.message||e);}
 });
