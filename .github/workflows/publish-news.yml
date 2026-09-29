@@ -86,8 +86,15 @@ jobs:
 
           site = "https://behaljhalaknews.github.io"
           page_url = site + "/" + news_id + ".html"
-          image = str(obj.get("image", ""))
-          image_url = (image if image.startswith("http") else site + "/" + image.lstrip("./")) if image else ""
+          raw_images = obj.get("images", [])
+          if not raw_images and obj.get("image"):
+              raw_images = [obj.get("image")]
+          images = []
+          for image_item in raw_images:
+              image_item = str(image_item)
+              images.append((image_item if image_item.startswith("http") else site + "/" + image_item.lstrip("./")) if image_item else "")
+          images = [x for x in images if x]
+          image_url = images[0] if images else ""
 
           paragraphs = []
           for p in obj["content"]:
@@ -102,7 +109,7 @@ jobs:
               "datePublished": str(obj["date"]),
               "dateModified": str(obj["date"]),
               "mainEntityOfPage": {"@type": "WebPage", "@id": page_url},
-              "image": [image_url] if image_url else [],
+              "image": images,
               "author": {"@type": "Organization", "name": "बहल झलक"},
               "publisher": {"@type": "Organization", "name": "बहल झलक"},
               "articleSection": obj["category"]
@@ -134,7 +141,7 @@ jobs:
               '<header class="site-header"><div class="header-container"><div class="site-branding"><a href="./index.html" class="logo-box"><span class="logo-red">बहल</span><span class="logo-yellow">झलक</span><span class="logo-tagline">खबर आपकी, नज़र हमारी</span></a></div></div></header>',
               '<main class="article-page container"><article class="article-card">',
               '<div class="article-header"><span class="category-tag">' + category + '</span><h1>' + title + '</h1><div class="article-meta"><span>' + location + '</span><span>•</span><span>' + news_date + '</span></div></div>',
-              ('<img class="article-image" src="' + html.escape(image_url, quote=True) + '" alt="' + title + '">') if image_url else '',
+              ('<div class="article-gallery">' + ''.join('<img class="article-image" src="' + html.escape(u, quote=True) + '" alt="' + title + '"> ' for u in images) + '</div>') if images else '',
               '<div class="article-body">' + body + '</div>',
               '''<div class="article-actions"><a href="./index.html" class="back-home-button">← वापस मुख्य पृष्ठ</a></div>
               <div class="social-share-panel"><div class="social-share-title">खबर शेयर करें</div><div class="social-share-buttons">
