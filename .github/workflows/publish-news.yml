@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       package:
-        description: "News Manager का Publish Package JSON"
+        description: "News Manager ka Publish Package JSON"
         required: true
         type: string
 
@@ -22,75 +22,127 @@ jobs:
         env:
           PACKAGE: ${{ inputs.package }}
         run: |
-          python3 - <<'PY'
-          import json, os, re, html
+          python3 <<'PY'
+          import json
+          import os
+          import re
+          import html
           from datetime import date
 
-          obj=json.loads(os.environ["PACKAGE"])
-          required=["id","title","category","location","date","page","excerpt","content"]
-          missing=[k for k in required if k not in obj]
-          if missing: raise SystemExit("Missing fields: "+", ".join(missing))
+          obj = json.loads(os.environ["PACKAGE"])
 
-          news_id=obj["id"]
+          required = ["id", "title", "category", "location", "date", "page", "excerpt", "content"]
+          missing = [k for k in required if k not in obj]
+          if missing:
+              raise SystemExit("Missing fields: " + ", ".join(missing))
+
+          news_id = str(obj["id"])
           if not re.fullmatch(r"[a-z0-9-]+", news_id):
               raise SystemExit("Article ID must contain only a-z, 0-9 and hyphens")
-          if os.path.exists(news_id+".html"):
+
+          if os.path.exists(news_id + ".html"):
               raise SystemExit("Article page already exists")
+
           with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as envf:
-              envf.write("NEWS_ID="+news_id+"\n")
+              envf.write("NEWS_ID=" + news_id + "\n")
 
-          path="news-data.js"
-          text=open(path,encoding="utf-8").read()
-          if news_id in text: raise SystemExit("Article ID already exists")
+          data_path = "news-data.js"
+          data = open(data_path, encoding="utf-8").read()
 
-          entry={k:obj.get(k) for k in ["id","title","category","location","date","image","page","featured","excerpt","content"]}
-          entry={k:v for k,v in entry.items() if v not in (None,False,"") or k in ["id","title","category","location","date","page","excerpt","content"]}
-          if obj.get("featured"):
-              text=re.sub(r'\n\s*featured:\s*true,?', "", text)
+          if news_id in data:
+              raise SystemExit("Article ID already exists")
 
-          marker="];"
-          pos=text.rfind(marker)
-          if pos<0: raise SystemExit("news-data.js array ending not found")
-          new_entry=json.dumps(entry,ensure_ascii=False,indent=2).replace("\n","\n  ")
-          text=text[:pos]+("\n" if text[:pos].rstrip().endswith("}") else "")+"  "+new_entry+"\n"+text[pos:]
-          open(path,"w",encoding="utf-8").write(text)
+          entry = {
+              "id": obj["id"],
+              "title": obj["title"],
+              "category": obj["category"],
+              "location": obj["location"],
+              "date": obj["date"],
+              "image": obj.get("image", ""),
+              "page": obj["page"],
+              "featured": bool(obj.get("featured", False)),
+              "excerpt": obj["excerpt"],
+              "content": obj["content"]
+          }
 
-          title=html.escape(str(obj["title"]),quote=True)
-          desc=html.escape(str(obj["excerpt"]),quote=True)
-          category=html.escape(str(obj["category"]),quote=True)
-          location=html.escape(str(obj["location"]),quote=True)
-          news_date=html.escape(str(obj["date"]),quote=True)
-          site="https://behaljhalaknews.github.io"
-          page_url=site+"/"+news_id+".html"
-          image=obj.get("image","")
-          image_url=image if str(image).startswith("http") else site+"/"+str(image).lstrip("./")
-          body="\n".join("<p>"+html.escape(str(p))+"</p>" for p in obj["content"])
-          article=f"""<!DOCTYPE html>
-<html lang="hi">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{title} | बहल झलक</title>
-<meta name="description" content="{desc}">
-<meta property="og:type" content="article"><meta property="og:site_name" content="बहल झलक">
-<meta property="og:title" content="{title} | बहल झलक"><meta property="og:description" content="{desc}">
-<meta property="og:image" content="{html.escape(image_url,quote=True)}"><meta property="og:url" content="{page_url}">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title} | बहल झलक">
-<meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{html.escape(image_url,quote=True)}">
-<link rel="canonical" href="{page_url}">
-<script type="application/ld+json">{json.dumps({"@context":"https://schema.org","@type":"NewsArticle","headline":obj["title"],"description":obj["excerpt"],"datePublished":date.today().isoformat(),"dateModified":date.today().isoformat(),"mainEntityOfPage":{"@type":"WebPage","@id":page_url},"image":[image_url],"author":{"@type":"Organization","name":"बहल झलक"},"publisher":{"@type":"Organization","name":"बहल झलक"},"articleSection":obj["category"]},ensure_ascii=False)}</script>
-<link rel="stylesheet" href="./style.css">
-</head>
-<body>
-<header class="site-header"><div class="header-container"><div class="site-branding"><a href="./index.html" class="logo-box"><span class="logo-red">बहल</span><span class="logo-yellow">झलक</span><span class="logo-tagline">खबर आपकी, नज़र हमारी</span></a></div></div></header>
-<main class="article-page container"><article class="article-card">
-<div class="article-header"><span class="category-tag">{category}</span><h1>{title}</h1><div class="article-meta"><span>{location}</span><span>•</span><span>{news_date}</span></div></div>
-<img class="article-image" src="{html.escape(image_url,quote=True)}" alt="{title}">
-<div class="article-body">{body}</div>
-<div class="article-actions"><a href="./index.html" class="back-home-button">← वापस मुख्य पृष्ठ</a></div>
-</article></main>
-<footer class="site-footer"><div class="footer-container"><p>© 2026 बहल झलक — खबर आपकी, नज़र हमारी</p></div></footer>
-</body></html>"""
-          open(news_id+".html","w",encoding="utf-8").write(article)
+          if entry["featured"]:
+              data = re.sub(r"\\n\\s*featured:\\s*true,?", "", data)
+
+          pos = data.rfind("];")
+          if pos < 0:
+              raise SystemExit("news-data.js array ending not found")
+
+          entry_text = json.dumps(entry, ensure_ascii=False, indent=2)
+          entry_text = entry_text.replace("\n", "\n  ")
+          data = data[:pos] + "  " + entry_text + ",\n" + data[pos:]
+          open(data_path, "w", encoding="utf-8").write(data)
+
+          title = html.escape(str(obj["title"]), quote=True)
+          desc = html.escape(str(obj["excerpt"]), quote=True)
+          category = html.escape(str(obj["category"]), quote=True)
+          location = html.escape(str(obj["location"]), quote=True)
+          news_date = html.escape(str(obj["date"]), quote=True)
+
+          site = "https://behaljhalaknews.github.io"
+          page_url = site + "/" + news_id + ".html"
+          image = str(obj.get("image", ""))
+          image_url = image if image.startswith("http") else site + "/" + image.lstrip("./")
+
+          paragraphs = []
+          for p in obj["content"]:
+              paragraphs.append("<p>" + html.escape(str(p)) + "</p>")
+          body = "\n".join(paragraphs)
+
+          schema = {
+              "@context": "https://schema.org",
+              "@type": "NewsArticle",
+              "headline": obj["title"],
+              "description": obj["excerpt"],
+              "datePublished": str(obj["date"]),
+              "dateModified": str(obj["date"]),
+              "mainEntityOfPage": {"@type": "WebPage", "@id": page_url},
+              "image": [image_url],
+              "author": {"@type": "Organization", "name": "बहल झलक"},
+              "publisher": {"@type": "Organization", "name": "बहल झलक"},
+              "articleSection": obj["category"]
+          }
+
+          article = "\n".join([
+              '<!DOCTYPE html>',
+              '<html lang="hi">',
+              '<head>',
+              '<meta charset="UTF-8">',
+              '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+              '<title>' + title + ' | बहल झलक</title>',
+              '<meta name="description" content="' + desc + '">',
+              '<meta property="og:type" content="article">',
+              '<meta property="og:site_name" content="बहल झलक">',
+              '<meta property="og:title" content="' + title + ' | बहल झलक">',
+              '<meta property="og:description" content="' + desc + '">',
+              '<meta property="og:image" content="' + html.escape(image_url, quote=True) + '">',
+              '<meta property="og:url" content="' + page_url + '">',
+              '<meta name="twitter:card" content="summary_large_image">',
+              '<meta name="twitter:title" content="' + title + ' | बहल झलक">',
+              '<meta name="twitter:description" content="' + desc + '">',
+              '<meta name="twitter:image" content="' + html.escape(image_url, quote=True) + '">',
+              '<link rel="canonical" href="' + page_url + '">',
+              '<script type="application/ld+json">' + json.dumps(schema, ensure_ascii=False) + '</script>',
+              '<link rel="stylesheet" href="./style.css">',
+              '</head>',
+              '<body>',
+              '<header class="site-header"><div class="header-container"><div class="site-branding"><a href="./index.html" class="logo-box"><span class="logo-red">बहल</span><span class="logo-yellow">झलक</span><span class="logo-tagline">खबर आपकी, नज़र हमारी</span></a></div></div></header>',
+              '<main class="article-page container"><article class="article-card">',
+              '<div class="article-header"><span class="category-tag">' + category + '</span><h1>' + title + '</h1><div class="article-meta"><span>' + location + '</span><span>•</span><span>' + news_date + '</span></div></div>',
+              '<img class="article-image" src="' + html.escape(image_url, quote=True) + '" alt="' + title + '">',
+              '<div class="article-body">' + body + '</div>',
+              '<div class="article-actions"><a href="./index.html" class="back-home-button">← वापस मुख्य पृष्ठ</a></div>',
+              '</article></main>',
+              '<footer class="site-footer"><div class="footer-container"><p>© 2026 बहल झलक — खबर आपकी, नज़र हमारी</p></div></footer>',
+              '</body>',
+              '</html>'
+          ])
+
+          open(news_id + ".html", "w", encoding="utf-8").write(article)
           PY
 
       - name: Commit and push
