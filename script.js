@@ -103,7 +103,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         document.getElementById("featured-news").innerHTML =
             '<article class="featured-news-card">' +
-            '<a href="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '" class="news-card-image-link">' +
             (featured.image ? '<a href="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '" class="news-card-image-link"><img src="' + esc(featured.image) + '" alt="' + esc(featured.title) + '"></a>' : '') +
             '<div class="featured-news-content"><span class="category-tag">' + esc(featured.category) + '</span>' +
             '<h2><a href="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '">' + esc(featured.title) + '</a></h2>' +
