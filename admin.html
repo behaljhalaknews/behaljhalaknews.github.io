@@ -4,24 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>बहल झलक — फोटो मैनेजर</title>
-<script src="./supabase-config.js?v=20260929-01">
-document.getElementById("prepareNewsBtn").addEventListener("click",()=>{
-  const title=document.getElementById("newTitle").value.trim();
-  const category=document.getElementById("newCategory").value;
-  const location=document.getElementById("newLocation").value.trim();
-  const date=document.getElementById("newDate").value.trim();
-  const excerpt=document.getElementById("newExcerpt").value.trim();
-  const paragraphs=document.getElementById("newContent").value.split(/\n+/).map(x=>x.trim()).filter(Boolean);
-  const featured=document.getElementById("newFeatured").checked;
-  const breaking=document.getElementById("newBreaking").checked;
-  const draft=document.getElementById("newsDraft");
-  if(!title||!location||!date||!excerpt||!paragraphs.length){draft.textContent="शीर्षक, स्थान, तारीख, संक्षिप्त खबर और पूरी खबर भरें।";return;}
-  const slug=title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"news";
-  const id=slug+"-"+Date.now();
-  const obj={id,title,category,location,date,image:"",page:"./"+id+".html",featured,excerpt,content:paragraphs,photoFile:document.getElementById("newImage").files[0]?.name||""};
-  draft.innerHTML="<strong>खबर तैयार है।</strong><br>Article ID: "+id+"<br><br>"+JSON.stringify(obj,null,2).replace(/</g,"&lt;");
-});
-</script>
+<script src="./supabase-config.js?v=20260929-01"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./news-data.js?v=20260929-01"></script>
 <style>
@@ -76,6 +59,41 @@ const current=document.getElementById("current");
 const statusBox=document.getElementById("status");
 const fileInput=document.getElementById("fileInput");
 const news=Array.isArray(window.BAHAL_JHALAK_NEWS)?window.BAHAL_JHALAK_NEWS:[];
+const prepareNewsBtn=document.getElementById("prepareNewsBtn");
+prepareNewsBtn.addEventListener("click",async()=>{
+  const title=document.getElementById("newTitle").value.trim();
+  const category=document.getElementById("newCategory").value;
+  const location=document.getElementById("newLocation").value.trim();
+  const date=document.getElementById("newDate").value.trim();
+  const excerpt=document.getElementById("newExcerpt").value.trim();
+  const paragraphs=document.getElementById("newContent").value.split(/\\n+/).map(x=>x.trim()).filter(Boolean);
+  const featured=document.getElementById("newFeatured").checked;
+  const breaking=document.getElementById("newBreaking").checked;
+  const photo=document.getElementById("newImage").files[0];
+  const draft=document.getElementById("newsDraft");
+  if(!title||!location||!date||!excerpt||!paragraphs.length){draft.textContent="शीर्षक, स्थान, तारीख, संक्षिप्त खबर और पूरी खबर भरें।";return;}
+  const slug=title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"news";
+  const id=slug+"-"+Date.now();
+  draft.textContent="खबर तैयार हो रही है...";
+  try{
+    const ur=await sb.auth.getUser();
+    const uid=ur.data&&ur.data.user&&ur.data.user.id;
+    if(!uid){draft.textContent="पहले Admin Login करें।";return;}
+    let imageUrl="";
+    if(photo){
+      const safe=photo.name.replace(/[^a-zA-Z0-9._-]/g,"-");
+      const path=id+"/"+Date.now()+"-"+safe;
+      const up=await sb.storage.from("news-images").upload(path,photo,{upsert:false,contentType:photo.type});
+      if(up.error){draft.textContent="फोटो Upload error: "+up.error.message;return;}
+      imageUrl=sb.storage.from("news-images").getPublicUrl(up.data.path).data.publicUrl;
+      const db=await sb.from("article_images").upsert({article_id:id,image_url:imageUrl,updated_by:uid,updated_at:new Date().toISOString()},{onConflict:"article_id"});
+      if(db.error){draft.textContent="फोटो Database error: "+db.error.message;return;}
+    }
+    const obj={id,title,category,location,date,image:imageUrl,page:"./"+id+".html",featured,breaking,excerpt,content:paragraphs};
+    draft.innerHTML="<strong>खबर और फोटो तैयार हैं।</strong><br>Article ID: "+id+(imageUrl?"<br>फोटो: सफलतापूर्वक इसी खबर से जुड़ गई।":"<br>फोटो नहीं चुनी गई।")+"<br><br>"+JSON.stringify(obj,null,2).replace(/</g,"&lt;");
+    document.getElementById("newImage").value="";
+  }catch(e){draft.textContent="समस्या: "+(e.message||e);}
+});
 
 async function refreshSession(){
   try{
