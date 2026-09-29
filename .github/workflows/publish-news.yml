@@ -137,31 +137,31 @@ jobs:
               ('<img class="article-image" src="' + html.escape(image_url, quote=True) + '" alt="' + title + '">') if image_url else '',
               '<div class="article-body">' + body + '</div>',
               '''<div class="article-actions"><a href="./index.html" class="back-home-button">← वापस मुख्य पृष्ठ</a></div>
-<div class="social-share-panel"><div class="social-share-title">खबर शेयर करें</div><div class="social-share-buttons">
-<a class="social-share-btn whatsapp-share" id="whatsappShare" href="#" target="_blank" rel="noopener">WhatsApp</a>
-<a class="social-share-btn facebook-share" id="facebookShare" href="#" target="_blank" rel="noopener">Facebook</a>
-<a class="social-share-btn telegram-share" id="telegramShare" href="#" target="_blank" rel="noopener">Telegram</a>
-<button type="button" class="social-share-btn copy-share" id="copyShare">🔗 लिंक कॉपी करें</button>
-<button type="button" class="social-share-btn native-share" id="nativeShare" hidden>📤 शेयर करें</button>
-</div><div class="instagram-note">Instagram पर शेयर करने के लिए लिंक कॉपी करके Instagram में पोस्ट/स्टोरी में पेस्ट करें।</div></div>
-<script>
-(function(){
-  const url=window.location.href;
-  const title=document.querySelector(".article-header h1")?.textContent||document.title;
-  const text=title+" — बहल झलक\\n"+url;
-  document.getElementById("whatsappShare").href="https://wa.me/?text="+encodeURIComponent(text);
-  document.getElementById("facebookShare").href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(url);
-  document.getElementById("telegramShare").href="https://t.me/share/url?url="+encodeURIComponent(url)+"&text="+encodeURIComponent(title);
-  const copyBtn=document.getElementById("copyShare");
-  copyBtn.addEventListener("click",async function(){
-    try{await navigator.clipboard.writeText(url);copyBtn.textContent="✓ लिंक कॉपी हो गया";}
-    catch(e){copyBtn.textContent="लिंक कॉपी नहीं हो सका";}
-    setTimeout(()=>copyBtn.textContent="🔗 लिंक कॉपी करें",2200);
-  });
-  const nativeBtn=document.getElementById("nativeShare");
-  if(navigator.share){nativeBtn.hidden=false;nativeBtn.addEventListener("click",()=>navigator.share({title:title,text:"बहल झलक",url:url}));}
-})();
-</script>''',
+              <div class="social-share-panel"><div class="social-share-title">खबर शेयर करें</div><div class="social-share-buttons">
+              <a class="social-share-btn whatsapp-share" id="whatsappShare" href="#" target="_blank" rel="noopener">WhatsApp</a>
+              <a class="social-share-btn facebook-share" id="facebookShare" href="#" target="_blank" rel="noopener">Facebook</a>
+              <a class="social-share-btn telegram-share" id="telegramShare" href="#" target="_blank" rel="noopener">Telegram</a>
+              <button type="button" class="social-share-btn copy-share" id="copyShare">🔗 लिंक कॉपी करें</button>
+              <button type="button" class="social-share-btn native-share" id="nativeShare" hidden>📤 शेयर करें</button>
+              </div><div class="instagram-note">Instagram पर शेयर करने के लिए लिंक कॉपी करके Instagram में पोस्ट/स्टोरी में पेस्ट करें।</div></div>
+              <script>
+              (function(){
+                const url=window.location.href;
+                const title=document.querySelector(".article-header h1")?.textContent||document.title;
+                const text=title+" — बहल झलक\\n"+url;
+                document.getElementById("whatsappShare").href="https://wa.me/?text="+encodeURIComponent(text);
+                document.getElementById("facebookShare").href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(url);
+                document.getElementById("telegramShare").href="https://t.me/share/url?url="+encodeURIComponent(url)+"&text="+encodeURIComponent(title);
+                const copyBtn=document.getElementById("copyShare");
+                copyBtn.addEventListener("click",async function(){
+                  try{await navigator.clipboard.writeText(url);copyBtn.textContent="✓ लिंक कॉपी हो गया";}
+                  catch(e){copyBtn.textContent="लिंक कॉपी नहीं हो सका";}
+                  setTimeout(()=>copyBtn.textContent="🔗 लिंक कॉपी करें",2200);
+                });
+                const nativeBtn=document.getElementById("nativeShare");
+                if(navigator.share){nativeBtn.hidden=false;nativeBtn.addEventListener("click",()=>navigator.share({title:title,text:"बहल झलक",url:url}));}
+              })();
+              </script>''',
               '</article></main>',
               '<footer class="site-footer"><div class="footer-container"><p>© 2026 बहल झलक — खबर आपकी, नज़र हमारी</p></div></footer>',
               '</body>',
