@@ -4,7 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>बहल झलक — फोटो मैनेजर</title>
-<script src="./supabase-config.js?v=20260929-01"></script>
+<script src="./supabase-config.js?v=20260929-01">
+document.getElementById("prepareNewsBtn").addEventListener("click",()=>{
+  const title=document.getElementById("newTitle").value.trim();
+  const category=document.getElementById("newCategory").value;
+  const location=document.getElementById("newLocation").value.trim();
+  const date=document.getElementById("newDate").value.trim();
+  const excerpt=document.getElementById("newExcerpt").value.trim();
+  const paragraphs=document.getElementById("newContent").value.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+  const featured=document.getElementById("newFeatured").checked;
+  const breaking=document.getElementById("newBreaking").checked;
+  const draft=document.getElementById("newsDraft");
+  if(!title||!location||!date||!excerpt||!paragraphs.length){draft.textContent="शीर्षक, स्थान, तारीख, संक्षिप्त खबर और पूरी खबर भरें।";return;}
+  const slug=title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"news";
+  const id=slug+"-"+Date.now();
+  const obj={id,title,category,location,date,image:"",page:"./"+id+".html",featured,excerpt,content:paragraphs};
+  draft.innerHTML="<strong>खबर तैयार है।</strong><br>Article ID: "+id+"<br><br>"+JSON.stringify(obj,null,2).replace(/</g,"&lt;");
+});
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./news-data.js?v=20260929-01"></script>
 <style>
@@ -30,6 +47,20 @@ img{max-width:100%;max-height:240px;object-fit:contain;border-radius:8px;backgro
 <div id="app">
 <div class="card"><button id="logoutBtn" type="button" class="secondary">Logout</button></div>
 <div class="card"><h2>खबर चुनें</h2><select id="articleSelect"></select><div id="current"></div></div>
+<div class="card">
+<h2>नई खबर तैयार करें</h2>
+<p>अब खबर की जानकारी और फोटो एक ही जगह से तैयार की जा सकती है।</p>
+<input id="newTitle" placeholder="खबर का शीर्षक">
+<select id="newCategory"><option>बहल</option><option>भिवानी</option><option>हरियाणा</option><option>राजनीति</option><option>अपराध</option><option>खेल</option><option>वीडियो</option></select>
+<input id="newLocation" placeholder="स्थान">
+<input id="newDate" placeholder="तारीख, जैसे 29 सितंबर 2026">
+<textarea id="newExcerpt" placeholder="संक्षिप्त खबर / Excerpt" rows="3"></textarea>
+<textarea id="newContent" placeholder="पूरी खबर लिखें। हर पैराग्राफ नई लाइन में रखें।" rows="8"></textarea>
+<label><input id="newFeatured" type="checkbox" style="width:auto"> Featured खबर</label>
+<label><input id="newBreaking" type="checkbox" style="width:auto"> Breaking News में शामिल करें</label>
+<button id="prepareNewsBtn" type="button">खबर तैयार करें</button>
+<div id="newsDraft" class="status" style="word-break:break-word"></div>
+</div>
 <div class="card"><h2>नई फोटो</h2><input id="fileInput" type="file" accept="image/*"><button id="uploadBtn" type="button">फोटो Upload करें</button><div id="status" class="status"></div></div>
 </div>
 <script>
