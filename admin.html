@@ -102,7 +102,7 @@ let latestNewsPackage="";
  const f=$("newImage").files[0], p=$("imagePreview");
  if(!f){p.style.display="none";p.innerHTML="";return;}
  p.style.display="block";
- p.innerHTML="<strong>फोटो चुनी गई:</strong> "+f.name+"<br><img src=""+URL.createObjectURL(f)+"" alt="Preview">";
+ p.innerHTML="<strong>फोटो चुनी गई:</strong> "+f.name+"<br><img src=\""+URL.createObjectURL(f)+"\" alt=\"Preview\">";
 });
 
 async function uploadNewsPhoto(id,photo){
