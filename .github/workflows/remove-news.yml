@@ -1,0 +1,58 @@
+name: Remove News Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: "News Manager ka Remove Package JSON"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  remove:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Remove news from index
+        env:
+          PACKAGE: ${{ inputs.package }}
+        run: |
+          python3 <<'PY'
+          import json, os, re
+          obj=json.loads(os.environ["PACKAGE"])
+          if obj.get("action")!="remove": raise SystemExit("Invalid action")
+          news_id=str(obj.get("id",""))
+          if not re.fullmatch(r"[a-z0-9-]+",news_id): raise SystemExit("Invalid article ID")
+          page=str(obj.get("page",news_id+".html")).replace("\\\\","/").lstrip("./")
+          if not re.fullmatch(r"[a-z0-9-]+\\.html",page): raise SystemExit("Invalid article page")
+          raw=open("news-data.js",encoding="utf-8").read()
+          prefix="window.BAHAL_JHALAK_NEWS = "
+          if not raw.startswith(prefix): raise SystemExit("Unexpected news-data.js format")
+          payload=raw[len(prefix):].strip()
+          if payload.endswith(";"): payload=payload[:-1].rstrip()
+          data=json.loads(payload)
+          matches=[x for x in data if str(x.get("id",""))==news_id]
+          if len(matches)!=1: raise SystemExit("Expected exactly one matching news item")
+          data=[x for x in data if str(x.get("id",""))!=news_id]
+          with open("news-data.js","w",encoding="utf-8") as f:
+              json.dump(data,f,ensure_ascii=False,indent=2)
+              f.write(",\n];\n")
+          if os.path.exists(page):
+              with open(page,"w",encoding="utf-8") as f:
+                  f.write("<!doctype html><html lang='hi'><head><meta charset='utf-8'><meta name='robots' content='noindex'><title>खबर उपलब्ध नहीं है</title></head><body><h1>यह खबर अब उपलब्ध नहीं है।</h1></body></html>\n")
+          print("Removed from site index:",news_id)
+          PY
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && { echo "Nothing to commit"; exit 1; }
+          git commit -m "Remove published news"
+          git push
