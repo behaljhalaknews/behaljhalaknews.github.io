@@ -22,61 +22,56 @@ jobs:
         env:
           NEWS_ID: ${{ inputs.id }}
         run: |
-          python3 <<'PY'
-          import os, re, json
+          node <<'NODE'
+          const fs = require("fs");
+          const vm = require("vm");
 
-          news_id=os.environ.get("NEWS_ID","").strip()
-          if not re.fullmatch(r"[a-z0-9-]+",news_id):
-              raise SystemExit("Invalid article ID")
+          const newsId = String(process.env.NEWS_ID || "").trim();
+          if (!/^[a-z0-9-]+$/.test(newsId)) {
+            throw new Error("Invalid article ID");
+          }
 
-          page=news_id+".html"
-          raw=open("news-data.js",encoding="utf-8").read()
+          const page = newsId + ".html";
+          const raw = fs.readFileSync("news-data.js", "utf8");
 
-          prefix="window.BAHAL_JHALAK_NEWS = "
-          if not raw.lstrip().startswith("/*") and not raw.startswith(prefix):
-              pass
+          // Safely evaluate only the local news-data.js assignment.
+          // No network access or external code is involved.
+          const sandbox = { window: {} };
+          vm.createContext(sandbox);
+          vm.runInContext(raw, sandbox, { timeout: 2000 });
 
-          start=raw.find(prefix)
-          if start < 0:
-              raise SystemExit("Unexpected news-data.js format")
+          const data = sandbox.window.BAHAL_JHALAK_NEWS;
+          if (!Array.isArray(data)) {
+            throw new Error("news-data.js does not contain a news array");
+          }
 
-          payload=raw[start+len(prefix):].strip()
-          if payload.endswith(";"):
-              payload=payload[:-1].rstrip()
+          const matches = data.filter(x => x && String(x.id || "") === newsId);
+          if (matches.length !== 1) {
+            throw new Error("Expected exactly one matching news item; found " + matches.length);
+          }
 
-          # news-data.js uses a trailing comma before the closing array.
-          payload=re.sub(r",\s*\]$", "\n]", payload)
+          const filtered = data.filter(x => !x || String(x.id || "") !== newsId);
 
-          # news-data.js is JavaScript object syntax: property names are unquoted.
-          # Quote only object property names so the array can be parsed safely as JSON.
-          payload=re.sub(r'([\{,]\s*)([A-Za-z_][A-Za-z0-9_-]*)(\s*:)', r'\1"\2"\3', payload)
+          // Keep the file valid JavaScript and preserve the site's expected variable name.
+          fs.writeFileSync(
+            "news-data.js",
+            "/* बहल झलक — News Data */\\n" +
+            "window.BAHAL_JHALAK_NEWS = " +
+            JSON.stringify(filtered, null, 2) +
+            ";\\n",
+            "utf8"
+          );
 
-          try:
-              data=json.loads(payload)
-          except json.JSONDecodeError as e:
-              raise SystemExit("Could not parse news-data.js: "+str(e))
+          if (fs.existsSync(page)) {
+            fs.writeFileSync(
+              page,
+              "<!doctype html><html lang='hi'><head><meta charset='utf-8'><meta name='robots' content='noindex'><title>खबर उपलब्ध नहीं है</title></head><body><h1>यह खबर अब उपलब्ध नहीं है।</h1></body></html>\\n",
+              "utf8"
+            );
+          }
 
-          if not isinstance(data,list):
-              raise SystemExit("news-data.js does not contain a news array")
-
-          matches=[x for x in data if isinstance(x,dict) and str(x.get("id",""))==news_id]
-          if len(matches)!=1:
-              raise SystemExit("Expected exactly one matching news item; found "+str(len(matches)))
-
-          data=[x for x in data if str(x.get("id",""))!=news_id]
-
-          with open("news-data.js","w",encoding="utf-8") as f:
-              f.write("/* बहल झलक — News Data */\n")
-              f.write("window.BAHAL_JHALAK_NEWS = ")
-              json.dump(data,f,ensure_ascii=False,indent=2)
-              f.write(";\n")
-
-          if os.path.exists(page):
-              with open(page,"w",encoding="utf-8") as f:
-                  f.write("<!doctype html><html lang='hi'><head><meta charset='utf-8'><meta name='robots' content='noindex'><title>खबर उपलब्ध नहीं है</title></head><body><h1>यह खबर अब उपलब्ध नहीं है।</h1></body></html>\n")
-
-          print("Removed from site index:",news_id)
-          PY
+          console.log("Removed from site index:", newsId);
+          NODE
 
       - name: Commit changes
         run: |
