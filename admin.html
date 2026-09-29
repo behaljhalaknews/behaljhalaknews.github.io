@@ -98,7 +98,7 @@ const loginBox=$("login"),app=$("app"),loginStatus=$("loginStatus"),newsStatus=$
 const news=Array.isArray(window.BAHAL_JHALAK_NEWS)?window.BAHAL_JHALAK_NEWS:[];
 let latestNewsPackage="";
 
-$("newImage").addEventListener("change",()=>{
+// मोबाइल पर अधूरी खबर बंद/रिफ्रेश होने पर न खोए, इसलिए केवल इसी ब्राउज़र में Draft सुरक्षित रखा जाता है।\nconst draftFields=["newTitle","newCategory","newLocation","newDate","newExcerpt","newContent","newFeatured","newBreaking"];\nfunction saveDraft(){const d={};draftFields.forEach(id=>{const el=$(id);d[id]=el.type==="checkbox"?el.checked:el.value;});localStorage.setItem("bahal_news_draft",JSON.stringify(d));}\nfunction restoreDraft(){try{const d=JSON.parse(localStorage.getItem("bahal_news_draft")||"null");if(!d)return;draftFields.forEach(id=>{const el=$(id);if(d[id]!==undefined){if(el.type==="checkbox")el.checked=!!d[id];else el.value=d[id];}});}catch(e){}}\ndraftFields.forEach(id=>$(id).addEventListener("input",saveDraft));\n$("newDate").value=$("newDate").value||new Intl.DateTimeFormat("hi-IN",{day:"numeric",month:"long",year:"numeric"}).format(new Date());\nrestoreDraft();\n\n$("newImage").addEventListener("change",()=>{
  const f=$("newImage").files[0], p=$("imagePreview");
  if(!f){p.style.display="none";p.innerHTML="";return;}
  p.style.display="block";
