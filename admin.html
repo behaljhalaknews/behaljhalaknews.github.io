@@ -82,6 +82,7 @@ img{max-width:100%;max-height:260px;object-fit:contain;border-radius:8px;backgro
 <input id="fileInput" type="file" accept="image/*" multiple>
 <button id="uploadBtn" type="button">📷 फोटो जोड़ें</button>
 <button id="replaceBtn" type="button" class="secondary">🔄 सभी फोटो बदलें</button>
+<button id="deleteAllBtn" type="button" style="background:#b42318">🗑️ सभी फोटो हटाएँ</button>
 <div id="status" class="status"></div>
 </div>
 </div>
@@ -241,6 +242,7 @@ async function handlePhotoUpload(replaceAll){
 }
 $("uploadBtn").addEventListener("click",()=>handlePhotoUpload(false));
 $("replaceBtn").addEventListener("click",()=>handlePhotoUpload(true));
+$("deleteAllBtn").addEventListener("click",async()=>{const articleId=$("articleSelect").value;if(!articleId){$("status").textContent="पहले खबर चुनें।";return;}if(!confirm("इस खबर की सभी फोटो हटानी हैं?"))return;$("deleteAllBtn").disabled=true;$("status").textContent="⏳ सभी फोटो हटाई जा रही हैं...";try{const ur=await sb.auth.getUser(),uid=ur.data&&ur.data.user&&ur.data.user.id;if(!uid)throw new Error("Admin Login session नहीं मिला।");const db=await sb.from("article_images").upsert({article_id:articleId,image_url:"[]",updated_by:uid,updated_at:new Date().toISOString()},{onConflict:"article_id"});if(db.error)throw new Error("फोटो Database error: "+db.error.message);$("status").textContent="✅ इस खबर की सभी फोटो हटा दी गई हैं।";showCurrent();}catch(e){$("status").textContent="❌ "+e.message;}finally{$("deleteAllBtn").disabled=false;}});
 refreshSession();
 </script>
 </body>
