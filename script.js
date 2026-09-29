@@ -1,6 +1,6 @@
 /* बहल झलक — Mobile Navigation + News Rendering */
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     const menuButton = document.querySelector(".menu-toggle");
     const navigation = document.querySelector(".main-navigation");
     const categoryItem = document.querySelector(".has-submenu");
@@ -42,7 +42,34 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    const news = Array.isArray(window.BAHAL_JHALAK_NEWS) ? window.BAHAL_JHALAK_NEWS : [];
+    let news = Array.isArray(window.BAHAL_JHALAK_NEWS) ? window.BAHAL_JHALAK_NEWS : [];
+
+    // Supabase image overrides: only the selected article_id is changed.
+    try {
+        const supabaseUrl = window.BAHAL_SUPABASE_URL || "https://exkoxaxbmspxsqdokdcg.supabase.co";
+        const publishableKey = window.BAHAL_SUPABASE_PUBLISHABLE_KEY;
+        if (publishableKey) {
+            const response = await fetch(supabaseUrl + "/rest/v1/article_images?select=article_id,image_url", {
+                headers: {
+                    apikey: publishableKey,
+                    Authorization: "Bearer " + publishableKey
+                },
+                cache: "no-store"
+            });
+            if (response.ok) {
+                const overrides = await response.json();
+                const imageMap = {};
+                overrides.forEach(function (row) {
+                    if (row.article_id && row.image_url) imageMap[row.article_id] = row.image_url;
+                });
+                news = news.map(function (item) {
+                    return imageMap[item.id] ? Object.assign({}, item, { image: imageMap[item.id] }) : item;
+                });
+            }
+        }
+    } catch (error) {
+        console.warn("Supabase image overrides unavailable; using original news images.", error);
+    }
 
     const breakingNews = Array.isArray(window.BAHAL_JHALAK_BREAKING_NEWS) ? window.BAHAL_JHALAK_BREAKING_NEWS : [];
     const breakingTicker = document.getElementById("breaking-news-ticker");
