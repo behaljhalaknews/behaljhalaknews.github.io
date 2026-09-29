@@ -47,6 +47,10 @@ jobs:
           # news-data.js uses a trailing comma before the closing array.
           payload=re.sub(r",\s*\]$", "\n]", payload)
 
+          # news-data.js is JavaScript object syntax: property names are unquoted.
+          # Quote only object property names so the array can be parsed safely as JSON.
+          payload=re.sub(r'([\{,]\s*)([A-Za-z_][A-Za-z0-9_-]*)(\s*:)', r'\1"\2"\3', payload)
+
           try:
               data=json.loads(payload)
           except json.JSONDecodeError as e:
