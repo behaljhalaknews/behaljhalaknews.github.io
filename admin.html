@@ -18,7 +18,7 @@ document.getElementById("prepareNewsBtn").addEventListener("click",()=>{
   if(!title||!location||!date||!excerpt||!paragraphs.length){draft.textContent="शीर्षक, स्थान, तारीख, संक्षिप्त खबर और पूरी खबर भरें।";return;}
   const slug=title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"news";
   const id=slug+"-"+Date.now();
-  const obj={id,title,category,location,date,image:"",page:"./"+id+".html",featured,excerpt,content:paragraphs};
+  const obj={id,title,category,location,date,image:"",page:"./"+id+".html",featured,excerpt,content:paragraphs,photoFile:document.getElementById("newImage").files[0]?.name||""};
   draft.innerHTML="<strong>खबर तैयार है।</strong><br>Article ID: "+id+"<br><br>"+JSON.stringify(obj,null,2).replace(/</g,"&lt;");
 });
 </script>
@@ -55,7 +55,7 @@ img{max-width:100%;max-height:240px;object-fit:contain;border-radius:8px;backgro
 <input id="newLocation" placeholder="स्थान">
 <input id="newDate" placeholder="तारीख, जैसे 29 सितंबर 2026">
 <textarea id="newExcerpt" placeholder="संक्षिप्त खबर / Excerpt" rows="3"></textarea>
-<textarea id="newContent" placeholder="पूरी खबर लिखें। हर पैराग्राफ नई लाइन में रखें।" rows="8"></textarea>
+<textarea id="newContent" placeholder="पूरी खबर लिखें। हर पैराग्राफ नई लाइन में रखें।" rows="8"></textarea>\n<input id="newImage" type="file" accept="image/*">\n<p style="margin:6px 0;color:#667085">फोटो चुनना वैकल्पिक है। Publish करने पर फोटो इसी खबर से जुड़ेगी।</p>
 <label><input id="newFeatured" type="checkbox" style="width:auto"> Featured खबर</label>
 <label><input id="newBreaking" type="checkbox" style="width:auto"> Breaking News में शामिल करें</label>
 <button id="prepareNewsBtn" type="button">खबर तैयार करें</button>
