@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>बहल झलक — Admin Photo Upload</title>
+<script src="./supabase-config.js?v=20260929-01"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+body{font-family:Arial,sans-serif;max-width:760px;margin:0 auto;padding:20px;background:#f4f6f8;color:#172033}
+.card{background:#fff;padding:18px;border-radius:12px;margin:14px 0;box-shadow:0 2px 10px #0001}
+input,select,button{width:100%;padding:12px;margin:7px 0;border:1px solid #ccd3dc;border-radius:8px;box-sizing:border-box}
+button{background:#0b2545;color:#fff;font-weight:700;border:0}
+button.secondary{background:#667085}
+img{max-width:100%;max-height:240px;object-fit:contain;border-radius:8px;background:#eee}
+#app{display:none}.status{padding:10px;border-radius:8px;background:#eef2f7}
+</style>
+</head>
+<body>
+<h1>बहल झलक — फोटो मैनेजर</h1>
+
+<div id="login" class="card">
+<h2>Admin Login</h2>
+<p>यह पेज केवल अधिकृत Admin के लिए है।</p>
+<input id="email" type="email" placeholder="Admin Email">
+<input id="password" type="password" placeholder="Password">
+<button id="loginBtn">Login</button>
+<div id="loginStatus" class="status"></div>
+</div>
+
+<div id="app">
+<div class="card">
+<button id="logoutBtn" class="secondary">Logout</button>
+</div>
+<div class="card">
+<h2>खबर चुनें</h2>
+<select id="articleSelect"></select>
+<div id="current"></div>
+</div>
+<div class="card">
+<h2>नई फोटो</h2>
+<input id="fileInput" type="file" accept="image/*">
+<button id="uploadBtn">फोटो Upload करें</button>
+<div id="status" class="status"></div>
+</div>
+</div>
+
+<script>
+const supabase = window.supabase.createClient(
+  window.BAHAL_SUPABASE_URL,
+  window.BAHAL_SUPABASE_PUBLISHABLE_KEY
+);
+const news = Array.isArray(window.BAHAL_JHALAK_NEWS) ? window.BAHAL_JHALAK_NEWS : [];
+const loginBox=document.getElementById("login"), app=document.getElementById("app");
+const select=document.getElementById("articleSelect"), current=document.getElementById("current");
+const status=document.getElementById("status"), loginStatus=document.getElementById("loginStatus");
+
+async function refreshSession(){
+  const {data}=await supabase.auth.getSession();
+  if(data.session){loginBox.style.display="none";app.style.display="block";initArticles();}
+  else{loginBox.style.display="block";app.style.display="none";}
+}
+function initArticles(){
+  select.innerHTML=news.map(n=>'<option value="'+n.id+'">'+n.title.replace(/</g,"&lt;")+'</option>').join("");
+  showCurrent();
+}
+async function showCurrent(){
+  const n=news.find(x=>x.id===select.value); if(!n)return;
+  const {data}=await supabase.from("article_images").select("image_url").eq("article_id",n.id).maybeSingle();
+  const url=data?.image_url || n.image || "";
+  current.innerHTML='<h3>'+n.title.replace(/</g,"&lt;")+'</h3>'+(url?'<img src="'+url.replace(/"/g,"&quot;")+'">':'<p>अभी कोई फोटो नहीं है।</p>');
+}
+select.addEventListener("change",showCurrent);
+
+document.getElementById("loginBtn").onclick=async()=>{
+  loginStatus.textContent="Login हो रहा है...";
+  const {error}=await supabase.auth.signInWithPassword({email:email.value.trim(),password:password.value});
+  loginStatus.textContent=error?error.message:"Login सफल";
+  if(!error) refreshSession();
+};
+document.getElementById("logoutBtn").onclick=()=>supabase.auth.signOut().then(refreshSession);
+
+document.getElementById("uploadBtn").onclick=async()=>{
+  const file=fileInput.files[0], articleId=select.value;
+  if(!file){status.textContent="पहले फोटो चुनें।";return;}
+  if(!file.type.startsWith("image/")){status.textContent="केवल image file चुनें।";return;}
+  const safe=file.name.toLowerCase().replace(/[^a-z0-9._-]+/g,"-");
+  const path=articleId+"/"+Date.now()+"-"+safe;
+  status.textContent="Upload हो रहा है...";
+  const {data:userData}=await supabase.auth.getUser();
+  const uid=userData.user?.id;
+  if(!uid){status.textContent="Login session समाप्त हो गया।";return;}
+  const {data:upload,error:uploadError}=await supabase.storage.from("news-images").upload(path,file,{upsert:false,contentType:file.type});
+  if(uploadError){status.textContent=uploadError.message;return;}
+  const {data:publicData}=supabase.storage.from("news-images").getPublicUrl(upload.path);
+  const {error:dbError}=await supabase.from("article_images").upsert({
+    article_id:articleId,image_url:publicData.publicUrl,updated_by:uid,updated_at:new Date().toISOString()
+  },{onConflict:"article_id"});
+  if(dbError){status.textContent=dbError.message;return;}
+  status.textContent="फोटो सफलतापूर्वक इसी खबर में लग गई।";
+  fileInput.value="";
+  showCurrent();
+};
+refreshSession();
+</script>
+<script src="./news-data.js?v=20260929-01"></script>
+</body>
+</html>
