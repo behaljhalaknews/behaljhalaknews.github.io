@@ -46,7 +46,7 @@ img{max-width:100%;max-height:240px;object-fit:contain;border-radius:8px;backgro
 <button id="prepareNewsBtn" type="button">खबर तैयार करें</button>
 <div id="newsDraft" class="status" style="word-break:break-word"></div>
 <button id="copyNewsPackageBtn" type="button" class="secondary" style="display:none">Publish Package कॉपी करें</button>
-<div style="margin-top:10px;padding:12px;background:#fff7ed;border:2px solid #f97316;border-radius:10px"><strong>अगला कदम</strong><br><button id="githubPublishLink" type="button" style="font-weight:700;background:#dc2626">🚀 PUBLISH NEWS — GitHub पर Publish करें</button></div>
+<div style="margin-top:10px;padding:12px;background:#fff7ed;border:2px solid #f97316;border-radius:10px"><strong>अगला कदम</strong><br><span style="font-size:14px;color:#7c2d12">पहले खबर तैयार करें। फिर यह बटन Publish Package अपने-आप कॉपी करके GitHub Actions का Publish Form खोलेगा।</span><button id="githubPublishLink" type="button" style="font-weight:700;background:#dc2626">🚀 PUBLISH NEWS — GitHub Publish Form खोलें</button></div>
 <div id="publishPackageStatus" class="status" style="display:none"></div>
 </div>
 <div class="card"><h2>नई फोटो</h2><input id="fileInput" type="file" accept="image/*"><button id="uploadBtn" type="button">फोटो Upload करें</button><div id="status" class="status"></div></div>
@@ -66,7 +66,21 @@ const fileInput=document.getElementById("fileInput");
 const news=Array.isArray(window.BAHAL_JHALAK_NEWS)?window.BAHAL_JHALAK_NEWS:[];
 const copyNewsPackageBtn=document.getElementById("copyNewsPackageBtn");
 const publishPackageStatus=document.getElementById("publishPackageStatus");
-document.getElementById("githubPublishLink").addEventListener("click",()=>{window.open("https://github.com/behaljhalaknews/behaljhalaknews.github.io/actions/workflows/publish-news.yml","_blank","noopener");});
+document.getElementById("githubPublishLink").addEventListener("click",async()=>{
+  if(!latestNewsPackage){
+    publishPackageStatus.style.display="block";
+    publishPackageStatus.textContent="पहले “खबर तैयार करें” बटन दबाकर Publish Package तैयार करें।";
+    return;
+  }
+  publishPackageStatus.style.display="block";
+  try{
+    await navigator.clipboard.writeText(latestNewsPackage);
+    publishPackageStatus.textContent="Publish Package कॉपी हो गया। अब GitHub का Publish Form खुल रहा है। वहाँ package वाले बॉक्स में Paste करें और Run workflow दबाएँ।";
+  }catch(e){
+    publishPackageStatus.textContent="Publish Package कॉपी नहीं हो सका। फिर भी GitHub Publish Form खोला जा रहा है।";
+  }
+  window.open("https://github.com/behaljhalaknews/behaljhalaknews.github.io/actions/workflows/publish-news.yml","_blank","noopener");
+});
 let latestNewsPackage="";
 copyNewsPackageBtn.addEventListener("click",async()=>{
   if(!latestNewsPackage)return;
