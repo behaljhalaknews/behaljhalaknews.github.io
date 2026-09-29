@@ -36,6 +36,8 @@ jobs:
               raise SystemExit("Article ID must contain only a-z, 0-9 and hyphens")
           if os.path.exists(news_id+".html"):
               raise SystemExit("Article page already exists")
+          with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as envf:
+              envf.write("NEWS_ID="+news_id+"\n")
 
           path="news-data.js"
           text=open(path,encoding="utf-8").read()
@@ -91,13 +93,10 @@ jobs:
           open(news_id+".html","w",encoding="utf-8").write(article)
           PY
 
-      - name: Set published file path
-        run: echo "news_id=${{ inputs.package }}" >/dev/null
-
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add news-data.js "${news_id}.html"
+          git add news-data.js "$NEWS_ID.html"
           git diff --cached --quiet || git commit -m "Publish news from News Editor"
           git push
