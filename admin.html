@@ -86,8 +86,7 @@ prepareNewsBtn.addEventListener("click",async()=>{
   const location=document.getElementById("newLocation").value.trim();
   const date=document.getElementById("newDate").value.trim();
   const excerpt=document.getElementById("newExcerpt").value.trim();
-  const paragraphs=document.getElementById("newContent").value.split(/\
-+/).map(x=>x.trim()).filter(Boolean);
+  const paragraphs=document.getElementById("newContent").value.split(/\n+/).map(x=>x.trim()).filter(Boolean);
   const featured=document.getElementById("newFeatured").checked;
   const breaking=document.getElementById("newBreaking").checked;
   const photo=document.getElementById("newImage").files[0];
