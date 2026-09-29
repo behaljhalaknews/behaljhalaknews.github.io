@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://behaljhalaknews.github.io/</loc>
   </url>
   <url>
     <loc>https://behaljhalaknews.github.io/yamuna-jal-hansiyawas-dam-andolan-2026-09-28.html</loc>
+    <image:image>
+      <image:loc>https://behaljhalaknews.github.io/images/hansiyawas-dam-mahila-andolan-26-09-20.jpg</image:loc>
+      <image:title>हंसियावास डेम विरोध प्रदर्शन की खबर</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://behaljhalaknews.github.io/hansiyawas-dam-andolan-2026-09-28.html</loc>
+    <image:image>
+      <image:loc>https://behaljhalaknews.github.io/images/hansiyawas-dam-2026-09-28.jpg</image:loc>
+      <image:title>हंसियावास डैम आंदोलन की खबर</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://behaljhalaknews.github.io/bhiwani-electricity-board-colony-newborn-2026-09-28.html</loc>
+    <image:image>
+      <image:loc>https://behaljhalaknews.github.io/images/bhiwani-newborn.jpg</image:loc>
+      <image:title>भिवानी बिजली बोर्ड कॉलोनी में नवजात मिलने की खबर</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://behaljhalaknews.github.io/panchkula-cyber-fraud-without-otp-2026-09-29.html</loc>
