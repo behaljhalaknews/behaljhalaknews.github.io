@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Supabase image overrides: only the selected article_id is changed.
     try {
         const supabaseUrl = window.BAHAL_SUPABASE_URL || "https://exkoxaxbmspxsqdokdcg.supabase.co";
-        const publishableKey = window.BAHAL_SUPABASE_PUBLISHABLE_KEY;
+        const publishableKey = window.BAHAL_SUPABASE_PUBLISHABLE_KEY || "sb_publishable_u-Y-L_saXqsJzvHe6rprSg_Y_uvz5b8";
         if (publishableKey) {
             const response = await fetch(supabaseUrl + "/rest/v1/article_images?select=article_id,image_url", {
                 headers: {
