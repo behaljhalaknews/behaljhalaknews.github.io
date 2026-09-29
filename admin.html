@@ -143,23 +143,24 @@ async function saveArticleImages(id,images,replaceAll=false){
 $("publishNewsBtn").addEventListener("click",async()=>{
  const title=$("newTitle").value.trim(),category=$("newCategory").value,location=$("newLocation").value.trim(),date=$("newDate").value.trim(),excerpt=$("newExcerpt").value.trim();
  const paragraphs=$("newContent").value.split(/\n+/).map(x=>x.trim()).filter(Boolean);
- const photo=$("newImage").files[0],featured=$("newFeatured").checked,breaking=$("newBreaking").checked;
+ const photos=Array.from($("newImage").files||[]),featured=$("newFeatured").checked,breaking=$("newBreaking").checked;
  const missing=[]; if(!title)missing.push("शीर्षक"); if(!location)missing.push("स्थान"); if(!date)missing.push("तारीख"); if(!excerpt)missing.push("संक्षिप्त खबर"); if(!paragraphs.length)missing.push("पूरी खबर");
  if(missing.length){newsStatus.textContent="⚠️ ये जानकारी भरें: "+missing.join(" • ");return;}
  const slug=title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"news";
  const id=slug+"-"+Date.now();
  $("publishNewsBtn").disabled=true; newsStatus.textContent="⏳ खबर और फोटो तैयार हो रही है...";
  try{
-   let imageUrl="";
-   if(photo) imageUrl=await uploadNewsPhoto(id,photo);
-   const obj={id,title,category,location,date,image:imageUrl,page:"./"+id+".html",featured,breaking,excerpt,content:paragraphs};
+   const images=[];
+   for(const photo of photos) images.push(await uploadNewsPhoto(id,photo));
+   const imageUrl=images[0]||"";
+   const obj={id,title,category,location,date,image:imageUrl,images,page:"./"+id+".html",featured,breaking,excerpt,content:paragraphs};
    latestNewsPackage=JSON.stringify(obj,null,2);
    /*
     * सुरक्षा के कारण GitHub token को browser में नहीं रखा गया है।
     * जब सुरक्षित server-side publish endpoint जोड़ा जाएगा, यही package
     * सीधे publish होगा। फिलहाल fallback workflow उपलब्ध रखा गया है।
     */
-   newsStatus.innerHTML="<strong>✅ खबर तैयार है"+(imageUrl?" और फोटो भी जुड़ गई":"")+"।</strong><br><br>अगला सुरक्षित Publish चरण खोलने के लिए नीचे वाला fallback बटन इस्तेमाल करें।";
+   newsStatus.innerHTML="<strong>✅ खबर तैयार है"+(images.length?" और "+images.length+" फोटो भी जुड़ गईं":"")+"।</strong><br><br>अगला सुरक्षित Publish चरण खोलने के लिए नीचे वाला fallback बटन इस्तेमाल करें।";
    $("manualFallback").style.display="block";
  }catch(e){newsStatus.textContent="❌ "+(e.message||e);}
  finally{$("publishNewsBtn").disabled=false;}
