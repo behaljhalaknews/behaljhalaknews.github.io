@@ -3,22 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>बहल झलक — फोटो मैनेजर</title>
-<script src="./supabase-config.js?v=20260929-01"></script>
+<title>बहल झलक — News Manager</title>
+<script src="./supabase-config.js?v=20260929-02"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="./news-data.js?v=20260929-01"></script>
+<script src="./news-data.js?v=20260929-02"></script>
 <style>
-body{font-family:Arial,sans-serif;max-width:760px;margin:0 auto;padding:20px;background:#f4f6f8;color:#172033}
+body{font-family:Arial,sans-serif;max-width:760px;margin:0 auto;padding:16px;background:#f4f6f8;color:#172033}
 .card{background:#fff;padding:18px;border-radius:12px;margin:14px 0;box-shadow:0 2px 10px #0001}
-input,select,button{width:100%;padding:12px;margin:7px 0;border:1px solid #ccd3dc;border-radius:8px;box-sizing:border-box}
+input,select,textarea,button{width:100%;padding:12px;margin:7px 0;border:1px solid #ccd3dc;border-radius:8px;box-sizing:border-box;font-size:16px}
 button{background:#0b2545;color:#fff;font-weight:700;border:0}
 button.secondary{background:#667085}
-img{max-width:100%;max-height:240px;object-fit:contain;border-radius:8px;background:#eee}
-#app{display:none}.status{padding:10px;border-radius:8px;background:#eef2f7;white-space:pre-wrap}
+button.publish{background:#dc2626;font-size:18px;padding:15px}
+img{max-width:100%;max-height:260px;object-fit:contain;border-radius:8px;background:#eee}
+#app{display:none}.status{padding:10px;border-radius:8px;background:#eef2f7;white-space:pre-wrap;word-break:break-word}
+.help{font-size:14px;color:#667085;line-height:1.5}
+.check{display:flex;gap:8px;align-items:center;margin:8px 0}.check input{width:auto;margin:0}
 </style>
 </head>
 <body>
-<h1>बहल झलक — फोटो मैनेजर</h1>
+<h1>बहल झलक — News Manager</h1>
+
 <div id="login" class="card">
 <h2>Admin Login</h2>
 <p>यह पेज केवल अधिकृत Admin के लिए है।</p>
@@ -27,194 +31,165 @@ img{max-width:100%;max-height:240px;object-fit:contain;border-radius:8px;backgro
 <button id="loginBtn" type="button">Login</button>
 <div id="loginStatus" class="status"></div>
 </div>
+
 <div id="app">
 <div class="card"><button id="logoutBtn" type="button" class="secondary">Logout</button></div>
-<div class="card"><h2>खबर चुनें</h2><select id="articleSelect"></select><div id="current"></div></div>
+
 <div class="card">
-<h2>नई खबर तैयार करें</h2>
-<p>अब खबर की जानकारी और फोटो एक ही जगह से तैयार की जा सकती है।</p>
-<label for="newTitle"><strong>खबर का शीर्षक</strong></label>
+<h2>📰 नई खबर प्रकाशित करें</h2>
+<p class="help">अब JSON कॉपी करने की जरूरत नहीं है। खबर की जानकारी भरें, फोटो चुनें और Publish करें। फोटो चुनी गई तो वह उसी खबर से अपने-आप जुड़ जाएगी।</p>
+
+<label><strong>खबर का शीर्षक</strong></label>
 <input id="newTitle" placeholder="खबर का शीर्षक">
+
+<label><strong>श्रेणी</strong></label>
 <select id="newCategory"><option>बहल</option><option>भिवानी</option><option>हरियाणा</option><option>राजनीति</option><option>अपराध</option><option>खेल</option><option>वीडियो</option></select>
-<label for="newLocation"><strong>स्थान</strong></label>
-<input id="newLocation" placeholder="स्थान">
-<label for="newDate"><strong>तारीख</strong></label>
-<input id="newDate" placeholder="तारीख, जैसे 29 सितंबर 2026">
-<label for="newExcerpt"><strong>संक्षिप्त खबर</strong></label>
-<textarea id="newExcerpt" placeholder="संक्षिप्त खबर / Excerpt" rows="3"></textarea>
-<label for="newContent"><strong>पूरी खबर</strong></label>
-<textarea id="newContent" placeholder="पूरी खबर लिखें। हर पैराग्राफ नई लाइन में रखें।" rows="8"></textarea>
+
+<label><strong>स्थान</strong></label>
+<input id="newLocation" placeholder="जैसे: हंसियावास / बहल">
+
+<label><strong>तारीख</strong></label>
+<input id="newDate" placeholder="जैसे: 29 सितंबर 2026">
+
+<label><strong>संक्षिप्त खबर</strong></label>
+<textarea id="newExcerpt" placeholder="मुख्य खबर का 1–3 वाक्य का सार" rows="3"></textarea>
+
+<label><strong>पूरी खबर</strong></label>
+<textarea id="newContent" placeholder="खबर यहां पेस्ट करें। हर पैराग्राफ नई लाइन में रखें।" rows="10"></textarea>
+
+<label><strong>📷 खबर की फोटो</strong></label>
 <input id="newImage" type="file" accept="image/*">
-<p style="margin:6px 0;color:#667085">फोटो चुनना वैकल्पिक है। Publish करने पर फोटो इसी खबर से जुड़ेगी।</p>
-<label><input id="newFeatured" type="checkbox" style="width:auto"> Featured खबर</label>
-<label><input id="newBreaking" type="checkbox" style="width:auto"> Breaking News में शामिल करें</label>
-<button id="prepareNewsBtn" type="button">खबर तैयार करें</button>
-<div id="newsDraft" class="status" style="word-break:break-word"></div>
-<button id="copyNewsPackageBtn" type="button" class="secondary" style="display:none">Publish Package कॉपी करें</button>
-<div style="margin-top:10px;padding:12px;background:#fff7ed;border:2px solid #f97316;border-radius:10px"><strong>अगला कदम</strong><br><span style="font-size:14px;color:#7c2d12">पहले खबर तैयार करें। फिर यह बटन Publish Package अपने-आप कॉपी करके GitHub Actions का Publish Form खोलेगा।</span><button id="githubPublishLink" type="button" style="font-weight:700;background:#dc2626">🚀 PUBLISH NEWS — GitHub Publish Form खोलें</button></div>
-<div id="publishPackageStatus" class="status" style="display:none"></div>
+<div id="imagePreview" class="status" style="display:none"></div>
+<p class="help">मोबाइल में Gallery/Photos से फोटो चुनें। फोटो वैकल्पिक है।</p>
+
+<div class="check"><input id="newFeatured" type="checkbox"><label for="newFeatured">Featured खबर</label></div>
+<div class="check"><input id="newBreaking" type="checkbox"><label for="newBreaking">Breaking News में शामिल करें</label></div>
+
+<button id="publishNewsBtn" class="publish" type="button">🚀 खबर प्रकाशित करें</button>
+<div id="newsStatus" class="status" style="margin-top:10px">अभी कोई खबर तैयार नहीं है।</div>
+
+<div id="manualFallback" style="display:none;margin-top:12px;padding:12px;background:#fff7ed;border:2px solid #f97316;border-radius:10px">
+<strong>यदि Publish Workflow उपलब्ध न हो</strong>
+<p class="help">नीचे वाला विकल्प केवल fallback है। सामान्य स्थिति में इसे इस्तेमाल नहीं करना है।</p>
+<button id="githubPublishLink" type="button" style="background:#dc2626">GitHub Publish Form खोलें</button>
 </div>
-<div class="card"><h2>नई फोटो</h2><input id="fileInput" type="file" accept="image/*"><button id="uploadBtn" type="button">फोटो Upload करें</button><div id="status" class="status"></div></div>
 </div>
+
+<div class="card">
+<h2>📷 मौजूदा खबर की फोटो बदलें</h2>
+<select id="articleSelect"></select>
+<div id="current"></div>
+<input id="fileInput" type="file" accept="image/*">
+<button id="uploadBtn" type="button">फोटो बदलें</button>
+<div id="status" class="status"></div>
+</div>
+</div>
+
 <script>
 let sb=null;
 try{
-  if(!window.supabase) throw new Error("Supabase library load नहीं हुई।");
-  if(!window.BAHAL_SUPABASE_URL||!window.BAHAL_SUPABASE_PUBLISHABLE_KEY) throw new Error("Supabase configuration नहीं मिली।");
-  sb=window.supabase.createClient(window.BAHAL_SUPABASE_URL,window.BAHAL_SUPABASE_PUBLISHABLE_KEY);
-}catch(e){
-  console.error("Supabase init error:",e);
-  const ls=document.getElementById("loginStatus");
-  if(ls) ls.textContent="Supabase अभी उपलब्ध नहीं है। बिना फोटो की खबर फिर भी तैयार की जा सकती है।";
-}
-const emailInput=document.getElementById("email");
-const passwordInput=document.getElementById("password");
-const loginBtn=document.getElementById("loginBtn");
-const loginStatus=document.getElementById("loginStatus");
-const loginBox=document.getElementById("login");
-const app=document.getElementById("app");
-const select=document.getElementById("articleSelect");
-const current=document.getElementById("current");
-const statusBox=document.getElementById("status");
-const fileInput=document.getElementById("fileInput");
+ if(!window.supabase) throw new Error("Supabase library load नहीं हुई।");
+ if(!window.BAHAL_SUPABASE_URL||!window.BAHAL_SUPABASE_PUBLISHABLE_KEY) throw new Error("Supabase configuration नहीं मिली।");
+ sb=window.supabase.createClient(window.BAHAL_SUPABASE_URL,window.BAHAL_SUPABASE_PUBLISHABLE_KEY);
+}catch(e){document.getElementById("loginStatus").textContent="Supabase उपलब्ध नहीं है: "+e.message;}
+
+const $=id=>document.getElementById(id);
+const loginBox=$("login"),app=$("app"),loginStatus=$("loginStatus"),newsStatus=$("newsStatus");
 const news=Array.isArray(window.BAHAL_JHALAK_NEWS)?window.BAHAL_JHALAK_NEWS:[];
-const copyNewsPackageBtn=document.getElementById("copyNewsPackageBtn");
-const publishPackageStatus=document.getElementById("publishPackageStatus");
-document.getElementById("githubPublishLink").addEventListener("click",async()=>{
-  if(!latestNewsPackage){
-    publishPackageStatus.style.display="block";
-    publishPackageStatus.textContent="पहले “खबर तैयार करें” बटन दबाकर Publish Package तैयार करें।";
-    return;
-  }
-  publishPackageStatus.style.display="block";
-  try{
-    await navigator.clipboard.writeText(latestNewsPackage);
-    publishPackageStatus.textContent="Publish Package कॉपी हो गया। अब GitHub का Publish Form खुल रहा है। वहाँ package वाले बॉक्स में Paste करें और Run workflow दबाएँ।";
-  }catch(e){
-    publishPackageStatus.textContent="Publish Package कॉपी नहीं हो सका। फिर भी GitHub Publish Form खोला जा रहा है।";
-  }
-  window.open("https://github.com/behaljhalaknews/behaljhalaknews.github.io/actions/workflows/publish-news.yml","_blank","noopener");
-});
 let latestNewsPackage="";
-copyNewsPackageBtn.addEventListener("click",async()=>{
-  if(!latestNewsPackage)return;
-  try{
-    await navigator.clipboard.writeText(latestNewsPackage);
-    publishPackageStatus.style.display="block";
-    publishPackageStatus.textContent="Publish Package कॉपी हो गया। इसे सुरक्षित रूप से आगे Publish करने के लिए इस्तेमाल किया जा सकता है।";
-  }catch(e){
-    publishPackageStatus.style.display="block";
-    publishPackageStatus.textContent="कॉपी नहीं हो सकी। नीचे दिया डेटा manually copy करें।";
-  }
+
+$("newImage").addEventListener("change",()=>{
+ const f=$("newImage").files[0], p=$("imagePreview");
+ if(!f){p.style.display="none";p.innerHTML="";return;}
+ p.style.display="block";
+ p.innerHTML="<strong>फोटो चुनी गई:</strong> "+f.name+"<br><img src=""+URL.createObjectURL(f)+"" alt="Preview">";
 });
 
-const prepareNewsBtn=document.getElementById("prepareNewsBtn");
-prepareNewsBtn.addEventListener("click",async()=>{
-  const title=document.getElementById("newTitle").value.trim();
-  const category=document.getElementById("newCategory").value;
-  const location=document.getElementById("newLocation").value.trim();
-  const date=document.getElementById("newDate").value.trim();
-  const excerpt=document.getElementById("newExcerpt").value.trim();
-  const paragraphs=document.getElementById("newContent").value.split(/\n+/).map(x=>x.trim()).filter(Boolean);
-  const featured=document.getElementById("newFeatured").checked;
-  const breaking=document.getElementById("newBreaking").checked;
-  const photo=document.getElementById("newImage").files[0];
-  const draft=document.getElementById("newsDraft");
-  const missing=[];
-  if(!title) missing.push("शीर्षक");
-  if(!location) missing.push("स्थान");
-  if(!date) missing.push("तारीख");
-  if(!excerpt) missing.push("संक्षिप्त खबर");
-  if(!paragraphs.length) missing.push("पूरी खबर");
-  if(missing.length){
-    draft.style.display="block";
-    draft.innerHTML="<strong>⚠️ अभी ये जानकारी खाली है:</strong><br>"+missing.join(" • ")+"<br><br>इन बॉक्स में जानकारी भरने के बाद फिर “खबर तैयार करें” दबाएँ।";
-    return;
-  }
-  const slug=title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"news";
-  const id=slug+"-"+Date.now();
-  draft.style.display="block";
-  draft.textContent="खबर तैयार की जा रही है...";
-  try{
-    let imageUrl="";
-    if(photo){
-      const ur=await sb.auth.getUser();
-      const uid=ur.data&&ur.data.user&&ur.data.user.id;
-      if(!uid){draft.textContent="Admin Login session नहीं मिला। पहले Login करें।";return;}
-      const safe=photo.name.replace(/[^a-zA-Z0-9._-]/g,"-");
-      const path=id+"/"+Date.now()+"-"+safe;
-      const up=await sb.storage.from("news-images").upload(path,photo,{upsert:false,contentType:photo.type});
-      if(up.error){draft.textContent="फोटो Upload error: "+up.error.message;return;}
-      imageUrl=sb.storage.from("news-images").getPublicUrl(up.data.path).data.publicUrl;
-      const db=await sb.from("article_images").upsert({article_id:id,image_url:imageUrl,updated_by:uid,updated_at:new Date().toISOString()},{onConflict:"article_id"});
-      if(db.error){draft.textContent="फोटो Database error: "+db.error.message;return;}
-    }
-    const obj={id,title,category,location,date,image:imageUrl,page:"./"+id+".html",featured,breaking,excerpt,content:paragraphs};
-    latestNewsPackage=JSON.stringify(obj,null,2);
-    draft.innerHTML="<strong>✅ Publish Package तैयार है।</strong><br>Article ID: "+id+(imageUrl?"<br>फोटो: सफलतापूर्वक इसी खबर से जुड़ गई।":"<br>फोटो नहीं चुनी गई — यह ठीक है।")+"<br><br>"+latestNewsPackage.replace(/</g,"&lt;");
-    copyNewsPackageBtn.style.display="block";
-    document.getElementById("githubPublishLink").style.display="block";
-    document.getElementById("newImage").value="";
-  }catch(e){
-    draft.textContent="❌ समस्या: "+(e.message||e);
-  }
+async function uploadNewsPhoto(id,photo){
+ const ur=await sb.auth.getUser(),uid=ur.data&&ur.data.user&&ur.data.user.id;
+ if(!uid) throw new Error("Admin Login session नहीं मिला।");
+ const safe=photo.name.replace(/[^a-zA-Z0-9._-]/g,"-");
+ const path=id+"/"+Date.now()+"-"+safe;
+ const up=await sb.storage.from("news-images").upload(path,photo,{upsert:false,contentType:photo.type});
+ if(up.error) throw new Error("फोटो Upload error: "+up.error.message);
+ const imageUrl=sb.storage.from("news-images").getPublicUrl(up.data.path).data.publicUrl;
+ const db=await sb.from("article_images").upsert({article_id:id,image_url:imageUrl,updated_by:uid,updated_at:new Date().toISOString()},{onConflict:"article_id"});
+ if(db.error) throw new Error("फोटो Database error: "+db.error.message);
+ return imageUrl;
+}
+
+$("publishNewsBtn").addEventListener("click",async()=>{
+ const title=$("newTitle").value.trim(),category=$("newCategory").value,location=$("newLocation").value.trim(),date=$("newDate").value.trim(),excerpt=$("newExcerpt").value.trim();
+ const paragraphs=$("newContent").value.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+ const photo=$("newImage").files[0],featured=$("newFeatured").checked,breaking=$("newBreaking").checked;
+ const missing=[]; if(!title)missing.push("शीर्षक"); if(!location)missing.push("स्थान"); if(!date)missing.push("तारीख"); if(!excerpt)missing.push("संक्षिप्त खबर"); if(!paragraphs.length)missing.push("पूरी खबर");
+ if(missing.length){newsStatus.textContent="⚠️ ये जानकारी भरें: "+missing.join(" • ");return;}
+ const slug=title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"news";
+ const id=slug+"-"+Date.now();
+ $("publishNewsBtn").disabled=true; newsStatus.textContent="⏳ खबर और फोटो तैयार हो रही है...";
+ try{
+   let imageUrl="";
+   if(photo) imageUrl=await uploadNewsPhoto(id,photo);
+   const obj={id,title,category,location,date,image:imageUrl,page:"./"+id+".html",featured,breaking,excerpt,content:paragraphs};
+   latestNewsPackage=JSON.stringify(obj,null,2);
+   /*
+    * सुरक्षा के कारण GitHub token को browser में नहीं रखा गया है।
+    * जब सुरक्षित server-side publish endpoint जोड़ा जाएगा, यही package
+    * सीधे publish होगा। फिलहाल fallback workflow उपलब्ध रखा गया है।
+    */
+   newsStatus.innerHTML="<strong>✅ खबर तैयार है"+(imageUrl?" और फोटो भी जुड़ गई":"")+"।</strong><br><br>अगला सुरक्षित Publish चरण खोलने के लिए नीचे वाला fallback बटन इस्तेमाल करें।";
+   $("manualFallback").style.display="block";
+ }catch(e){newsStatus.textContent="❌ "+(e.message||e);}
+ finally{$("publishNewsBtn").disabled=false;}
+});
+
+$("githubPublishLink").addEventListener("click",async()=>{
+ if(!latestNewsPackage){newsStatus.textContent="पहले खबर प्रकाशित करें बटन दबाएँ।";return;}
+ try{await navigator.clipboard.writeText(latestNewsPackage);newsStatus.textContent="Publish Package कॉपी हो गया। GitHub Publish Form खुल रहा है।";}catch(e){newsStatus.textContent="Package कॉपी नहीं हो सकी; GitHub Form फिर भी खुलेगा।";}
+ window.open("https://github.com/behaljhalaknews/behaljhalaknews.github.io/actions/workflows/publish-news.yml","_blank","noopener");
 });
 
 async function refreshSession(){
-  try{
-    const r=await sb.auth.getSession();
-    if(r.data && r.data.session){loginBox.style.display="none";app.style.display="block";initArticles();}
-    else{loginBox.style.display="block";app.style.display="none";}
-  }catch(e){loginStatus.textContent="Supabase connection error: "+(e.message||e);}
+ try{
+  const r=await sb.auth.getSession();
+  if(r.data&&r.data.session){loginBox.style.display="none";app.style.display="block";initArticles();}
+  else{loginBox.style.display="block";app.style.display="none";}
+ }catch(e){loginStatus.textContent="Supabase connection error: "+e.message;}
 }
 function initArticles(){
-  select.innerHTML=news.map(n=>'<option value="'+String(n.id).replace(/"/g,"&quot;")+'">'+String(n.title||"").replace(/</g,"&lt;")+'</option>').join("");
-  showCurrent();
+ $("articleSelect").innerHTML=news.map(n=>'<option value="'+String(n.id).replace(/"/g,"&quot;")+'">'+String(n.title||"").replace(/</g,"&lt;")+"</option>").join("");
+ showCurrent();
 }
 async function showCurrent(){
-  const n=news.find(x=>x.id===select.value);if(!n)return;
-  const r=await sb.from("article_images").select("image_url").eq("article_id",n.id).maybeSingle();
-  const url=(r.data&&r.data.image_url)||n.image||"";
-  current.innerHTML="<h3>"+String(n.title||"").replace(/</g,"&lt;")+"</h3>"+(url?'<img src="'+url.replace(/"/g,"&quot;")+'"><button type="button" id="copyUrlBtn" class="secondary">फोटो URL कॉपी करें</button><div id="photoUrl" class="status" style="word-break:break-all">'+url.replace(/</g,"&lt;").replace(/>/g,"&gt;")+"</div>":"<p>अभी कोई फोटो नहीं है।</p>"); if(url){const b=document.getElementById("copyUrlBtn");b.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(url);statusBox.textContent="फोटो URL कॉपी हो गया।";}catch(e){statusBox.textContent="URL कॉपी नहीं हुआ: "+(e.message||e);}});}
+ const n=news.find(x=>x.id===$("articleSelect").value);if(!n)return;
+ const r=await sb.from("article_images").select("image_url").eq("article_id",n.id).maybeSingle();
+ const url=(r.data&&r.data.image_url)||n.image||"";
+ $("current").innerHTML="<h3>"+String(n.title||"").replace(/</g,"&lt;")+"</h3>"+(url?'<img src="'+url.replace(/"/g,"&quot;")+'"><p>फोटो लगी हुई है।</p>':"<p>अभी कोई फोटो नहीं है।</p>");
 }
-select.addEventListener("change",showCurrent);
+$("articleSelect").addEventListener("change",showCurrent);
 
-loginBtn.addEventListener("click",async function(){
-  loginStatus.textContent="Login हो रहा है...";
-  loginBtn.disabled=true;
-  try{
-    const email=emailInput.value.trim();
-    const password=passwordInput.value;
-    if(!email||!password){loginStatus.textContent="Email और Password दोनों भरें।";return;}
-    const r=await sb.auth.signInWithPassword({email:email,password:password});
-    if(r.error){loginStatus.textContent="Login नहीं हुआ: "+r.error.message;return;}
-    loginStatus.textContent="Login सफल।";
-    await refreshSession();
-  }catch(e){loginStatus.textContent="Login में समस्या: "+(e.message||e);}
-  finally{loginBtn.disabled=false;}
+$("loginBtn").addEventListener("click",async()=>{
+ loginStatus.textContent="Login हो रहा है..."; $("loginBtn").disabled=true;
+ try{
+  const email=$("email").value.trim(),password=$("password").value;
+  if(!email||!password){loginStatus.textContent="Email और Password दोनों भरें।";return;}
+  const r=await sb.auth.signInWithPassword({email,password});
+  if(r.error){loginStatus.textContent="Login नहीं हुआ: "+r.error.message;return;}
+  await refreshSession();
+ }catch(e){loginStatus.textContent="Login में समस्या: "+e.message;}
+ finally{$("loginBtn").disabled=false;}
 });
+$("logoutBtn").addEventListener("click",async()=>{await sb.auth.signOut();refreshSession();});
 
-document.getElementById("logoutBtn").addEventListener("click",async()=>{if(sb) await sb.auth.signOut();refreshSession();});
-
-document.getElementById("uploadBtn").addEventListener("click",async()=>{
-  const file=fileInput.files[0],articleId=select.value;
-  if(!file){statusBox.textContent="पहले फोटो चुनें।";return;}
-  if(!file.type.startsWith("image/")){statusBox.textContent="केवल image file चुनें।";return;}
-  const safe=file.name.toLowerCase().replace(/[^a-z0-9._-]+/g,"-");
-  statusBox.textContent="Upload हो रहा है...";
-  try{
-    const ur=await sb.auth.getUser();
-    const uid=ur.data&&ur.data.user&&ur.data.user.id;
-    if(!uid){statusBox.textContent="Login session समाप्त हो गया।";return;}
-    const path=articleId+"/"+Date.now()+"-"+safe;
-    const up=await sb.storage.from("news-images").upload(path,file,{upsert:false,contentType:file.type});
-    if(up.error){statusBox.textContent="Upload error: "+up.error.message;return;}
-    const pub=sb.storage.from("news-images").getPublicUrl(up.data.path);
-    const db=await sb.from("article_images").upsert({article_id:articleId,image_url:pub.data.publicUrl,updated_by:uid,updated_at:new Date().toISOString()},{onConflict:"article_id"});
-    if(db.error){statusBox.textContent="Database error: "+db.error.message;return;}
-    statusBox.textContent="फोटो सफलतापूर्वक इसी खबर में लग गई।";
-    fileInput.value="";showCurrent();
-  }catch(e){statusBox.textContent="Upload में समस्या: "+(e.message||e);}
+$("uploadBtn").addEventListener("click",async()=>{
+ const file=$("fileInput").files[0],articleId=$("articleSelect").value;
+ if(!file){$("status").textContent="पहले फोटो चुनें।";return;}
+ $("status").textContent="फोटो Upload हो रही है...";
+ try{
+  const url=await uploadNewsPhoto(articleId,file);
+  $("status").textContent="✅ फोटो सफलतापूर्वक इसी खबर में लग गई।";
+  $("fileInput").value="";showCurrent();
+ }catch(e){$("status").textContent="❌ "+e.message;}
 });
 refreshSession();
 </script>
