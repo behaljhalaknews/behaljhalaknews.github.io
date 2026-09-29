@@ -3,8 +3,8 @@ name: Remove News Package
 on:
   workflow_dispatch:
     inputs:
-      package:
-        description: "News Manager ka Remove Package JSON"
+      id:
+        description: "जिस खबर की ID हटानी है (News Manager से कॉपी करें)"
         required: true
         type: string
 
@@ -20,16 +20,13 @@ jobs:
 
       - name: Remove news from index
         env:
-          PACKAGE: ${{ inputs.package }}
+          NEWS_ID: ${{ inputs.id }}
         run: |
           python3 <<'PY'
-          import json, os, re
-          obj=json.loads(os.environ["PACKAGE"])
-          if obj.get("action")!="remove": raise SystemExit("Invalid action")
-          news_id=str(obj.get("id",""))
+          import os, re
+          news_id=os.environ.get("NEWS_ID","").strip()
           if not re.fullmatch(r"[a-z0-9-]+",news_id): raise SystemExit("Invalid article ID")
-          page=str(obj.get("page",news_id+".html")).replace("\\\\","/").lstrip("./")
-          if not re.fullmatch(r"[a-z0-9-]+\.html",page): raise SystemExit("Invalid article page")
+          page=news_id+".html"
           raw=open("news-data.js",encoding="utf-8").read()
           prefix="window.BAHAL_JHALAK_NEWS = "
           if not raw.startswith(prefix): raise SystemExit("Unexpected news-data.js format")
