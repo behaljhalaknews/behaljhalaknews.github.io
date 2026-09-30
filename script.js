@@ -99,13 +99,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.warn("Supabase image overrides unavailable; using original news images.", error);
     }
 
-    // AUTO TICKER: show the 5 newest published stories from news-data.js.
+    // AUTO TICKER: show the 10 newest published stories from news-data.js.
     // Each headline links directly to its article page.
     function renderBreakingTicker() {
         const breakingTicker = document.getElementById("breaking-news-ticker");
         if (!breakingTicker) return;
 
-        const latestTickerNews = news.slice(0, 5).filter(function (item) {
+        const latestTickerNews = news.slice(0, 10).filter(function (item) {
             return item && item.title;
         });
 
