@@ -87,26 +87,6 @@
 <script src="./news-data.js?v=20260930-03"></script>
 <script src="./supabase-config.js?v=20260930-03"></script>
 <script src="./breaking-news.js?v=20260928-01"></script>
-<script src="./script.js?v=20260930-02"></script>
-<script>
-(async function(){
-  try{
-    if(!window.supabase || !window.BAHAL_SUPABASE_URL || !window.BAHAL_SUPABASE_PUBLISHABLE_KEY) return;
-    const client=window.supabase.createClient(window.BAHAL_SUPABASE_URL,window.BAHAL_SUPABASE_PUBLISHABLE_KEY);
-    const articleId="bahal-patwan-road-fencing-2026-09-29";
-    const {data,error}=await client.from("article_images").select("image_url").eq("article_id",articleId).maybeSingle();
-    if(error || !data || !data.image_url) return;
-    let images=[];
-    try{ images=Array.isArray(data.image_url)?data.image_url:JSON.parse(data.image_url); }catch(e){ images=[data.image_url]; }
-    if(!Array.isArray(images) || !images.length) return;
-    const first=images[0];
-    const wrap=document.getElementById("featured-news-image");
-    const img=document.getElementById("featured-news-photo");
-    if(wrap && img && first){
-      img.src=first+(first.includes("?")?"&":"?")+"v="+Date.now();
-      wrap.style.display="block";
-    }
-  }catch(e){}
-})();
-</script>
+<script src="./script.js?v=20260930-04"></script>
+
 </body></html>
