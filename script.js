@@ -145,9 +145,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         const featured = news.find(item => item.featured) || news.find(item => item.id === "bahal-patwan-road-fencing-2026-09-29") || news[0];
         const latest = news.filter(item => item.id !== featured.id).slice(0, 2);
 
+        const featuredImage = featured.image || "";
         document.getElementById("featured-news").innerHTML =
-            '<article class="featured-news-card">' +
-            (featured.image ? '<a href="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '" class="news-card-image-link"><img src="' + esc(featured.image) + '" alt="' + esc(featured.title) + '"></a>' : '') +
+            '<article class="featured-news-card" data-article-id="' + esc(featured.id) + '">' +
+            (featuredImage ? '<a href="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '" class="news-card-image-link"><img src="' + esc(featuredImage) + '" alt="' + esc(featured.title) + '" loading="lazy"></a>' : '') +
             '<div class="featured-news-content"><span class="category-tag">' + esc(featured.category) + '</span>' +
             '<h2><a href="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '">' + esc(featured.title) + '</a></h2>' +
             '<p>' + esc(featured.excerpt) + '</p><div class="news-meta"><span>' + esc(featured.location || "बहल झलक") + '</span><span>•</span><span>' + esc(featured.date) + '</span></div></div></article>';
