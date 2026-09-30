@@ -688,3 +688,179 @@ button { font: inherit; }
 @media (max-width: 420px) {
     .social-share-buttons { grid-template-columns: 1fr; }
 }
+
+
+/* =========================================================
+   MOBILE BOTTOM NEWS MENU — polished app-style navigation
+   ========================================================= */
+.mobile-bottom-nav,
+.mobile-bottom-drawer {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-bottom: calc(68px + env(safe-area-inset-bottom));
+    }
+
+    .mobile-bottom-nav {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 5000;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        min-height: 64px;
+        padding: 5px 4px calc(5px + env(safe-area-inset-bottom));
+        background: rgba(255,255,255,.98);
+        border-top: 1px solid #dfe3e8;
+        box-shadow: 0 -5px 18px rgba(0,0,0,.12);
+        backdrop-filter: blur(8px);
+    }
+
+    .mobile-bottom-item {
+        min-width: 0;
+        border: 0;
+        background: transparent;
+        color: #4f5965;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        padding: 4px 2px;
+        font-size: 10px;
+        font-weight: 800;
+        line-height: 1.1;
+        cursor: pointer;
+        border-radius: 10px;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobile-bottom-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 27px;
+        height: 27px;
+        font-size: 19px;
+        line-height: 1;
+        font-weight: 900;
+    }
+
+    .mobile-bottom-item.active,
+    .mobile-bottom-item:active {
+        color: var(--red);
+    }
+
+    .mobile-bottom-item.active .mobile-bottom-icon {
+        transform: translateY(-1px);
+    }
+
+    .mobile-bottom-menu {
+        color: var(--navy);
+    }
+
+    .mobile-bottom-drawer {
+        position: fixed;
+        inset: 0;
+        z-index: 6000;
+    }
+
+    .mobile-bottom-drawer.is-open {
+        display: block;
+    }
+
+    .mobile-drawer-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(7,26,49,.55);
+        backdrop-filter: blur(2px);
+    }
+
+    .mobile-drawer-panel {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-height: min(78vh, 620px);
+        overflow-y: auto;
+        background: var(--white);
+        border-radius: 18px 18px 0 0;
+        box-shadow: 0 -10px 35px rgba(0,0,0,.22);
+        padding: 12px 14px calc(78px + env(safe-area-inset-bottom));
+        animation: mobileDrawerUp .2s ease-out;
+    }
+
+    .mobile-drawer-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 3px 2px 12px;
+        border-bottom: 2px solid var(--red);
+        color: var(--navy);
+        font-size: 18px;
+    }
+
+    .mobile-drawer-close {
+        width: 34px;
+        height: 34px;
+        border: 0;
+        border-radius: 50%;
+        background: #f0f2f5;
+        color: #333;
+        font-size: 25px;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+    .mobile-drawer-links {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+        padding-top: 14px;
+    }
+
+    .mobile-drawer-links a {
+        display: flex;
+        align-items: center;
+        min-height: 46px;
+        padding: 9px 11px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #f8fafc;
+        color: #202733;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .mobile-drawer-links a:active {
+        background: #eef2f7;
+        border-color: var(--red);
+    }
+
+    body.mobile-menu-open {
+        overflow: hidden;
+    }
+
+    @keyframes mobileDrawerUp {
+        from { transform: translateY(20px); opacity: .7; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+}
+
+@media (max-width: 420px) {
+    .mobile-drawer-links {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .mobile-drawer-links a {
+        min-height: 44px;
+        font-size: 12px;
+    }
+}
