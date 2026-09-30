@@ -251,6 +251,35 @@ async function deleteSinglePhoto(index){
   showCurrent();
  }catch(e){$("status").textContent="❌ "+e.message;}
 }
+async function replaceSinglePhoto(index){
+ const articleId=$("articleSelect").value;
+ const input=$("replacePhotoInput");
+ if(!articleId||!input||!input.files||!input.files[0]){$("status").textContent="पहले खबर और नई फोटो चुनें।";return;}
+ const n=news.find(x=>x.id===articleId);
+ if(!confirm("फोटो "+(index+1)+" की जगह नई फोटो लगानी है?\\n\\n"+(n?n.title:"चयनित खबर")))return;
+ try{
+  $("status").textContent="⏳ नई फोटो अपलोड और अपडेट की जा रही है...";
+  const ur=await sb.auth.getUser(),uid=ur.data&&ur.data.user&&ur.data.user.id;
+  if(!uid)throw new Error("Admin Login session नहीं मिला।");
+  const r=await sb.from("article_images").select("image_url").eq("article_id",articleId).maybeSingle();
+  if(r.error)throw new Error("फोटो Database error: "+r.error.message);
+  const images=parseImages((r.data&&r.data.image_url)||"");
+  if(index<0||index>=images.length)throw new Error("यह फोटो अब उपलब्ध नहीं है।");
+  const file=input.files[0];
+  if(!file.type.startsWith("image/"))throw new Error("कृपया केवल image file चुनें।");
+  const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";
+  const path="news/"+articleId+"/photo-"+Date.now()+"."+ext;
+  const up=await sb.storage.from("news-images").upload(path,file,{upsert:false,contentType:file.type});
+  if(up.error)throw new Error("नई फोटो Upload नहीं हुई: "+up.error.message);
+  const pub=sb.storage.from("news-images").getPublicUrl(path);
+  images[index]=pub.data.publicUrl;
+  const db=await sb.from("article_images").upsert({article_id:articleId,image_url:JSON.stringify(images),updated_by:uid,updated_at:new Date().toISOString()},{onConflict:"article_id"});
+  if(db.error)throw new Error("फोटो Database error: "+db.error.message);
+  input.value="";
+  $("status").textContent="✅ फोटो "+(index+1)+" सफलतापूर्वक बदल दी गई। बाकी फोटो सुरक्षित हैं।";
+  showCurrent();
+ }catch(e){$("status").textContent="❌ "+e.message;}
+}
 $("articleSelect").addEventListener("change",showCurrent);
 
 function showDeletePreview(){
