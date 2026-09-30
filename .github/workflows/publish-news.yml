@@ -59,6 +59,7 @@ jobs:
               "location": obj["location"],
               "date": obj["date"],
               "image": obj.get("image", ""),
+              "videoUrl": obj.get("videoUrl", ""),
               "page": obj["page"],
               "featured": bool(obj.get("featured", False)),
               "breaking": bool(obj.get("breaking", False)),
@@ -96,10 +97,20 @@ jobs:
           images = [x for x in images if x]
           image_url = images[0] if images else ""
 
+          def youtube_embed_url(value):
+              value = str(value or "").strip()
+              if not value:
+                  return ""
+              m = re.search(r"(?:youtu\.be/|youtube\.com/(?:watch\?v=|shorts/|embed/))([A-Za-z0-9_-]{6,})", value)
+              return "https://www.youtube.com/embed/" + m.group(1) if m else ""
+
+          video_url = youtube_embed_url(obj.get("videoUrl", ""))
+
           paragraphs = []
           for p in obj["content"]:
               paragraphs.append("<p>" + html.escape(str(p)) + "</p>")
           body = "\n".join(paragraphs)
+          video_block = ('<div class="article-video"><div class="article-video-title">▶️ वीडियो</div><div class="article-video-frame"><iframe src="' + html.escape(video_url, quote=True) + '" title="बहल झलक वीडियो" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></div>') if video_url else ""
 
           schema = {
               "@context": "https://schema.org",
@@ -114,6 +125,8 @@ jobs:
               "publisher": {"@type": "Organization", "name": "बहल झलक"},
               "articleSection": obj["category"]
           }
+          if video_url:
+              schema["video"] = {"@type":"VideoObject","name":obj["title"],"embedUrl":video_url,"contentUrl":str(obj.get("videoUrl",""))}
 
           article = "\n".join([
               '<!DOCTYPE html>',
@@ -142,7 +155,7 @@ jobs:
               '<main class="article-page container"><article class="article-card">',
               '<div class="article-header"><span class="category-tag">' + category + '</span><h1>' + title + '</h1><div class="article-meta"><span>' + location + '</span><span>•</span><span>' + news_date + '</span></div></div>',
               ('<div class="article-gallery">' + ''.join('<img class="article-image" src="' + html.escape(u, quote=True) + '" alt="' + title + '"> ' for u in images) + '</div>') if images else '',
-              '<div class="article-body">' + body + '</div>',
+              '<div class="article-body">' + body + '</div>' + video_block,
               '''<div class="article-actions"><a href="./index.html" class="back-home-button">← वापस मुख्य पृष्ठ</a></div>
               <div class="social-share-panel"><div class="social-share-title">खबर शेयर करें</div><div class="social-share-buttons">
               <a class="social-share-btn whatsapp-share" id="whatsappShare" href="#" target="_blank" rel="noopener">WhatsApp</a>
