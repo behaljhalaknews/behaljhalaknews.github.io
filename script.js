@@ -209,6 +209,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             '<span class="category-tag' + (item.category === "हरियाणा" || item.category === "राज्य अपडेट" ? " dark" : "") + '">' + esc(item.category) + '</span>' +
             '<h3><a href="' + esc(item.page || ("./article.html?id=" + encodeURIComponent(item.id))) + '">' + esc(item.title) + '</a></h3>' +
             '<p>' + esc(item.excerpt) + '</p>' +
+            (item.videoUrl ? '<a class="news-video-link" href="' + esc(item.page || ("./article.html?id=" + encodeURIComponent(item.id))) + '">▶️ वीडियो देखें</a>' : '') +
             '<div class="news-meta"><span>' + esc(item.location || "बहल झलक") + '</span><span>•</span><span>' + esc(item.date) + '</span></div>' +
             '</div></article>';
     }
