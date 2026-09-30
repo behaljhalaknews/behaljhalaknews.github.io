@@ -99,10 +99,26 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.warn("Supabase image overrides unavailable; using original news images.", error);
     }
 
-    const breakingNews = Array.isArray(window.BAHAL_JHALAK_BREAKING_NEWS) ? window.BAHAL_JHALAK_BREAKING_NEWS : [];
-    const breakingTicker = document.getElementById("breaking-news-ticker");
-    if (breakingTicker && breakingNews.length) {
-        breakingTicker.textContent = breakingNews.filter(Boolean).join("   •   ");
+    // AUTO TICKER: show the 5 newest published stories from news-data.js.
+    // Each headline links directly to its article page.
+    function renderBreakingTicker() {
+        const breakingTicker = document.getElementById("breaking-news-ticker");
+        if (!breakingTicker) return;
+
+        const latestTickerNews = news.slice(0, 5).filter(function (item) {
+            return item && item.title;
+        });
+
+        if (!latestTickerNews.length) {
+            breakingTicker.textContent = "अभी कोई ताज़ा खबर उपलब्ध नहीं है";
+            return;
+        }
+
+        breakingTicker.innerHTML = latestTickerNews.map(function (item) {
+            const href = item.page || ("./article.html?id=" + encodeURIComponent(item.id));
+            return '<a href="' + esc(href) + '" class="breaking-news-link">' +
+                esc(item.title) + '</a>';
+        }).join('<span class="breaking-news-separator" aria-hidden="true"> • </span>');
     }
 
     function esc(value) {
@@ -227,4 +243,5 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     renderHomepage();
     renderArticle();
+    renderBreakingTicker();
 });
