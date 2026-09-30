@@ -923,3 +923,216 @@ button { font: inherit; }
         transform: scale(.97);
     }
 }
+
+
+/* =========================================================
+   MOBILE NEWS-APP LAYOUT — बहल झलक
+   ========================================================= */
+.mobile-topic-strip {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 4000;
+        border-bottom-width: 3px;
+        box-shadow: 0 2px 10px rgba(0,0,0,.12);
+    }
+
+    .header-container {
+        width: calc(100% - 18px);
+        min-height: 60px;
+        padding: 7px 0;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .site-branding {
+        flex: 1 1 auto;
+    }
+
+    .logo-box {
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        column-gap: 5px;
+        line-height: 1;
+    }
+
+    .logo-red, .logo-yellow {
+        font-size: 25px;
+    }
+
+    .logo-red {
+        padding: 3px 7px;
+    }
+
+    .logo-yellow {
+        margin: 0;
+    }
+
+    .logo-tagline {
+        width: 100%;
+        margin: 3px 0 0 2px;
+        font-size: 8px;
+    }
+
+    .menu-toggle {
+        position: static;
+        flex: 0 0 auto;
+        display: inline-flex;
+        padding: 8px 9px;
+        border-color: rgba(255,255,255,.3);
+    }
+
+    .main-navigation {
+        position: absolute;
+        left: 9px;
+        right: 9px;
+        top: calc(100% + 2px);
+        width: auto;
+        background: var(--navy-dark);
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 10px 22px rgba(0,0,0,.2);
+    }
+
+    .main-navigation.is-open {
+        display: block;
+    }
+
+    .mobile-topic-strip {
+        display: block;
+        position: sticky;
+        top: 63px;
+        z-index: 3000;
+        background: var(--white);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 2px 7px rgba(0,0,0,.07);
+        overflow: hidden;
+    }
+
+    .mobile-topic-scroll {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        overflow-x: auto;
+        padding: 7px 9px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-topic-scroll::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-topic-scroll a {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        min-height: 30px;
+        padding: 5px 12px;
+        border: 1px solid #dfe3e8;
+        border-radius: 18px;
+        background: #f8fafc;
+        color: #333d4a;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .mobile-topic-scroll a:first-child {
+        background: var(--red);
+        border-color: var(--red);
+        color: var(--white);
+    }
+
+    .breaking-news-container {
+        min-height: 34px;
+        position: relative;
+        z-index: 2500;
+    }
+
+    .breaking-title {
+        padding: 6px 9px;
+        font-size: 11px;
+    }
+
+    .breaking-news-text {
+        font-size: 11px;
+        padding: 4px 7px;
+    }
+
+    .main-content-area {
+        width: 100%;
+        margin: 0;
+        padding: 10px 9px 16px;
+    }
+
+    .featured-news-card {
+        border-radius: 6px;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 9px rgba(0,0,0,.09);
+    }
+
+    .featured-news-card img {
+        aspect-ratio: 16 / 9;
+    }
+
+    .featured-news-content {
+        padding: 11px 12px 13px;
+    }
+
+    .featured-news-content h2 {
+        font-size: 19px;
+        line-height: 1.38;
+        margin-top: 1px;
+    }
+
+    .featured-news-content p {
+        font-size: 12px;
+        line-height: 1.55;
+        margin-top: 5px;
+    }
+
+    .news-section {
+        margin-top: 18px;
+    }
+
+    .section-heading {
+        font-size: 17px;
+        border-bottom-width: 2px;
+    }
+
+    .news-grid-2, .news-grid-3 {
+        gap: 9px;
+    }
+
+    .small-news-card, .news-card {
+        border-radius: 7px;
+    }
+
+    .small-news-content, .news-card-content {
+        padding: 10px;
+    }
+
+    .small-news-content h3, .news-card-content h3 {
+        font-size: 14px;
+        line-height: 1.42;
+    }
+
+    .small-news-content p, .news-card-content p {
+        font-size: 11px;
+    }
+
+    .sidebar-section {
+        display: none;
+    }
+
+    .social-follow-block {
+        width: calc(100% - 18px);
+    }
+}
