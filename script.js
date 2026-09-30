@@ -155,7 +155,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                     const imageMap = {};
                     overrides.forEach(function (row) {
                         if (row && row.article_id && row.image_url) {
-                            imageMap[row.article_id] = row.image_url;
+                            let value = row.image_url;
+                            try {
+                                const parsed = JSON.parse(value);
+                                if (Array.isArray(parsed)) value = parsed.find(Boolean) || "";
+                            } catch (error) {}
+                            if (value) imageMap[row.article_id] = value;
                         }
                     });
                     news = news.map(function (item) {
