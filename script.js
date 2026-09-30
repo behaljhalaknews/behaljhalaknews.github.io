@@ -65,38 +65,44 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-    // Supabase image overrides are loaded in the background.
-    // The homepage must render immediately even if Supabase is slow or unavailable.
+    // CENTRAL IMAGE SOURCE:
+    // सभी प्रकाशित खबरों की live photos Supabase article_images से एक ही बार पढ़ी जाती हैं।
+    // Homepage और article page दोनों इसी merged news data को इस्तेमाल करते हैं।
     try {
         const supabaseUrl = window.BAHAL_SUPABASE_URL || "https://exkoxaxbmspxsqdokdcg.supabase.co";
-        const publishableKey = window.BAHAL_SUPABASE_PUBLISHABLE_KEY || "sb_publishable_u-Y-L_saXqsJzvHe6rprSg_Y_uvz5b8";
-        if (publishableKey) {
-            fetch(supabaseUrl + "/rest/v1/article_images?select=article_id,image_url", {
-                headers: {
-                    apikey: publishableKey,
-                    Authorization: "Bearer " + publishableKey
-                },
-                cache: "no-store"
-            }).then(function (response) {
-                if (!response.ok) return null;
-                return response.json();
-            }).then(function (overrides) {
-                if (!Array.isArray(overrides)) return;
-                const imageMap = {};
-                overrides.forEach(function (row) {
-                    if (row.article_id && row.image_url) imageMap[row.article_id] = row.image_url;
-                });
-                news = news.map(function (item) {
-                    return imageMap[item.id] ? Object.assign({}, item, { image: imageMap[item.id] }) : item;
-                });
-                renderHomepage();
-                renderArticle();
-            }).catch(function (error) {
-                console.warn("Supabase image overrides unavailable; using original news images.", error);
-            });
+        const publishableKey = window.BAHAL_SUPABASE_PUBLISHABLE_KEY || "";
+        if (supabaseUrl && publishableKey) {
+            const response = await fetch(
+                supabaseUrl + "/rest/v1/article_images?select=article_id,image_url",
+                {
+                    headers: {
+                        apikey: publishableKey,
+                        Authorization: "Bearer " + publishableKey
+                    },
+                    cache: "no-store"
+                }
+            );
+            if (response.ok) {
+                const overrides = await response.json();
+                if (Array.isArray(overrides)) {
+                    const imageMap = {};
+                    overrides.forEach(function (row) {
+                        if (row && row.article_id && row.image_url) {
+                            imageMap[row.article_id] = row.image_url;
+                        }
+                    });
+                    news = news.map(function (item) {
+                        return imageMap[item.id]
+                            ? Object.assign({}, item, { image: imageMap[item.id] })
+                            : item;
+                    });
+                }
+            } else {
+                console.warn("Supabase image request failed:", response.status);
+            }
         }
     } catch (error) {
-        console.warn("Supabase image overrides unavailable; using original news images.", error);
+        console.warn("Supabase image overrides unavailable; using local news images.", error);
     }
 
     // AUTO TICKER: show the 10 newest published stories from news-data.js.
