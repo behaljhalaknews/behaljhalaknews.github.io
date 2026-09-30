@@ -864,3 +864,62 @@ button { font: inherit; }
         font-size: 12px;
     }
 }
+
+
+/* MOBILE NEWS-APP TOPIC STRIP */
+.mobile-topic-strip {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-topic-strip {
+        display: block;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: var(--white);
+        border-bottom: 1px solid #e3e6ea;
+        box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+
+    .mobile-topic-scroll {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 7px 10px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-topic-scroll::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-topic-scroll a {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 31px;
+        padding: 5px 13px;
+        border: 1px solid #d9dde3;
+        border-radius: 18px;
+        background: #f7f8fa;
+        color: #252b33;
+        text-decoration: none;
+        white-space: nowrap;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .mobile-topic-scroll a:first-child {
+        background: var(--red);
+        border-color: var(--red);
+        color: var(--white);
+    }
+
+    .mobile-topic-scroll a:active {
+        transform: scale(.97);
+    }
+}
