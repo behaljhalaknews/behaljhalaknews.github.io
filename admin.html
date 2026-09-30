@@ -267,9 +267,9 @@ async function replaceSinglePhoto(index){
   if(index<0||index>=images.length)throw new Error("यह फोटो अब उपलब्ध नहीं है।");
   const file=input.files[0];
   if(!file.type.startsWith("image/"))throw new Error("कृपया केवल image file चुनें।");
-  const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";
-  const path="news/"+articleId+"/photo-"+Date.now()+"."+ext;
-  const up=await sb.storage.from("news-images").upload(path,file,{upsert:false,contentType:file.type});
+  const prepared=await preparePhoto(file);
+  const path="news/"+articleId+"/photo-"+Date.now()+"-"+Math.random().toString(36).slice(2,8)+".jpg";
+  const up=await sb.storage.from("news-images").upload(path,prepared,{upsert:false,contentType:"image/jpeg"});
   if(up.error)throw new Error("नई फोटो Upload नहीं हुई: "+up.error.message);
   const pub=sb.storage.from("news-images").getPublicUrl(path);
   images[index]=pub.data.publicUrl;
