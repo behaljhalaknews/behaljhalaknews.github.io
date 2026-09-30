@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     function renderHomepage() {
         if (!document.getElementById("featured-news") || !news.length) return;
-        const featured = news.find(item => item.featured) || news[0];
+        const featured = news.find(item => item.featured) || news.find(item => item.id === "bahal-patwan-road-fencing-2026-09-29") || news[0];
         const latest = news.filter(item => item.id !== featured.id).slice(0, 2);
 
         document.getElementById("featured-news").innerHTML =
