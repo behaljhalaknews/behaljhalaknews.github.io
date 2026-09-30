@@ -157,6 +157,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             "bahal-news-grid": ["बहल"],
             "bhiwani-news-grid": ["भिवानी"],
             "haryana-news-grid": ["हरियाणा", "राज्य अपडेट"],
+            "national-news-grid": ["राष्ट्रीय"],
             "politics-news-grid": ["राजनीति"],
             "crime-news-grid": ["अपराध"],
             "sports-news-grid": ["खेल"],
