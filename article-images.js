@@ -12,6 +12,13 @@
       let images=[];
       try{const x=JSON.parse(r.data.image_url);images=Array.isArray(x)?x.filter(Boolean):[];}catch(e){images=[r.data.image_url].filter(Boolean);}
       if(!images.length)return;
+      // Photo SEO/social metadata: use the same live Supabase photo without changing the article photo system.
+      const firstImage=images[0];
+      const addMeta=(key,value,attr)=>{if(!value)return;let m=document.querySelector(`meta[${attr}="${key}"]`);if(!m){m=document.createElement("meta");m.setAttribute(attr,key);document.head.appendChild(m);}m.setAttribute("content",value);};
+      addMeta("og:image",firstImage,"property");
+      addMeta("twitter:image",firstImage,"name");
+      let ld=document.querySelector('script[type="application/ld+json"]');
+      if(ld){try{const data=JSON.parse(ld.textContent);data.image=firstImage;ld.textContent=JSON.stringify(data);}catch(e){}}
       const body=document.querySelector(".article-body"); if(!body)return;
       const box=document.createElement("div"); box.id="dynamic-article-photos";
       box.style.cssText="margin:0 0 22px;padding:10px 0;";
