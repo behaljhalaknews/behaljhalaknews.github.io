@@ -191,10 +191,52 @@ jobs:
           open(news_id + ".html", "w", encoding="utf-8").write(article)
           PY
 
+      - name: Update sitemap
+        env:
+          PACKAGE: ${{ inputs.package }}
+        run: |
+          python3 <<'PY'
+          import json
+          import os
+          import xml.etree.ElementTree as ET
+
+          obj = json.loads(os.environ["PACKAGE"])
+          site = "https://behaljhalaknews.github.io"
+          news_id = str(obj["id"])
+          page_url = site + "/" + news_id + ".html"
+
+          sitemap_path = "sitemap.xml"
+          ET.register_namespace("", "http://www.sitemaps.org/schemas/sitemap/0.9")
+          ET.register_namespace("image", "http://www.google.com/schemas/sitemap-image/1.1")
+          tree = ET.parse(sitemap_path)
+          root = tree.getroot()
+          ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+          image_ns = "http://www.google.com/schemas/sitemap-image/1.1"
+
+          existing = {loc.text for loc in root.findall("sm:url/sm:loc", ns) if loc.text}
+          if page_url not in existing:
+              url_node = ET.SubElement(root, "{http://www.sitemaps.org/schemas/sitemap/0.9}url")
+              ET.SubElement(url_node, "{http://www.sitemaps.org/schemas/sitemap/0.9}loc").text = page_url
+
+              raw_images = obj.get("images", [])
+              if not raw_images and obj.get("image"):
+                  raw_images = [obj.get("image")]
+              for image_item in raw_images:
+                  image_item = str(image_item or "")
+                  if not image_item:
+                      continue
+                  image_url = image_item if image_item.startswith("http") else site + "/" + image_item.lstrip("./")
+                  image_node = ET.SubElement(url_node, "{" + image_ns + "}image")
+                  ET.SubElement(image_node, "{" + image_ns + "}loc").text = image_url
+                  ET.SubElement(image_node, "{" + image_ns + "}title").text = str(obj.get("title", ""))
+
+              tree.write(sitemap_path, encoding="utf-8", xml_declaration=True)
+          PY
+
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add news-data.js "$NEWS_ID.html"
+          git add news-data.js "$NEWS_ID.html" sitemap.xml
           git diff --cached --quiet || git commit -m "Publish news from News Editor"
           git push
