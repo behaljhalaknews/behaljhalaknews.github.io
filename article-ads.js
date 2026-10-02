@@ -13,17 +13,22 @@
     const body = document.querySelector(".article-body");
     if (!body) return false;
 
-    let ad = body.parentElement.querySelector(".ad-slot-article");
-    if (!ad) ad = createAdSlot();
+    let ad = body.querySelector(":scope > .ad-slot-article");
+    if (!ad) {
+      ad = createAdSlot();
+    } else {
+      ad.classList.add("ad-slot-animated");
+    }
 
-    ad.classList.add("ad-slot-animated");
-
-    const existing = body.parentElement.querySelectorAll(".ad-slot-article");
-    existing.forEach(function (item) {
+    // Remove any duplicate mid-article slots from this article.
+    Array.from(body.querySelectorAll(":scope > .ad-slot-article")).forEach(function (item) {
       if (item !== ad) item.remove();
     });
 
-    const children = Array.from(body.children);
+    const children = Array.from(body.children).filter(function (item) {
+      return !item.classList.contains("ad-slot-article");
+    });
+
     if (!children.length) {
       body.appendChild(ad);
       return true;
@@ -53,24 +58,21 @@
     ensurePermanentBottomAd();
   }
 
-  // Works both for static article pages and article.html where the news body
-  // is rendered asynchronously by script.js.
   function start() {
     init();
+
     let tries = 0;
     const timer = setInterval(function () {
       init();
       tries++;
-      if (tries >= 20 || document.querySelector(".ad-slot-article")) {
-        clearInterval(timer);
-      }
+      if (tries >= 24) clearInterval(timer);
     }, 250);
 
     const observer = new MutationObserver(function () {
-      init();
+      if (placeMidArticleAd()) ensurePermanentBottomAd();
     });
     observer.observe(document.body, { childList: true, subtree: true });
-    setTimeout(function () { observer.disconnect(); }, 6000);
+    setTimeout(function () { observer.disconnect(); }, 7000);
   }
 
   if (document.readyState === "loading") {
