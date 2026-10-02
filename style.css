@@ -62,6 +62,7 @@ button { font: inherit; }
     font-size: clamp(25px, 3vw, 34px);
     font-weight: 900;
 }
+.site-logo-image { display: block; width: clamp(190px, 24vw, 260px); height: auto; max-width: 100%; }
 .logo-red {
     color: var(--red);
     background: var(--white);
