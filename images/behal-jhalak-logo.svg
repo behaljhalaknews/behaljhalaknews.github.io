@@ -1,25 +1,41 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-labelledby="title desc">
-<title id="title">बहल झलक</title><desc id="desc">बहल झलक — खबर आपकी, नज़र हमारी</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+<title id="title">बहल झलक</title><desc id="desc">बहल झलक — स्थानीय खबरों, सच्ची तस्वीर</desc>
 <defs>
-<radialGradient id="bg" cx="35%" cy="25%" r="80%"><stop offset="0" stop-color="#2f6fb8"/><stop offset=".55" stop-color="#0b2545"/><stop offset="1" stop-color="#061326"/></radialGradient>
-<linearGradient id="ring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="#f5c400"/><stop offset=".55" stop-color="#d90429"/><stop offset="1" stop-color="#7b0016"/></linearGradient>
-<linearGradient id="red" x1="0" x2="1"><stop stop-color="#a9001d"/><stop offset=".5" stop-color="#ef173c"/><stop offset="1" stop-color="#8b0017"/></linearGradient>
-<filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-opacity=".4"/></filter>
-<linearGradient id="shine" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff" stop-opacity=".55"/><stop offset=".45" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+ <radialGradient id="bg" cx="38%" cy="22%" r="82%"><stop offset="0" stop-color="#2389e8"/><stop offset=".52" stop-color="#0754b7"/><stop offset="1" stop-color="#031b4b"/></radialGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff7a8"/><stop offset=".25" stop-color="#ffd52a"/><stop offset=".55" stop-color="#f3a900"/><stop offset=".8" stop-color="#fff06a"/><stop offset="1" stop-color="#b86a00"/></linearGradient>
+ <linearGradient id="red" x1="0" x2="1"><stop stop-color="#b90018"/><stop offset=".5" stop-color="#ff2b35"/><stop offset="1" stop-color="#a00016"/></linearGradient>
+ <linearGradient id="blue" x1="0" x2="1"><stop stop-color="#083d91"/><stop offset=".55" stop-color="#0874dc"/><stop offset="1" stop-color="#042b72"/></linearGradient>
+ <linearGradient id="shine" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff" stop-opacity=".55"/><stop offset=".45" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="10" stdDeviation="9" flood-opacity=".42"/></filter>
+ <clipPath id="inner"><circle cx="256" cy="256" r="218"/></clipPath>
 </defs>
-<circle cx="110" cy="110" r="103" fill="#050e1c" opacity=".55"/>
-<circle cx="110" cy="106" r="100" fill="url(#ring)" filter="url(#shadow)"/>
-<circle cx="110" cy="106" r="88" fill="url(#bg)"/>
-<ellipse cx="82" cy="58" rx="62" ry="35" fill="url(#shine)" opacity=".8"/>
-<circle cx="110" cy="106" r="84" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2"/>
-<g transform="translate(110 93)">
-<rect x="-13" y="-47" width="26" height="62" rx="13" fill="#fff"/>
-<path d="M-36 -9v12c0 27 16 43 36 43s36-16 36-43V-9" fill="none" stroke="#f5c400" stroke-width="9" stroke-linecap="round"/>
-<path d="M0 46v19M-24 65h48" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
-<circle cx="0" cy="-29" r="4" fill="#d90429"/>
+<circle cx="256" cy="268" r="232" fill="#000" opacity=".28"/>
+<circle cx="256" cy="256" r="238" fill="url(#gold)" filter="url(#shadow)"/>
+<circle cx="256" cy="256" r="222" fill="#031b4b"/>
+<circle cx="256" cy="256" r="216" fill="url(#bg)"/>
+<g clip-path="url(#inner)" opacity=".88">
+ <circle cx="256" cy="130" r="128" fill="#1494e8" opacity=".45"/>
+ <path d="M128 112c35-34 69-43 103-35 18 5 30 19 53 22 31 4 48-19 80-5 23 10 38 31 52 54-47-8-82-3-115 11-40 17-83 15-124-3-22-10-39-22-49-44z" fill="#e7fbff" opacity=".9"/>
+ <path d="M160 160c33-18 62-18 83-3 17 12 31 8 48 0 25-12 51-8 72 6l-8 22c-29-7-49-2-72 9-25 12-48 8-70-4-17-9-34-13-53-8z" fill="#d8f7ff" opacity=".78"/>
+ <path d="M98 178Q256 88 414 178M78 220Q256 140 434 220M72 268Q256 205 440 268M88 318Q256 270 424 318" fill="none" stroke="#d8f5ff" stroke-opacity=".35" stroke-width="3"/>
+ <path d="M256 54v222M178 65q35 72 30 205M334 65q-35 72-30 205" fill="none" stroke="#d8f5ff" stroke-opacity=".28" stroke-width="3"/>
 </g>
-<rect x="42" y="139" width="136" height="34" rx="17" fill="url(#red)" stroke="#fff" stroke-opacity=".25"/>
-<text x="110" y="162" text-anchor="middle" font-family="Noto Sans Devanagari, Mangal, sans-serif" font-size="24" font-weight="900" fill="#fff">बहल झलक</text>
-<text x="110" y="191" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="900" letter-spacing="1.5" fill="#f5c400">NEWS</text>
-<path d="M39 38 Q82 8 132 25" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<ellipse cx="190" cy="104" rx="142" ry="66" fill="url(#shine)" opacity=".85"/>
+<rect x="73" y="178" width="366" height="112" rx="22" fill="url(#red)" stroke="#fff" stroke-opacity=".5" stroke-width="5" transform="rotate(-2 256 234)" filter="url(#shadow)"/>
+<text x="256" y="254" text-anchor="middle" font-family="Noto Sans Devanagari, Mangal, sans-serif" font-size="91" font-weight="900" fill="#fff" stroke="#7d0014" stroke-width="4" paint-order="stroke">बहल</text>
+<path d="M91 293Q256 260 421 293L407 373Q256 340 105 373Z" fill="url(#blue)" stroke="#35a9ff" stroke-width="5" filter="url(#shadow)"/>
+<text x="256" y="347" text-anchor="middle" font-family="Noto Sans Devanagari, Mangal, sans-serif" font-size="82" font-weight="900" fill="#ffd21c" stroke="#8d5800" stroke-width="4" paint-order="stroke">झलक</text>
+<g transform="translate(382 156) rotate(20)">
+ <rect x="-17" y="0" width="34" height="105" rx="16" fill="#252525" stroke="#eee" stroke-width="4"/>
+ <circle cx="0" cy="-20" r="42" fill="#151515" stroke="#eee" stroke-width="4"/>
+ <path d="M-33-25Q0-49 33-25" fill="none" stroke="#e9272d" stroke-width="9"/>
+ <rect x="-47" y="15" width="94" height="43" rx="6" fill="#e51e2a" stroke="#fff" stroke-width="3"/>
+ <text x="0" y="45" text-anchor="middle" font-family="Arial,sans-serif" font-size="25" font-weight="900" fill="#fff">NEWS</text>
+</g>
+<text x="256" y="401" text-anchor="middle" font-family="Noto Sans Devanagari, Mangal, sans-serif" font-size="25" font-weight="800" fill="#fff">स्थानीय खबरों, सच्ची तस्वीर</text>
+<path d="M96 431H416" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".9"/>
+<path d="M145 449h222l-28 25H173z" fill="#fff" opacity=".95"/>
+<path d="M145 449h222l-20 8H165z" fill="#ff8c00"/>
+<path d="M178 466h156l-20 8H198z" fill="#16a34a"/>
+<circle cx="256" cy="256" r="229" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="3"/>
 </svg>
