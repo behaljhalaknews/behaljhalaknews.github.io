@@ -1338,3 +1338,38 @@ button { font: inherit; }
 @media (prefers-reduced-motion: reduce) {
     .logo-box { animation: none; }
 }
+
+
+/* AD SLOTS — safe empty placeholders */
+.ad-slot {
+    width: min(100%, 970px);
+    min-height: 78px;
+    margin: 18px auto;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #cfd5dc;
+    border-radius: 8px;
+    background: #fafbfc;
+    color: #8a929d;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .8px;
+}
+.ad-slot span { opacity: .8; }
+.ad-slot-header { margin-top: 12px; margin-bottom: 12px; }
+.ad-slot-between { margin-top: 20px; margin-bottom: 20px; }
+.ad-slot-footer { margin-top: 20px; margin-bottom: 20px; }
+
+@media (max-width: 768px) {
+    .ad-slot {
+        width: calc(100% - 18px);
+        min-height: 58px;
+        margin: 12px auto;
+        padding: 6px 8px;
+    }
+    .ad-slot-header { margin-top: 9px; margin-bottom: 9px; }
+    .ad-slot-between { margin-top: 14px; margin-bottom: 14px; }
+    .ad-slot-footer { margin-top: 14px; margin-bottom: 14px; }
+}
