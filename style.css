@@ -1400,7 +1400,10 @@ button { font: inherit; }
 .ad-slot-animated {
     position: relative;
     overflow: hidden;
-    min-height: 64px;
+    width: min(100%, 320px);
+    min-height: 180px;
+    aspect-ratio: 1.78 / 1;
+    box-sizing: border-box;
     background: linear-gradient(90deg, #fafbfc 0%, #f1f4f7 50%, #fafbfc 100%);
     background-size: 220% 100%;
     animation: adSlotShimmer 4.5s ease-in-out infinite;
@@ -1430,5 +1433,12 @@ button { font: inherit; }
     .ad-slot-animated,
     .ad-slot-animated span {
         animation: none;
+    }
+}
+@media (max-width: 768px) {
+    .ad-slot-animated {
+        width: calc(100% - 30px);
+        min-height: 150px;
+        aspect-ratio: 1.78 / 1;
     }
 }
