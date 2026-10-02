@@ -38,4 +38,11 @@
 <path d="M145 449h222l-20 8H165z" fill="#ff8c00"/>
 <path d="M178 466h156l-20 8H198z" fill="#16a34a"/>
 <circle cx="256" cy="256" r="229" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="3"/>
+
+<!-- LIVE badge -->
+<g aria-label="LIVE" transform="translate(356 30) rotate(6)">
+ <rect x="0" y="0" width="126" height="48" rx="24" fill="#d71920" stroke="#fff" stroke-width="6"/>
+ <circle cx="25" cy="24" r="7" fill="#fff"/>
+ <text x="40" y="32" font-family="Arial, sans-serif" font-size="24" font-weight="800" fill="#fff" letter-spacing="1">LIVE</text>
+</g>
 </svg>
