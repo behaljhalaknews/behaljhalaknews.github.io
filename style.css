@@ -51,18 +51,32 @@ button { font: inherit; }
     gap: 20px;
     padding: 10px 0;
 }
-.site-branding { flex: 0 0 auto; }
+.site-branding { flex: 0 0 auto; perspective: 700px; }
 .logo-box {
     display: inline-flex;
-    flex-direction: column;
+    width: 68px;
+    height: 68px;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
     line-height: 1;
+    transform-style: preserve-3d;
+    animation: logo3D 7s ease-in-out infinite;
+}
+.site-logo-image {
+    display: block;
+    width: 68px;
+    height: 68px;
+    aspect-ratio: 1 / 1;
+    max-width: 68px;
+    border-radius: 50%;
+    object-fit: contain;
+    transform: translateZ(1px);
 }
 .logo-red, .logo-yellow {
     font-size: clamp(25px, 3vw, 34px);
     font-weight: 900;
 }
-.site-logo-image { display: block; width: clamp(160px, 18vw, 190px); height: auto; max-width: 100%; }
 .logo-red {
     color: var(--red);
     background: var(--white);
@@ -1303,3 +1317,15 @@ button { font: inherit; }
 .article-video-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:10px;overflow:hidden}
 .article-video-frame iframe{width:100%;height:100%;border:0;display:block}
 @media(max-width:768px){.article-video{margin:16px 0}.article-video-title{font-size:17px}}
+
+
+/* STEP 11I — compact 3D circular logo */
+@keyframes logo3D {
+    0%, 72%, 100% { transform: rotateY(0deg) rotateX(0deg) scale(1); }
+    78% { transform: rotateY(12deg) rotateX(-3deg) scale(1.03); }
+    84% { transform: rotateY(-10deg) rotateX(3deg) scale(1.03); }
+    90% { transform: rotateY(5deg) rotateX(0deg) scale(1.01); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .logo-box { animation: none; }
+}
