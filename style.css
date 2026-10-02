@@ -450,7 +450,7 @@ button { font: inherit; }
 }
 
 /* MOBILE HAMBURGER */
-@media (max-width: 768px) {
+@media (max-width: 768px) {\n    .top-social-icons { position:absolute; right:72px; top:18px; gap:5px; }\n    .top-social-icon { width:27px; height:27px; font-size:14px; }
     .container, .header-container, .main-content-area, .footer-container {
         width: min(100% - 20px, 1200px);
     }
