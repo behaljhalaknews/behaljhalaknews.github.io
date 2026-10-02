@@ -1,6 +1,25 @@
 (function () {
   "use strict";
 
+
+  function ensureAnalytics() {
+    if (window.__bahalJhalakAnalyticsLoaded) return;
+    window.__bahalJhalakAnalyticsLoaded = true;
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", "G-G2EC83JEL3");
+
+    if (!document.querySelector('script[data-bahal-analytics="true"]')) {
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "https://www.googletagmanager.com/gtag/js?id=G-G2EC83JEL3";
+      script.setAttribute("data-bahal-analytics", "true");
+      document.head.appendChild(script);
+    }
+  }
+
   function createAdSlot() {
     const ad = document.createElement("div");
     ad.className = "ad-slot ad-slot-article ad-slot-animated";
@@ -59,6 +78,7 @@
   }
 
   function start() {
+    ensureAnalytics();
     init();
 
     let tries = 0;
