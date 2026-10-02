@@ -18,4 +18,10 @@
 <rect x="0" y="0" width="72" height="32" rx="7" fill="#e00000"/>
 <text x="36" y="23" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" font-weight="900" fill="#fff">NEWS</text>
 </g>
+<g transform="translate(105 118)">
+  <rect x="-8" y="0" width="16" height="48" rx="8" fill="#12366b"/>
+  <rect x="-24" y="38" width="48" height="9" rx="4.5" fill="#12366b"/>
+  <path d="M-20 0v-10c0-20 15-34 35-34s35 14 35 34V0" fill="none" stroke="#e00000" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="15" cy="-10" r="4" fill="#f5c400"/>
+</g>
 </svg>
