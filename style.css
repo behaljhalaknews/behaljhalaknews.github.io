@@ -1394,3 +1394,41 @@ button { font: inherit; }
     .ad-slot-article { margin: 2px auto 18px; }
     .ad-slot-article-end { margin: 0 auto 18px; }
 }
+
+
+/* STEP ADS PLACEMENT — subtle animated mid-article ad */
+.ad-slot-animated {
+    position: relative;
+    overflow: hidden;
+    min-height: 64px;
+    background: linear-gradient(90deg, #fafbfc 0%, #f1f4f7 50%, #fafbfc 100%);
+    background-size: 220% 100%;
+    animation: adSlotShimmer 4.5s ease-in-out infinite;
+}
+.ad-slot-animated::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(207,213,220,.45);
+    pointer-events: none;
+}
+.ad-slot-animated span {
+    position: relative;
+    z-index: 1;
+    animation: adSlotPulse 2.8s ease-in-out infinite;
+}
+@keyframes adSlotShimmer {
+    0%, 100% { background-position: 100% 0; }
+    50% { background-position: 0 0; }
+}
+@keyframes adSlotPulse {
+    0%, 100% { opacity: .55; }
+    50% { opacity: .95; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .ad-slot-animated,
+    .ad-slot-animated span {
+        animation: none;
+    }
+}
