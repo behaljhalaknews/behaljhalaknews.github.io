@@ -109,8 +109,11 @@ jobs:
           paragraphs = []
           for p in obj["content"]:
               paragraphs.append("<p>" + html.escape(str(p)) + "</p>")
+          video_block = ('<div class="article-video"><div class="article-video-title">▶️ वीडियो क्लिप</div><div class="article-video-frame"><iframe src="' + html.escape(video_url, quote=True) + '" title="बहल झलक वीडियो क्लिप" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></div>') if video_url else ""
+          if video_block and paragraphs:
+              mid = max(1, len(paragraphs) // 2)
+              paragraphs.insert(mid, video_block)
           body = "\n".join(paragraphs)
-          video_block = ('<div class="article-video"><div class="article-video-title">▶️ वीडियो</div><div class="article-video-frame"><iframe src="' + html.escape(video_url, quote=True) + '" title="बहल झलक वीडियो" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></div>') if video_url else ""
 
           schema = {
               "@context": "https://schema.org",
