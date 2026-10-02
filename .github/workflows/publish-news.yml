@@ -155,6 +155,7 @@ jobs:
               '<main class="article-page container"><article class="article-card">',
               '<div class="article-header"><span class="category-tag">' + category + '</span><h1>' + title + '</h1><div class="article-meta"><span>' + location + '</span><span>•</span><span>' + news_date + '</span></div></div>',
               ('<div class="article-gallery">' + ''.join('<img class="article-image" src="' + html.escape(u, quote=True) + '" alt="' + title + '"> ' for u in images) + '</div>') if images else '',
+              '<div class="ad-slot ad-slot-article" aria-label="विज्ञापन"><span>ADVERTISEMENT</span></div>',
               '<div class="article-body">' + body + '</div>' + video_block,
               '''<div class="article-actions"><a href="./index.html" class="back-home-button">← वापस मुख्य पृष्ठ</a></div>
               <div class="social-share-panel"><div class="social-share-title">खबर शेयर करें</div><div class="social-share-buttons">
@@ -182,6 +183,7 @@ jobs:
                 if(navigator.share){nativeBtn.hidden=false;nativeBtn.addEventListener("click",()=>navigator.share({title:title,text:"बहल झलक",url:url}));}
               })();
               </script>''',
+              '<div class="ad-slot ad-slot-article-end" aria-label="विज्ञापन"><span>ADVERTISEMENT</span></div>',
               '</article></main>',
               '<footer class="site-footer"><div class="footer-container"><p>© 2026 बहल झलक — खबर आपकी, नज़र हमारी</p></div></footer>',
               '</body>',
