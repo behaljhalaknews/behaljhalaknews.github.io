@@ -1,11 +1,15 @@
 (function () {
   "use strict";
 
-
   function ensureAnalytics() {
     if (window.__bahalJhalakAnalyticsLoaded) return;
-    window.__bahalJhalakAnalyticsLoaded = true;
+    const directAnalytics = document.querySelector('script[src*="googletagmanager.com/gtag/js?id=G-G2EC83JEL3"]');
+    if (directAnalytics) {
+      window.__bahalJhalakAnalyticsLoaded = true;
+      return;
+    }
 
+    window.__bahalJhalakAnalyticsLoaded = true;
     window.dataLayer = window.dataLayer || [];
     window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
     window.gtag("js", new Date());
@@ -39,7 +43,6 @@
       ad.classList.add("ad-slot-animated");
     }
 
-    // Remove any duplicate mid-article slots from this article.
     Array.from(body.querySelectorAll(":scope > .ad-slot-article")).forEach(function (item) {
       if (item !== ad) item.remove();
     });
