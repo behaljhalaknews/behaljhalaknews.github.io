@@ -1373,3 +1373,24 @@ button { font: inherit; }
     .ad-slot-between { margin-top: 14px; margin-bottom: 14px; }
     .ad-slot-footer { margin-top: 14px; margin-bottom: 14px; }
 }
+
+/* ARTICLE AD SLOTS */
+.ad-slot-article {
+    width: calc(100% - 52px);
+    min-height: 78px;
+    margin: 4px auto 22px;
+}
+.ad-slot-article-end {
+    width: calc(100% - 52px);
+    min-height: 78px;
+    margin: 0 auto 26px;
+}
+@media (max-width: 768px) {
+    .ad-slot-article,
+    .ad-slot-article-end {
+        width: calc(100% - 30px);
+        min-height: 58px;
+    }
+    .ad-slot-article { margin: 2px auto 18px; }
+    .ad-slot-article-end { margin: 0 auto 18px; }
+}
