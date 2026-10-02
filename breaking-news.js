@@ -1,7 +1,1 @@
-/* बहल झलक — दैनिक ब्रेकिंग न्यूज़
-   रोज़ सिर्फ नीचे की सूची में खबरें बदलें।
-   1 खबर = 1 लाइन
-*/
-window.BAHAL_JHALAK_BREAKING_NEWS = [
-  "बिजली बोर्ड कॉलोनी में पेड़ पर काली थैली में मिला नवजात, फैली सनसनी; जांच में जुटी पुलिस"
-];
+/* Legacy ticker disabled. The homepage ticker is rendered by script.js from news-data.js. */
