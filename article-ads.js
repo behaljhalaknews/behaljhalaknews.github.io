@@ -24,9 +24,9 @@
     }
   }
 
-  function createAdSlot() {
+  function createAdSlot(className) {
     const ad = document.createElement("div");
-    ad.className = "ad-slot ad-slot-article ad-slot-animated";
+    ad.className = "ad-slot " + className;
     ad.setAttribute("aria-label", "विज्ञापन");
     ad.innerHTML = "<span>ADVERTISEMENT</span>";
     return ad;
@@ -38,26 +38,28 @@
 
     let ad = body.querySelector(":scope > .ad-slot-article");
     if (!ad) {
-      ad = createAdSlot();
+      ad = createAdSlot("ad-slot-article ad-slot-animated");
     } else {
       ad.classList.add("ad-slot-animated");
     }
-
-    Array.from(body.querySelectorAll(":scope > .ad-slot-article")).forEach(function (item) {
-      if (item !== ad) item.remove();
-    });
 
     const children = Array.from(body.children).filter(function (item) {
       return !item.classList.contains("ad-slot-article");
     });
 
     if (!children.length) {
-      body.appendChild(ad);
+      if (ad.parentNode !== body) body.appendChild(ad);
       return true;
     }
 
     const middleIndex = Math.max(1, Math.ceil(children.length / 2));
-    body.insertBefore(ad, children[middleIndex] || null);
+    const target = children[middleIndex] || null;
+    const alreadyCorrect = ad.parentNode === body &&
+      (target ? ad.nextElementSibling === target : ad === body.lastElementChild);
+
+    if (!alreadyCorrect) {
+      body.insertBefore(ad, target);
+    }
     return true;
   }
 
@@ -66,11 +68,7 @@
     if (!article) return false;
 
     if (!article.querySelector(".ad-slot-article-end")) {
-      const ad = document.createElement("div");
-      ad.className = "ad-slot ad-slot-article-end";
-      ad.setAttribute("aria-label", "विज्ञापन");
-      ad.innerHTML = "<span>ADVERTISEMENT</span>";
-      article.appendChild(ad);
+      article.appendChild(createAdSlot("ad-slot-article-end"));
     }
     return true;
   }
@@ -92,14 +90,18 @@
     }, 250);
 
     const observer = new MutationObserver(function () {
-      if (placeMidArticleAd()) ensurePermanentBottomAd();
+      init();
     });
     observer.observe(document.body, { childList: true, subtree: true });
-    setTimeout(function () { observer.disconnect(); }, 7000);
+
+    setTimeout(function () {
+      observer.disconnect();
+      clearInterval(timer);
+    }, 7000);
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", start);
+    document.addEventListener("DOMContentLoaded", start, { once: true });
   } else {
     start();
   }
