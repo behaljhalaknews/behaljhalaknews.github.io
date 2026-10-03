@@ -56,9 +56,18 @@ gtag('config', 'G-G2EC83JEL3');
 <div class="article-actions"><a href="./index.html" class="back-home-button">← वापस मुख्य पृष्ठ</a></div>
     <!-- SHARE-7A PHASE 1: share panel and inline share script disabled. -->
 <div id="share-7e-whatsapp-test" style="margin:16px 0;padding:14px;text-align:center;border:1px solid #e2e6ea;border-radius:8px;">
-  <a href="https://wa.me/?text=" style="display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 16px;background:#25D366;color:#fff;border-radius:6px;text-decoration:none;font-weight:700;">WhatsApp पर शेयर करें</a>
-  <div style="margin-top:7px;font-size:11px;color:#68707d;">SHARE-7E WHATSAPP TEST</div>
+  <button type="button" id="share-7g-test" style="display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 16px;background:#25D366;color:#fff;border:0;border-radius:6px;font-weight:700;">WhatsApp टेस्ट बटन</button>
+  <div id="share-7g-status" style="margin-top:7px;font-size:11px;color:#68707d;">SHARE-7G — बिना किसी बाहरी लिंक के टेस्ट</div>
 </div>
+<script>
+(function(){
+  var b=document.getElementById("share-7g-test");
+  var s=document.getElementById("share-7g-status");
+  if(b){b.addEventListener("click",function(){
+    if(s)s.textContent="✓ क्लिक सफल — कोई बाहरी लिंक नहीं खोला गया";
+  });}
+})();
+</script>
 <div class="ad-slot ad-slot-article-end" aria-label="विज्ञापन"><span>ADVERTISEMENT</span></div>
 </article></main>
 <footer class="site-footer"><div class="footer-container"><p>© 2026 बहल झलक — खबर आपकी, नज़र हमारी</p></div></footer>
