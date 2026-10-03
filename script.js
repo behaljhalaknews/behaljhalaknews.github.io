@@ -77,6 +77,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         installMobileBottomNav();
     }
 
+    // Static article pages do not use homepage navigation handlers.
+    // Keep all homepage navigation runtime isolated from article pages.
+    if (document.querySelector(".article-page") && !document.getElementById("featured-news")) {
+        return;
+    }
+
     const menuButton = document.querySelector(".menu-toggle");
     const navigation = document.querySelector(".main-navigation");
     const categoryItem = document.querySelector(".has-submenu");
