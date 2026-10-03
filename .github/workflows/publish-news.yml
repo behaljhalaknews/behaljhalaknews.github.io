@@ -68,7 +68,8 @@ jobs:
           }
 
           if entry["featured"]:
-              data = re.sub(r"\n\s*featured:\s*true,?", "", data)
+              # Remove the old featured flag regardless of JSON-style or legacy JS-style keys.
+              data = re.sub(r"^\s*["']?featured["']?\s*:\s*true,?\s*\n", "", data, flags=re.MULTILINE)
 
           pos = data.rfind("];")
           if pos < 0:
