@@ -168,7 +168,7 @@ jobs:
               '<header class="site-header"><div class="header-container"><div class="site-branding"><a href="./index.html" class="logo-box"><span class="logo-red">बहल</span><span class="logo-yellow">झलक</span><span class="logo-tagline">खबर आपकी, नज़र हमारी</span></a></div></div></header>',
               '<main class="article-page container"><article class="article-card">',
               '<div class="article-header"><span class="category-tag">' + category + '</span><h1>' + title + '</h1><div class="article-meta"><span>' + location + '</span><span>•</span><span>' + news_date + '</span></div></div>',
-              ('<div class="article-gallery">' + ''.join('<img class="article-image" src="' + html.escape(u, quote=True) + '" alt="' + title + '"> ' for u in images) + '</div>') if images else '',
+              ('<div class="article-gallery">' + ''.join('<img class="article-image" style="width:100%;height:auto;max-height:none;aspect-ratio:auto;object-fit:contain;display:block;" src="' + html.escape(u, quote=True) + '" alt="' + title + '"> ' for u in images) + '</div>') if images else '',
               '<div class="ad-slot ad-slot-article" aria-label="विज्ञापन"><span>ADVERTISEMENT</span></div>',
               '<div class="article-body">' + body + '</div>' + video_block,
               '''<div class="article-actions"><a href="./index.html" class="back-home-button">← वापस मुख्य पृष्ठ</a></div>
