@@ -54,29 +54,76 @@ gtag('config', 'G-G2EC83JEL3');
 <p>​समुदाय के साथ जुड़ाव: ग्रामीणों व स्कूली बच्चों के साथ जल संरक्षण और स्वच्छ पेयजल से जुड़ी जानकारियां साझा की गईं।</p>
 <p>​कार्यक्रम के समापन पर सरपंच विजेंद्र शर्मा और ग्राम सचिव रणविजय कादयान ने सभी कर्मचारियों, शिक्षकों व ग्रामीणों का आभार व्यक्त किया और सिधनवा को विकास, स्वच्छता और जल संरक्षण के मामले में पूरे क्षेत्र के लिए एक मिसाल बनाने का आह्वान किया।</p></div>
 <div class="article-actions"><a href="./index.html" class="back-home-button">← वापस मुख्य पृष्ठ</a></div>
-    <div class="social-share-panel"><div class="social-share-title">खबर शेयर करें</div><div class="social-share-buttons">
-    <a class="social-share-btn whatsapp-share" id="whatsappShare" href="#" target="_blank" rel="noopener">WhatsApp</a>
-    <a class="social-share-btn facebook-share" id="facebookShare" href="#" target="_blank" rel="noopener">Facebook</a>
-    <a class="social-share-btn telegram-share" id="telegramShare" href="#" target="_blank" rel="noopener">Telegram</a>
-    <button type="button" class="social-share-btn copy-share" id="copyShare">🔗 लिंक कॉपी करें</button>
-    <button type="button" class="social-share-btn native-share" id="nativeShare" hidden>📤 शेयर करें</button>
-    </div><div class="instagram-note">Instagram पर शेयर करने के लिए लिंक कॉपी करके Instagram में पोस्ट/स्टोरी में पेस्ट करें।</div></div>
+    <div class="social-share-panel">
+      <div class="social-share-title">खबर शेयर करें</div>
+      <div class="social-share-buttons">
+        <a class="social-share-btn whatsapp-share" id="whatsappShare" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a class="social-share-btn facebook-share" id="facebookShare" href="#" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a class="social-share-btn telegram-share" id="telegramShare" href="#" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <button type="button" class="social-share-btn copy-share" id="copyShare">🔗 लिंक कॉपी करें</button>
+        <button type="button" class="social-share-btn native-share" id="nativeShare" hidden>📤 शेयर करें</button>
+      </div>
+      <div class="instagram-note">Instagram पर शेयर करने के लिए लिंक कॉपी करके Instagram में पोस्ट/स्टोरी में पेस्ट करें।</div>
+    </div>
     <script>
     (function(){
-      const url=window.location.href;
-      const title=document.querySelector(".article-header h1")?.textContent||document.title;
-      const text=title+" — बहल झलक\n"+url;
-      document.getElementById("whatsappShare").href="https://wa.me/?text="+encodeURIComponent(text);
-      document.getElementById("facebookShare").href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(url);
-      document.getElementById("telegramShare").href="https://t.me/share/url?url="+encodeURIComponent(url)+"&text="+encodeURIComponent(title);
-      const copyBtn=document.getElementById("copyShare");
-      copyBtn.addEventListener("click",async function(){
-        try{await navigator.clipboard.writeText(url);copyBtn.textContent="✓ लिंक कॉपी हो गया";}
-        catch(e){copyBtn.textContent="लिंक कॉपी नहीं हो सका";}
-        setTimeout(()=>copyBtn.textContent="🔗 लिंक कॉपी करें",2200);
-      });
-      const nativeBtn=document.getElementById("nativeShare");
-      if(navigator.share){nativeBtn.hidden=false;nativeBtn.addEventListener("click",()=>navigator.share({title:title,text:"बहल झलक",url:url}));}
+      const url = window.location.href;
+      const title = document.querySelector(".article-header h1")?.textContent?.trim() || document.title;
+      const text = title + " — बहल झलक\n" + url;
+
+      const whatsappBtn = document.getElementById("whatsappShare");
+      const facebookBtn = document.getElementById("facebookShare");
+      const telegramBtn = document.getElementById("telegramShare");
+      const copyBtn = document.getElementById("copyShare");
+      const nativeBtn = document.getElementById("nativeShare");
+
+      if (whatsappBtn) whatsappBtn.href = "https://wa.me/?text=" + encodeURIComponent(text);
+      if (facebookBtn) facebookBtn.href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url);
+      if (telegramBtn) telegramBtn.href = "https://t.me/share/url?url=" + encodeURIComponent(url) + "&text=" + encodeURIComponent(title);
+
+      function restoreCopyLabel(){
+        if (copyBtn) copyBtn.textContent = "🔗 लिंक कॉपी करें";
+      }
+
+      async function copyLink(){
+        if (!copyBtn) return;
+        const original = copyBtn.textContent;
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(url);
+          } else {
+            const area = document.createElement("textarea");
+            area.value = url;
+            area.setAttribute("readonly", "");
+            area.style.position = "fixed";
+            area.style.opacity = "0";
+            document.body.appendChild(area);
+            area.select();
+            document.execCommand("copy");
+            area.remove();
+          }
+          copyBtn.textContent = "✓ लिंक कॉपी हो गया";
+        } catch (error) {
+          copyBtn.textContent = "लिंक कॉपी नहीं हो सका";
+        }
+        window.setTimeout(restoreCopyLabel, 2200);
+      }
+
+      if (copyBtn) copyBtn.addEventListener("click", copyLink, {passive: true});
+
+      if (nativeBtn && typeof navigator.share === "function") {
+        nativeBtn.hidden = false;
+        nativeBtn.addEventListener("click", async function(){
+          try {
+            await navigator.share({title: title, text: "बहल झलक", url: url});
+          } catch (error) {
+            if (error && error.name !== "AbortError") {
+              nativeBtn.textContent = "शेयर नहीं हो सका";
+              window.setTimeout(function(){ nativeBtn.textContent = "📤 शेयर करें"; }, 2200);
+            }
+          }
+        });
+      }
     })();
     </script>
 <div class="ad-slot ad-slot-article-end" aria-label="विज्ञापन"><span>ADVERTISEMENT</span></div>
