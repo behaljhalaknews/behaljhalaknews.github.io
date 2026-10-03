@@ -1,5 +1,20 @@
 /* बहल झलक — Mobile Navigation + News Rendering */
 
+/* BACK/RETURN RECOVERY: clear stale mobile UI state when the homepage is restored from browser history/bfcache. */
+window.addEventListener("pageshow", function () {
+    if (!document.body) return;
+    document.body.classList.remove("mobile-menu-open");
+    document.querySelectorAll(".mobile-bottom-drawer.is-open").forEach(function (drawer) {
+        drawer.classList.remove("is-open");
+    });
+    document.querySelectorAll(".main-navigation.is-open").forEach(function (nav) {
+        nav.classList.remove("is-open");
+    });
+    document.querySelectorAll(".mobile-bottom-menu[aria-expanded='true']").forEach(function (button) {
+        button.setAttribute("aria-expanded", "false");
+    });
+});
+
 document.addEventListener("DOMContentLoaded", async function () {
     // Static article pages already contain their complete content.
     // Skip homepage/news-data/Supabase rendering runtime on article pages.
