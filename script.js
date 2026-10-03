@@ -1,6 +1,11 @@
 /* बहल झलक — Mobile Navigation + News Rendering */
 
 document.addEventListener("DOMContentLoaded", async function () {
+    // Static article pages already contain their complete content.
+    // Skip homepage/news-data/Supabase rendering runtime on article pages.
+    if (document.querySelector(".article-page") && !document.getElementById("featured-news")) {
+        return;
+    }
     // MOBILE BOTTOM NAV:
     // फोन पर समाचार साइट के लिए स्थायी, साफ और एक-जैसा bottom menu।
     // यह किसी बाहरी icon library पर निर्भर नहीं है।
