@@ -16,6 +16,20 @@ window.addEventListener("pageshow", function () {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
+    // Always clear a stale mobile-menu lock when a page is restored from Back/forward cache.
+    window.addEventListener("pageshow", function () {
+        document.body.classList.remove("mobile-menu-open");
+        document.documentElement.classList.remove("mobile-menu-open");
+        const drawer = document.querySelector(".mobile-bottom-drawer");
+        const bottomMenu = document.querySelector(".mobile-bottom-menu");
+        if (drawer) drawer.classList.remove("is-open");
+        if (bottomMenu) bottomMenu.setAttribute("aria-expanded", "false");
+        const navigation = document.querySelector(".main-navigation");
+        const menuButton = document.querySelector(".menu-toggle");
+        if (navigation) navigation.classList.remove("is-open");
+        if (menuButton) menuButton.setAttribute("aria-expanded", "false");
+    });
+
     // Static article pages already contain their complete content.
     // Skip homepage/news-data/Supabase rendering runtime on article pages.
     if (document.querySelector(".article-page") && !document.getElementById("featured-news")) {
@@ -135,11 +149,18 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     let news = Array.isArray(window.BAHAL_JHALAK_NEWS) ? window.BAHAL_JHALAK_NEWS.slice().reverse() : [];
 
-    // Fallback: if news-data.js was blocked or served from an old cache,
-    // load the same local data file directly and parse only its JSON array.
+    // IMPORTANT: render the homepage immediately from local news data.
+    // Do not block the Back -> Homepage transition on Supabase/network requests.
+    // This also makes the site usable when Supabase is slow or temporarily unavailable.
     if (!news.length) {
         try {
-            const dataResponse = await fetch("./news-data.js?fallback=20260929-01", { cache: "no-store" });
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 5000);
+            const dataResponse = await fetch("./news-data.js?fallback=20261003-01", {
+                cache: "no-store",
+                signal: controller.signal
+            });
+            clearTimeout(timeout);
             if (dataResponse.ok) {
                 const rawData = await dataResponse.text();
                 const marker = "window.BAHAL_JHALAK_NEWS =";
@@ -152,17 +173,25 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
             }
         } catch (error) {
-            console.error("News data fallback failed:", error);
+            console.warn("News data fallback failed:", error);
         }
     }
 
+    // Render local news FIRST so navigation/Back never waits for Supabase.
+    renderHomepage();
+    renderBreakingTicker();
+
     // CENTRAL IMAGE SOURCE:
-    // सभी प्रकाशित खबरों की live photos Supabase article_images से एक ही बार पढ़ी जाती हैं।
-    // Homepage और article page दोनों इसी merged news data को इस्तेमाल करते हैं।
-    try {
-        const supabaseUrl = window.BAHAL_SUPABASE_URL || "https://exkoxaxbmspxsqdokdcg.supabase.co";
-        const publishableKey = window.BAHAL_SUPABASE_PUBLISHABLE_KEY || "";
-        if (supabaseUrl && publishableKey) {
+    // Supabase photo overrides are now a non-blocking enhancement.
+    // A slow/failing image service must never hold the homepage transition.
+    (async function loadImageOverrides() {
+        try {
+            const supabaseUrl = window.BAHAL_SUPABASE_URL || "https://exkoxaxbmspxsqdokdcg.supabase.co";
+            const publishableKey = window.BAHAL_SUPABASE_PUBLISHABLE_KEY || "";
+            if (!supabaseUrl || !publishableKey) return;
+
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 5000);
             const response = await fetch(
                 supabaseUrl + "/rest/v1/article_images?select=article_id,image_url",
                 {
@@ -170,36 +199,40 @@ document.addEventListener("DOMContentLoaded", async function () {
                         apikey: publishableKey,
                         Authorization: "Bearer " + publishableKey
                     },
-                    cache: "no-store"
+                    cache: "no-store",
+                    signal: controller.signal
                 }
             );
-            if (response.ok) {
-                const overrides = await response.json();
-                if (Array.isArray(overrides)) {
-                    const imageMap = {};
-                    overrides.forEach(function (row) {
-                        if (row && row.article_id && row.image_url) {
-                            let value = row.image_url;
-                            try {
-                                const parsed = JSON.parse(value);
-                                if (Array.isArray(parsed)) value = parsed.find(Boolean) || "";
-                            } catch (error) {}
-                            if (value) imageMap[row.article_id] = value;
-                        }
-                    });
-                    news = news.map(function (item) {
-                        return imageMap[item.id]
-                            ? Object.assign({}, item, { image: imageMap[item.id] })
-                            : item;
-                    });
+            clearTimeout(timeout);
+            if (!response.ok) return;
+
+            const overrides = await response.json();
+            if (!Array.isArray(overrides)) return;
+
+            const imageMap = {};
+            overrides.forEach(function (row) {
+                if (row && row.article_id && row.image_url) {
+                    let value = row.image_url;
+                    try {
+                        const parsed = JSON.parse(value);
+                        if (Array.isArray(parsed)) value = parsed.find(Boolean) || "";
+                    } catch (error) {}
+                    if (value) imageMap[row.article_id] = value;
                 }
-            } else {
-                console.warn("Supabase image request failed:", response.status);
+            });
+
+            if (Object.keys(imageMap).length) {
+                news = news.map(function (item) {
+                    return imageMap[item.id]
+                        ? Object.assign({}, item, { image: imageMap[item.id] })
+                        : item;
+                });
+                renderHomepage();
             }
+        } catch (error) {
+            console.warn("Supabase image overrides unavailable; local images retained.", error);
         }
-    } catch (error) {
-        console.warn("Supabase image overrides unavailable; using local news images.", error);
-    }
+    })();
 
     // AUTO TICKER: show the 10 newest published stories from news-data.js.
     // Each headline links directly to its article page.
@@ -346,7 +379,5 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (nativeShare) nativeShare.addEventListener("click", function () { nativeShareAction(nativeShare); });
     }
 
-    renderHomepage();
     renderArticle();
-    renderBreakingTicker();
 });
