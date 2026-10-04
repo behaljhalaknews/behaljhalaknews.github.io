@@ -1506,3 +1506,43 @@ button { font: inherit; }
  .direct-ad-link{height:auto;}
  .direct-ad img{height:auto;}
 }
+
+
+/* DIRECT AD HORIZONTAL CAROUSEL — multiple ads, one visible at a time */
+.ad-slot-header.direct-ad-carousel{
+  display:block;
+  overflow:hidden;
+  min-height:0;
+}
+.direct-ad-carousel-viewport{
+  width:100%;
+  overflow:hidden;
+  touch-action:pan-y;
+}
+.direct-ad-carousel-track{
+  display:flex;
+  width:100%;
+  transition:transform .65s ease-in-out;
+  will-change:transform;
+}
+.direct-ad-carousel-slide{
+  flex:0 0 100%;
+  min-width:100%;
+}
+.direct-ad-carousel-slide .direct-ad{
+  width:100%;
+  margin:12px 0;
+}
+@media(max-width:768px){
+  .ad-slot-header.direct-ad-carousel{
+    padding:6px 0;
+  }
+  .direct-ad-carousel-slide .direct-ad{
+    margin:9px 0;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .direct-ad-carousel-track{
+    transition:none;
+  }
+}
