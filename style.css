@@ -1813,9 +1813,9 @@ html::before{
     display:flex;
     align-items:center;
     overflow:hidden;
-    background:#fff;
-    border-bottom:1px solid #dfe3e8;
-    box-shadow:0 1px 5px rgba(0,0,0,.06);
+    background:#ffd400;
+    border-bottom:1px solid #e0b900;
+    box-shadow:0 1px 5px rgba(0,0,0,.10);
 }
 .channel-notice-label{
     flex:0 0 auto;
