@@ -1735,3 +1735,60 @@ html::before{
         visibility:visible !important;
     }
 }
+
+
+/* STEP LOGO ANIMATION + LIVE BADGE — clean, separate and responsive */
+.site-branding{
+    position:relative;
+}
+.logo-box{
+    position:relative;
+    transform-style:preserve-3d;
+    animation:logoPremium 6.5s ease-in-out infinite;
+}
+.logo-box::after{
+    content:"● LIVE";
+    position:absolute;
+    left:50%;
+    top:calc(100% + 2px);
+    transform:translateX(-50%);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:48px;
+    height:17px;
+    padding:0 7px;
+    box-sizing:border-box;
+    border-radius:12px;
+    background:#d71920;
+    color:#fff;
+    font:800 8px/17px Arial,sans-serif;
+    letter-spacing:.7px;
+    white-space:nowrap;
+    box-shadow:0 2px 7px rgba(0,0,0,.28);
+    animation:livePulse 1.25s ease-in-out infinite;
+    z-index:3;
+}
+@keyframes logoPremium{
+    0%,100%{transform:perspective(700px) rotateY(0deg) rotateX(0deg) scale(1);}
+    20%{transform:perspective(700px) rotateY(-5deg) rotateX(2deg) scale(1.015);}
+    45%{transform:perspective(700px) rotateY(5deg) rotateX(-2deg) scale(1.03);}
+    70%{transform:perspective(700px) rotateY(-3deg) rotateX(1deg) scale(1.015);}
+}
+@keyframes livePulse{
+    0%,100%{transform:translateX(-50%) scale(1); opacity:1;}
+    50%{transform:translateX(-50%) scale(1.08); opacity:.88;}
+}
+@media (max-width:768px){
+    .site-branding{padding-bottom:17px;}
+    .logo-box::after{
+        top:calc(100% + 1px);
+        height:15px;
+        min-width:44px;
+        font-size:7px;
+        line-height:15px;
+    }
+}
+@media (prefers-reduced-motion:reduce){
+    .logo-box,.logo-box::after{animation:none;}
+}
