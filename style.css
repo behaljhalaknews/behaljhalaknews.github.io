@@ -1718,3 +1718,20 @@ html::before{
         color:var(--white) !important;
     }
 }
+
+
+/* STEP MENU TEXT MOBILE-ONLY CORRECTION */
+@media (min-width:769px){
+    .menu-toggle{
+        display:none !important;
+        visibility:hidden !important;
+    }
+}
+
+@media (max-width:768px){
+    .menu-toggle .menu-label{
+        position:static !important;
+        display:block !important;
+        visibility:visible !important;
+    }
+}
