@@ -102,9 +102,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Article pages use a dedicated article layout; do not inject the homepage mobile bottom nav/drawer there.
     // This prevents article-page scroll/runtime interference while preserving the homepage navigation.
-    if (!document.querySelector(".article-page")) {
-        installMobileBottomNav();
-    }
+    // Main navigation is now shown directly as word links on mobile.
+    // Do not inject the old bottom menu/drawer.
+
 
     const menuButton = document.querySelector(".menu-toggle");
     const navigation = document.querySelector(".main-navigation");
