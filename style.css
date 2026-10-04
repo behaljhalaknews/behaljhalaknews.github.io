@@ -1987,3 +1987,14 @@ div.channel-notice-bar .channel-notice-track{
     margin-bottom:1px !important;
   }
 }
+
+
+/* DIRECT AD — extra compact height */
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport{
+  height:clamp(90px, 15vw, 180px) !important;
+}
+@media(max-width:768px){
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport{
+    height:clamp(90px, 25vw, 125px) !important;
+  }
+}
