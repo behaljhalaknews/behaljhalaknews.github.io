@@ -79,7 +79,7 @@
 
     var index=0;
     var timer=null;
-    var delay=5000;
+    var delay=90000;
 
     function go(next){
       index=(next+list.length)%list.length;
