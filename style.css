@@ -1446,7 +1446,7 @@ button { font: inherit; }
 }
 
 
-/* DIRECT ADVERTISEMENT MANAGER — responsive full-width 16:9 */
+/* DIRECT ADVERTISEMENT MANAGER — responsive full-width, taller display */
 .direct-ad{
   width:100%;
   max-width:1200px;
@@ -1470,7 +1470,7 @@ button { font: inherit; }
 .direct-ad-link{
   display:block;
   width:100%;
-  aspect-ratio:16 / 9;
+  aspect-ratio:16 / 10;
   text-decoration:none;
   overflow:hidden;
   border-radius:7px;
@@ -1493,5 +1493,5 @@ button { font: inherit; }
 }
 @media(max-width:768px){
  .direct-ad{width:100%;margin:9px auto;padding:6px;}
- .direct-ad-link{aspect-ratio:16 / 9;}
+ .direct-ad-link{aspect-ratio:16 / 10;}
 }
