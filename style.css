@@ -1683,3 +1683,38 @@ html::before{
         z-index:20;
     }
 }
+
+
+/* STEP MENU TEXT DESIGN — label below the three-dot menu */
+@media (max-width:768px){
+    .menu-toggle{
+        width:42px !important;
+        height:48px !important;
+        top:2px !important;
+        right:-1px !important;
+        border-radius:8px !important;
+        flex-direction:column !important;
+        gap:1px !important;
+        justify-content:flex-start !important;
+        padding:3px 0 0 !important;
+    }
+    .menu-toggle .menu-icon{
+        width:24px;
+        height:24px;
+        flex:0 0 24px;
+    }
+    .menu-toggle .menu-label{
+        position:static !important;
+        width:auto !important;
+        height:auto !important;
+        padding:0 !important;
+        margin:0 !important;
+        overflow:visible !important;
+        clip:auto !important;
+        white-space:nowrap !important;
+        font-size:8px !important;
+        line-height:11px !important;
+        font-weight:800 !important;
+        color:var(--white) !important;
+    }
+}
