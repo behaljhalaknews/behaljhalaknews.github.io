@@ -63,9 +63,7 @@
     var id=articleId();
     if(document.body.classList.contains("direct-ad-article")||document.querySelector(".article-page")){
       var mid=document.querySelector(".ad-slot-article");
-      var end=document.querySelector(".ad-slot-article-end");
       if(mid)renderInto(mid,"article",id);
-      if(end)renderInto(end,"article",id);
     }
   }
   function renderInto(host,kind,id){
