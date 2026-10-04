@@ -163,6 +163,7 @@ jobs:
               '<script src="./supabase-config.js?v=20261003-01"></script>',
               '<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>',
               '<script src="./article-images.js?v=20261003-01"></script>',
+              '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8015336143073269" crossorigin="anonymous"></script>',
               '</head>',
               '<body>',
               '<header class="site-header"><div class="header-container"><div class="site-branding"><a href="./index.html" class="logo-box"><span class="logo-red">बहल</span><span class="logo-yellow">झलक</span><span class="logo-tagline">खबर आपकी, नज़र हमारी</span></a></div></div></header>',
