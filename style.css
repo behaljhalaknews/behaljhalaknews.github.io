@@ -1856,3 +1856,11 @@ html::before{
 @media(prefers-reduced-motion:reduce){
     .channel-notice-text{animation:none;padding-left:8px;}
 }
+
+/* CHANNEL NOTICE YELLOW OVERRIDE */
+div.channel-notice-bar{
+    background:#FFD400 !important;
+}
+div.channel-notice-bar .channel-notice-track{
+    background:#FFD400 !important;
+}
