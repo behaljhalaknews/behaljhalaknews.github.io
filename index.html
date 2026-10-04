@@ -22,7 +22,7 @@
   gtag('config', 'G-G2EC83JEL3');
 </script>
 <title>बहल झलक | खबर आपकी, नज़र हमारी</title>
-<link rel="stylesheet" href="./style.css?v=20261004-notice-3">
+<link rel="stylesheet" href="./style.css?v=20261004-notice-4">
 <meta property="og:type" content="website">
 <meta property="og:title" content="बहल झलक — खबर आपकी, नज़र हमारी">
 <meta property="og:description" content="बहल, भिवानी और हरियाणा की ताज़ा स्थानीय खबरें।">
@@ -45,10 +45,17 @@
 <li><a href="#video-news">वीडियो</a></li><li><a href="#contact">संपर्क करें</a></li>
 </ul></nav></div></header>
 
+<script src="./channel-notice.js?v=20261004-01"></script>
 <div class="channel-notice-bar" role="region" aria-label="बहल झलक चैनल सूचना">
   <div class="channel-notice-label">📢 सूचना</div>
-  <div class="channel-notice-track"><div class="channel-notice-text">बहल झलक की आधिकारिक सूचना: खबरों और विज्ञापनों से संबंधित जानकारी के लिए हमसे संपर्क करें • आपकी खबर, हमारी जिम्मेदारी • ताज़ा और विश्वसनीय स्थानीय खबरों के लिए बहल झलक से जुड़े रहें</div></div>
+  <div class="channel-notice-track"><div class="channel-notice-text" id="channelNoticeText">बहल झलक की आधिकारिक सूचना: खबरों और विज्ञापनों से संबंधित जानकारी के लिए हमसे संपर्क करें • आपकी खबर, हमारी जिम्मेदारी • ताज़ा और विश्वसनीय स्थानीय खबरों के लिए बहल झलक से जुड़े रहें</div></div>
 </div>
+<script>
+(function(){
+  var el=document.getElementById("channelNoticeText");
+  if(el && window.BAHAL_CHANNEL_NOTICE) el.textContent=window.BAHAL_CHANNEL_NOTICE;
+})();
+</script>
 
 <div class="breaking-news-container"><div class="breaking-title">ताज़ा खबरें</div><div class="breaking-news-text"><marquee id="breaking-news-ticker" behavior="scroll" direction="left" scrollamount="6">ताज़ा खबरें लोड हो रही हैं...</marquee></div></div><div class="ad-slot ad-slot-header" aria-label="विज्ञापन"><span>ADVERTISEMENT</span></div><div class="mobile-topic-strip" aria-label="न्यूज़ श्रेणियां"><div class="mobile-topic-scroll"><a href="#latest-news">ताज़ा खबरें</a><a href="#bahal-news">बहल</a><a href="#bhiwani-news">भिवानी</a><a href="#haryana-news">हरियाणा</a><a href="#national-news">राष्ट्रीय</a><a href="#politics-news">राजनीति</a><a href="#crime-news">अपराध</a><a href="#sports-news">खेल</a><a href="#video-news">वीडियो</a></div></div>
 
