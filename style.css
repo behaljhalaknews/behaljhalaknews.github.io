@@ -2158,3 +2158,20 @@ div.channel-notice-bar .channel-notice-track{
   .site-header .main-navigation{order:3 !important; flex:1 1 100% !important; margin-top:2px !important;}
   .site-header .main-navigation .menu{min-height:38px !important;}
 }
+
+
+/* HEADER MENU POSITION FINAL — same header placement on desktop and mobile */
+.site-header{position:relative !important;overflow:visible !important;}
+.site-header .header-container{position:relative !important;display:flex !important;flex-wrap:wrap !important;align-items:center !important;}
+.site-header > .main-navigation{position:relative !important;display:block !important;float:none !important;clear:both !important;inset:auto !important;top:auto !important;right:auto !important;bottom:auto !important;left:auto !important;transform:none !important;order:3 !important;flex:0 0 100% !important;width:100% !important;max-width:none !important;margin:4px 0 0 !important;padding:0 !important;}
+.site-header > .main-navigation .menu{position:relative !important;display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important;align-items:center !important;width:max-content !important;min-width:100% !important;margin:0 !important;padding:5px 7px !important;box-sizing:border-box !important;overflow-x:auto !important;}
+.site-header > .main-navigation .menu li{position:relative !important;display:block !important;float:none !important;flex:0 0 auto !important;width:auto !important;margin:0 !important;padding:0 !important;}
+.site-header > .main-navigation .menu a{position:relative !important;display:inline-flex !important;float:none !important;width:auto !important;min-width:max-content !important;min-height:28px !important;align-items:center !important;white-space:nowrap !important;}
+@media(min-width:769px){
+ .site-header > .main-navigation{margin-top:4px !important;}
+}
+@media(max-width:768px){
+ .site-header{padding-bottom:0 !important;}
+ .site-header .header-container{align-items:flex-start !important;}
+ .site-header > .main-navigation{margin-top:3px !important;}
+}
