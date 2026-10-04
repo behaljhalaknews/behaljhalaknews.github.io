@@ -1657,3 +1657,29 @@ html::before{
         top:38px;
     }
 }
+
+
+/* STEP HEADER RESPONSIVE STABILITY FIX — desktop mode + mobile social clearance */
+/* Full desktop/tablet view already has the main navigation; hide the corner menu there. */
+@media (min-width:769px){
+    .menu-toggle{
+        display:none !important;
+    }
+}
+
+@media (max-width:768px){
+    .top-social-icons{
+        right:110px !important;
+        top:18px !important;
+        z-index:21;
+    }
+    .menu-toggle{
+        display:inline-flex !important;
+        position:absolute !important;
+        top:7px !important;
+        right:0 !important;
+        width:34px !important;
+        height:34px !important;
+        z-index:20;
+    }
+}
