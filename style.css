@@ -1935,3 +1935,55 @@ div.channel-notice-bar .channel-notice-track{
     margin:5px 0 !important;
   }
 }
+
+
+/* DIRECT AD — true compact banner height */
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport{
+  height:clamp(180px, 24vw, 300px) !important;
+}
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-track,
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide{
+  height:100% !important;
+}
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide .direct-ad{
+  height:100% !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+  padding:5px !important;
+  display:flex !important;
+  flex-direction:column !important;
+}
+.ad-slot-header.direct-ad-carousel .direct-ad-label{
+  flex:0 0 11px !important;
+  margin:0 2px 2px !important;
+  line-height:11px !important;
+}
+.ad-slot-header.direct-ad-carousel .direct-ad-link{
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  height:auto !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+.ad-slot-header.direct-ad-carousel .direct-ad img{
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  object-fit:contain !important;
+  margin:0 !important;
+}
+@media(max-width:768px){
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport{
+    height:clamp(125px, 34vw, 180px) !important;
+  }
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide .direct-ad{
+    padding:4px !important;
+  }
+  .ad-slot-header.direct-ad-carousel .direct-ad-label{
+    flex-basis:10px !important;
+    line-height:10px !important;
+    margin-bottom:1px !important;
+  }
+}
