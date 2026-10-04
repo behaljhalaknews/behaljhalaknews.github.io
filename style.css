@@ -1524,217 +1524,12 @@ div.channel-notice-bar .channel-notice-track{
  .site-header > .main-navigation{margin-top:3px !important;}
 }
 
-
-/* MENU BETWEEN HEADER RED LINES — final placement */
-.site-header{border-top:3px solid var(--red) !important;border-bottom:3px solid var(--red) !important;}
-.site-header .header-container{display:flex !important;flex-wrap:wrap !important;align-items:center !important;justify-content:flex-start !important;padding:8px 0 5px !important;}
-.site-header .site-branding{order:1 !important;flex:0 0 auto !important;}
-.site-header .top-social-icons{order:2 !important;display:none !important;}
-.site-header .main-navigation{order:3 !important;display:block !important;position:static !important;float:none !important;clear:both !important;flex:1 1 100% !important;width:100% !important;max-width:none !important;margin:5px 0 0 !important;padding:0 !important;background:transparent !important;overflow:hidden !important;z-index:auto !important;}
-.site-header .main-navigation .menu{position:static !important;display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important;align-items:center !important;justify-content:flex-start !important;gap:5px !important;width:max-content !important;min-width:100% !important;margin:0 !important;padding:4px 0 !important;box-sizing:border-box !important;overflow-x:auto !important;scrollbar-width:none !important;}
-.site-header .main-navigation .menu::-webkit-scrollbar{display:none !important;}
-.site-header .main-navigation .menu li{position:static !important;display:block !important;float:none !important;flex:0 0 auto !important;width:auto !important;margin:0 !important;padding:0 !important;}
-.site-header .main-navigation .menu a{display:inline-flex !important;position:static !important;width:auto !important;min-width:max-content !important;min-height:27px !important;padding:0 9px !important;align-items:center !important;justify-content:center !important;border-radius:14px !important;background:rgba(255,255,255,.10) !important;color:var(--white) !important;font-size:11px !important;font-weight:800 !important;line-height:27px !important;white-space:nowrap !important;text-decoration:none !important;}
-.site-header .main-navigation .menu a.active{background:var(--red) !important;color:var(--white) !important;}
-@media(max-width:768px){
- .site-header .header-container{width:100% !important;min-height:0 !important;padding:7px 8px 4px !important;gap:0 !important;}
- .site-header .site-branding{width:100% !important;flex:0 0 100% !important;padding-bottom:16px !important;}
- .site-header .main-navigation{flex:0 0 100% !important;margin-top:2px !important;}
- .site-header .main-navigation .menu{padding:3px 0 !important;min-height:35px !important;}
-}
-
-
-/* LOGO CORNER LOCK — desktop mode must keep logo in header corner */
-@media(min-width:769px){
-  .site-header .header-container{position:relative !important;padding-left:82px !important;}
-  .site-header .site-branding{position:absolute !important;left:0 !important;top:8px !important;width:68px !important;height:68px !important;margin:0 !important;transform:none !important;}
-  .site-header .logo-box{width:68px !important;height:68px !important;margin:0 !important;}
-  .site-header .main-navigation{width:100% !important;flex-basis:100% !important;}
-}
-
-
-/* DESKTOP MODE — logo fixed to actual header corner, never centered */
-@media(min-width:769px){
-  .site-header{position:relative !important;}
-  .site-header .header-container{position:relative !important;width:100% !important;max-width:none !important;min-height:82px !important;padding:8px 15px 5px 92px !important;margin:0 !important;}
-  .site-header .site-branding{position:absolute !important;left:15px !important;right:auto !important;top:7px !important;bottom:auto !important;width:68px !important;height:68px !important;display:block !important;flex:none !important;margin:0 !important;padding:0 !important;transform:none !important;}
-  .site-header .logo-box{position:relative !important;left:0 !important;top:0 !important;display:flex !important;width:68px !important;height:68px !important;margin:0 !important;}
-  .site-header .site-logo-image{width:68px !important;height:68px !important;}
-}
-@media(max-width:768px){
-  .site-header .site-branding{position:relative !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:100% !important;height:auto !important;}
-}
-
-
-/* FINAL HEADER LAYOUT — logo on one side, menu on the opposite side */
-@media(min-width:769px){
-  .site-header .header-container{
-    position:relative !important;
-    width:100% !important;
-    max-width:none !important;
-    min-height:82px !important;
-    margin:0 !important;
-    padding:7px 15px !important;
-    display:flex !important;
-    flex-wrap:nowrap !important;
-    align-items:center !important;
-    justify-content:space-between !important;
-  }
-  .site-header .site-branding{
-    position:static !important;
-    order:1 !important;
-    flex:0 0 68px !important;
-    width:68px !important;
-    height:68px !important;
-    margin:0 !important;
-    padding:0 !important;
-  }
-  .site-header .logo-box,.site-header .site-logo-image{
-    width:68px !important;height:68px !important;
-  }
-  .site-header .main-navigation{
-    position:static !important;
-    order:2 !important;
-    flex:0 1 auto !important;
-    width:auto !important;
-    max-width:calc(100% - 88px) !important;
-    margin:0 0 0 auto !important;
-    padding:0 !important;
-    background:transparent !important;
-    overflow:hidden !important;
-  }
-  .site-header .main-navigation .menu{
-    display:flex !important;
-    flex-wrap:nowrap !important;
-    width:max-content !important;
-    min-width:0 !important;
-    max-width:100% !important;
-    margin:0 !important;
-    padding:4px 0 !important;
-    overflow-x:auto !important;
-    justify-content:flex-end !important;
-  }
-}
-@media(max-width:768px){
-  .site-header .header-container{
-    display:flex !important;
-    flex-wrap:nowrap !important;
-    align-items:center !important;
-    justify-content:space-between !important;
-    width:100% !important;
-    min-height:76px !important;
-    padding:5px 8px !important;
-  }
-  .site-header .site-branding{
-    position:static !important;
-    order:1 !important;
-    flex:0 0 68px !important;
-    width:68px !important;
-    height:68px !important;
-    margin:0 !important;
-    padding:0 !important;
-  }
-  .site-header .main-navigation{
-    position:static !important;
-    order:2 !important;
-    flex:1 1 auto !important;
-    width:auto !important;
-    max-width:calc(100% - 76px) !important;
-    margin:0 0 0 8px !important;
-    padding:0 !important;
-    background:transparent !important;
-    overflow:hidden !important;
-  }
-  .site-header .main-navigation .menu{
-    width:max-content !important;
-    min-width:0 !important;
-    max-width:none !important;
-    padding:3px 0 !important;
-    overflow-x:auto !important;
-    justify-content:flex-start !important;
-  }
-}
-
-
-/* SEPARATE MOBILE HEADER MENU — independent from desktop navigation */
-.mobile-header-navigation{display:none !important;}
-@media(max-width:768px){
-  .site-header .header-container{
-    width:100% !important;
-    min-height:76px !important;
-    padding:5px 8px !important;
-    display:flex !important;
-    flex-wrap:nowrap !important;
-    align-items:center !important;
-    justify-content:space-between !important;
-    gap:8px !important;
-  }
-  .site-header .site-branding{
-    position:static !important;
-    flex:0 0 68px !important;
-    width:68px !important;
-    height:68px !important;
-    margin:0 !important;
-    padding:0 !important;
-    order:1 !important;
-  }
-  .site-header .mobile-header-navigation{
-    display:block !important;
-    visibility:visible !important;
-    position:static !important;
-    order:2 !important;
-    flex:1 1 auto !important;
-    width:auto !important;
-    max-width:calc(100% - 76px) !important;
-    min-width:0 !important;
-    margin:0 !important;
-    padding:0 !important;
-    overflow:hidden !important;
-    background:transparent !important;
-  }
-  .site-header .mobile-header-menu{
-    display:flex !important;
-    align-items:center !important;
-    gap:5px !important;
-    width:max-content !important;
-    min-width:100% !important;
-    padding:3px 0 !important;
-    box-sizing:border-box !important;
-    overflow-x:auto !important;
-    scrollbar-width:none !important;
-    -webkit-overflow-scrolling:touch !important;
-  }
-  .site-header .mobile-header-menu::-webkit-scrollbar{display:none !important;}
-  .site-header .mobile-header-menu a{
-    display:inline-flex !important;
-    flex:0 0 auto !important;
-    align-items:center !important;
-    justify-content:center !important;
-    min-height:32px !important;
-    padding:0 11px !important;
-    border:1px solid rgba(255,255,255,.18) !important;
-    border-radius:17px !important;
-    background:rgba(255,255,255,.10) !important;
-    color:#fff !important;
-    font-size:12px !important;
-    font-weight:800 !important;
-    line-height:32px !important;
-    white-space:nowrap !important;
-    text-decoration:none !important;
-  }
-  .site-header .mobile-header-menu a.active{background:var(--red) !important;border-color:var(--red) !important;color:#fff !important;}
-  .site-header .main-navigation{display:none !important;visibility:hidden !important;}
-}
-@media(min-width:769px){
-  .site-header .mobile-header-navigation{display:none !important;}
-}
-
-
 /* =========================================================
-   AUTHORITATIVE HEADER LAYOUT — desktop + separate mobile menu
+   FINAL CLEAN HEADER — logo left, menu right
    ========================================================= */
 .site-header{
   position:relative !important;
+  width:100% !important;
   overflow:visible !important;
   background:var(--navy) !important;
   border-top:3px solid var(--red) !important;
@@ -1753,27 +1548,35 @@ div.channel-notice-bar .channel-notice-track{
   align-items:center !important;
   justify-content:space-between !important;
   gap:12px !important;
+  box-sizing:border-box !important;
 }
 .site-header .site-branding{
   position:static !important;
   order:1 !important;
   flex:0 0 68px !important;
   width:68px !important;
+  min-width:68px !important;
+  max-width:68px !important;
   height:68px !important;
   margin:0 !important;
   padding:0 !important;
+  transform:none !important;
 }
 .site-header .logo-box,
 .site-header .site-logo-image{
   width:68px !important;
+  max-width:68px !important;
   height:68px !important;
+  margin:0 !important;
 }
+.site-header .logo-box{display:flex !important;}
 .site-header .top-social-icons{display:none !important;}
 .site-header .main-navigation{
   order:2 !important;
   position:static !important;
   flex:0 1 auto !important;
   width:auto !important;
+  min-width:0 !important;
   max-width:calc(100% - 80px) !important;
   margin:0 0 0 auto !important;
   padding:0 !important;
@@ -1792,6 +1595,7 @@ div.channel-notice-bar .channel-notice-track{
   margin:0 !important;
   padding:3px 0 !important;
   overflow-x:auto !important;
+  overflow-y:hidden !important;
   scrollbar-width:none !important;
   -webkit-overflow-scrolling:touch !important;
 }
@@ -1820,34 +1624,48 @@ div.channel-notice-bar .channel-notice-track{
   white-space:nowrap !important;
   text-decoration:none !important;
 }
-.site-header .main-navigation .menu a.active{background:var(--red) !important;color:#fff !important;}
-
+.site-header .main-navigation .menu a.active{
+  background:var(--red) !important;
+  color:#fff !important;
+}
 .mobile-header-navigation{display:none !important;}
 
 @media(max-width:768px){
+  html,body{max-width:100% !important;overflow-x:hidden !important;}
+  .site-header,
+  .site-header .header-container,
+  .channel-notice-bar,
+  .breaking-news-container,
+  .main-content-area{
+    width:100% !important;
+    max-width:100% !important;
+    box-sizing:border-box !important;
+  }
   .site-header .header-container{
     min-height:76px !important;
     padding:4px 8px !important;
-    align-items:center !important;
-    justify-content:space-between !important;
     gap:8px !important;
+    overflow:hidden !important;
   }
   .site-header .site-branding{
-    order:1 !important;
     flex:0 0 68px !important;
     width:68px !important;
+    min-width:68px !important;
+    max-width:68px !important;
     height:68px !important;
-    padding:0 !important;
+    position:static !important;
     margin:0 !important;
+    padding:0 !important;
   }
   .site-header .mobile-header-navigation{
     display:block !important;
     visibility:visible !important;
+    position:static !important;
     order:2 !important;
     flex:1 1 auto !important;
     width:auto !important;
-    max-width:none !important;
     min-width:0 !important;
+    max-width:none !important;
     margin:0 !important;
     padding:0 !important;
     overflow:hidden !important;
@@ -1858,10 +1676,12 @@ div.channel-notice-bar .channel-notice-track{
     align-items:center !important;
     gap:5px !important;
     width:max-content !important;
-    min-width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
     margin:0 !important;
     padding:3px 0 !important;
     overflow-x:auto !important;
+    overflow-y:hidden !important;
     scrollbar-width:none !important;
     -webkit-overflow-scrolling:touch !important;
   }
@@ -1889,57 +1709,20 @@ div.channel-notice-bar .channel-notice-track{
     color:#fff !important;
   }
   .site-header .main-navigation{display:none !important;visibility:hidden !important;}
-  .channel-notice-bar{position:relative !important;z-index:10 !important;}
+  .ad-slot-header.direct-ad-carousel{
+    width:100% !important;
+    max-width:100% !important;
+    overflow:hidden !important;
+    box-sizing:border-box !important;
+  }
 }
 @media(min-width:769px){
   .site-header .mobile-header-navigation{display:none !important;visibility:hidden !important;}
 }
 
-
-/* DIRECT AD HEIGHT COMPACT — reduce vertical footprint without changing ad image content */
-.ad-slot-header.direct-ad-carousel{
-  max-height:none !important;
-}
-.direct-ad{
-  margin:7px auto !important;
-  padding:5px !important;
-}
-.direct-ad-label{
-  margin:0 2px 2px !important;
-  line-height:11px !important;
-}
-.direct-ad-link{
-  display:block !important;
-  line-height:0 !important;
-}
-.direct-ad img{
-  display:block !important;
-  width:100% !important;
-  height:auto !important;
-  margin:0 !important;
-  border-radius:6px !important;
-}
-.direct-ad-carousel-slide .direct-ad{
-  margin:7px 0 !important;
-}
-@media(max-width:768px){
-  .direct-ad{
-    margin:5px auto !important;
-    padding:4px !important;
-  }
-  .direct-ad-label{
-    margin:0 2px 1px !important;
-    line-height:10px !important;
-  }
-  .direct-ad-carousel-slide .direct-ad{
-    margin:5px 0 !important;
-  }
-}
-
-
-/* DIRECT AD — true compact banner height */
+/* Keep compact direct-ad behavior from the current approved version. */
 .ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport{
-  height:clamp(180px, 24vw, 300px) !important;
+  height:clamp(90px,15vw,180px) !important;
 }
 .ad-slot-header.direct-ad-carousel .direct-ad-carousel-track,
 .ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide{
@@ -1976,94 +1759,12 @@ div.channel-notice-bar .channel-notice-track{
 }
 @media(max-width:768px){
   .ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport{
-    height:clamp(125px, 34vw, 180px) !important;
+    height:clamp(90px,25vw,125px) !important;
   }
-  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide .direct-ad{
-    padding:4px !important;
-  }
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide .direct-ad{padding:4px !important;}
   .ad-slot-header.direct-ad-carousel .direct-ad-label{
     flex-basis:10px !important;
     line-height:10px !important;
     margin-bottom:1px !important;
-  }
-}
-
-
-/* DIRECT AD — extra compact height */
-.ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport{
-  height:clamp(90px, 15vw, 180px) !important;
-}
-@media(max-width:768px){
-  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport{
-    height:clamp(90px, 25vw, 125px) !important;
-  }
-}
-
-
-/* FINAL MOBILE OVERFLOW + LOGO LOCK — prevent horizontal page drift */
-html,body{
-  max-width:100%;
-  overflow-x:hidden !important;
-}
-@media(max-width:768px){
-  .site-header,
-  .site-header .header-container,
-  .mobile-header-navigation,
-  .mobile-header-menu,
-  .channel-notice-bar,
-  .breaking-news-container,
-  .main-content-area{
-    max-width:100% !important;
-    box-sizing:border-box !important;
-  }
-  .site-header .header-container{
-    display:flex !important;
-    flex-wrap:nowrap !important;
-    width:100% !important;
-    min-width:0 !important;
-    overflow:hidden !important;
-  }
-  .site-header .site-branding{
-    position:static !important;
-    flex:0 0 68px !important;
-    width:68px !important;
-    max-width:68px !important;
-    min-width:68px !important;
-    height:68px !important;
-    margin:0 !important;
-    padding:0 !important;
-    transform:none !important;
-  }
-  .site-header .logo-box,
-  .site-header .site-logo-image{
-    width:68px !important;
-    max-width:68px !important;
-    height:68px !important;
-    margin:0 !important;
-  }
-  .site-header .mobile-header-navigation{
-    flex:1 1 auto !important;
-    width:auto !important;
-    min-width:0 !important;
-    max-width:none !important;
-    overflow:hidden !important;
-    margin-left:8px !important;
-  }
-  .site-header .mobile-header-menu{
-    max-width:none !important;
-    min-width:0 !important;
-    width:max-content !important;
-    overflow-x:auto !important;
-    overflow-y:hidden !important;
-  }
-  .ad-slot-header.direct-ad-carousel{
-    width:100% !important;
-    max-width:100% !important;
-    overflow:hidden !important;
-  }
-  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport,
-  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-track,
-  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide{
-    max-width:100% !important;
   }
 }
