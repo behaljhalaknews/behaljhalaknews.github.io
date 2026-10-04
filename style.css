@@ -1641,3 +1641,19 @@ html::before{
         border-top:0 !important;
     }
 }
+
+
+/* STEP HEADER 3-DOT POSITION FIX — keep clear of social icons */
+@media (max-width:980px){
+    .menu-toggle{
+        right:8px;
+        top:8px;
+    }
+}
+
+@media (max-width:768px){
+    .menu-toggle{
+        right:0;
+        top:38px;
+    }
+}
