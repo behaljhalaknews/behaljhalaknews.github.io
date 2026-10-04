@@ -1792,3 +1792,10 @@ html::before{
 @media (prefers-reduced-motion:reduce){
     .logo-box,.logo-box::after{animation:none;}
 }
+
+/* STEP REMOVE TOP SOCIAL ICONS — header cleanup */
+@media (max-width: 980px){
+  .top-social-icons{
+    display:none !important;
+  }
+}
