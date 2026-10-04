@@ -1446,9 +1446,10 @@ button { font: inherit; }
 }
 
 
-/* DIRECT ADVERTISEMENT MANAGER */
+/* DIRECT ADVERTISEMENT MANAGER — responsive full-width 16:9 */
 .direct-ad{
-  width:min(100%,970px);
+  width:100%;
+  max-width:1200px;
   margin:12px auto;
   padding:8px;
   box-sizing:border-box;
@@ -1466,14 +1467,21 @@ button { font: inherit; }
   text-align:right;
   margin:0 2px 4px;
 }
-.direct-ad-link{display:block;text-decoration:none;}
+.direct-ad-link{
+  display:block;
+  width:100%;
+  aspect-ratio:16 / 9;
+  text-decoration:none;
+  overflow:hidden;
+  border-radius:7px;
+}
 .direct-ad img{
   display:block;
   width:100%;
-  height:auto;
-  max-height:260px;
+  height:100%;
+  max-height:none;
   object-fit:contain;
-  margin:0 auto;
+  margin:0;
   border-radius:7px;
 }
 .direct-ad-animated img{animation:directAdFade 3.8s ease-in-out infinite;}
@@ -1484,6 +1492,6 @@ button { font: inherit; }
  .direct-ad-animated img,.direct-ad-slider img{animation:none;}
 }
 @media(max-width:768px){
- .direct-ad{width:calc(100% - 18px);margin:9px auto;padding:6px;}
- .direct-ad img{max-height:220px;}
+ .direct-ad{width:100%;margin:9px auto;padding:6px;}
+ .direct-ad-link{aspect-ratio:16 / 9;}
 }
