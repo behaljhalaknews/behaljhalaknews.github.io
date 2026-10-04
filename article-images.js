@@ -20,6 +20,13 @@
       let ld=document.querySelector('script[type="application/ld+json"]');
       if(ld){try{const data=JSON.parse(ld.textContent);data.image=firstImage;ld.textContent=JSON.stringify(data);}catch(e){}}
       const body=document.querySelector(".article-body"); if(!body)return;
+
+      // Supabase is the authoritative photo source when an override exists.
+      // Remove old static/dynamic photos so replacements never duplicate.
+      body.querySelectorAll("img.article-image").forEach(function(img){ img.remove(); });
+      const oldDynamic=document.getElementById("dynamic-article-photos");
+      if(oldDynamic) oldDynamic.remove();
+
       const box=document.createElement("div"); box.id="dynamic-article-photos";
       box.style.cssText="margin:0 0 22px;padding:10px 0;";
       images.forEach((url,i)=>{
