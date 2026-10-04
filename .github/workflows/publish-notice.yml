@@ -1,0 +1,45 @@
+name: Publish Channel Notice
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: "Channel Notice package JSON"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update channel notice
+        env:
+          PACKAGE: ${{ inputs.package }}
+        run: |
+          python3 <<'PY'
+          import json
+          import os
+
+          obj=json.loads(os.environ["PACKAGE"])
+          notice=str(obj.get("notice","")).strip()
+          if not notice:
+              raise SystemExit("Notice is empty")
+
+          path="channel-notice.js"
+          content="window.BAHAL_CHANNEL_NOTICE = " + json.dumps(notice, ensure_ascii=False) + ";\n"
+          open(path,"w",encoding="utf-8").write(content)
+          PY
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add channel-notice.js
+          git diff --cached --quiet || git commit -m "Update channel notice"
+          git push
