@@ -1546,3 +1546,74 @@ button { font: inherit; }
     transition:none;
   }
 }
+
+
+/* STEP HEADER DESIGN — corner three-dot menu + top red line */
+.site-header{
+    border-top: 3px solid var(--red);
+}
+
+.menu-toggle{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    z-index: 20;
+}
+
+.menu-toggle .menu-icon{
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-toggle .menu-icon span{
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--white);
+    transition: none;
+}
+
+.menu-toggle .menu-label{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 980px){
+    .menu-toggle{display:inline-flex;}
+}
+
+@media (max-width: 768px){
+    .site-header{
+        border-top-width: 3px;
+    }
+    .menu-toggle{
+        top: 7px;
+        right: 0;
+        width: 34px;
+        height: 34px;
+        position: absolute;
+    }
+    .menu-toggle[aria-expanded="true"] .menu-icon span:nth-child(1),
+    .menu-toggle[aria-expanded="true"] .menu-icon span:nth-child(2),
+    .menu-toggle[aria-expanded="true"] .menu-icon span:nth-child(3){
+        transform:none;
+        opacity:1;
+    }
+}
