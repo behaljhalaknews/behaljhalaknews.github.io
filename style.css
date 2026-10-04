@@ -1446,6 +1446,15 @@ button { font: inherit; }
 }
 
 
+/* DIRECT AD — allow the live header ad to use the full page width */
+.ad-slot-header:has(.direct-ad){
+  width:100%;
+  max-width:none;
+  padding:8px 0;
+  border:0;
+  background:transparent;
+}
+
 /* DIRECT ADVERTISEMENT MANAGER — fully responsive, auto-height */
 .direct-ad{
   width:100%;
