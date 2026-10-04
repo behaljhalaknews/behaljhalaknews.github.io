@@ -1617,3 +1617,27 @@ button { font: inherit; }
         opacity:1;
     }
 }
+
+
+/* STEP HEADER RED LINE FIX — always visible at the very top */
+html::before{
+    content:"";
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:3px;
+    background:var(--red);
+    z-index:10000;
+    pointer-events:none;
+}
+
+.site-header{
+    border-top:0 !important;
+}
+
+@media (max-width:768px){
+    .site-header{
+        border-top:0 !important;
+    }
+}
