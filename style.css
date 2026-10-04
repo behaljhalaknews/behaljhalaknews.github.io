@@ -1449,7 +1449,7 @@ button { font: inherit; }
 /* DIRECT ADVERTISEMENT MANAGER — fully responsive, auto-height */
 .direct-ad{
   width:100%;
-  max-width:1200px;
+  max-width:none;
   margin:12px auto;
   padding:8px;
   box-sizing:border-box;
