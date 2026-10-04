@@ -2216,3 +2216,93 @@ div.channel-notice-bar .channel-notice-track{
 @media(max-width:768px){
   .site-header .site-branding{position:relative !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;width:100% !important;height:auto !important;}
 }
+
+
+/* FINAL HEADER LAYOUT — logo on one side, menu on the opposite side */
+@media(min-width:769px){
+  .site-header .header-container{
+    position:relative !important;
+    width:100% !important;
+    max-width:none !important;
+    min-height:82px !important;
+    margin:0 !important;
+    padding:7px 15px !important;
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+  }
+  .site-header .site-branding{
+    position:static !important;
+    order:1 !important;
+    flex:0 0 68px !important;
+    width:68px !important;
+    height:68px !important;
+    margin:0 !important;
+    padding:0 !important;
+  }
+  .site-header .logo-box,.site-header .site-logo-image{
+    width:68px !important;height:68px !important;
+  }
+  .site-header .main-navigation{
+    position:static !important;
+    order:2 !important;
+    flex:0 1 auto !important;
+    width:auto !important;
+    max-width:calc(100% - 88px) !important;
+    margin:0 0 0 auto !important;
+    padding:0 !important;
+    background:transparent !important;
+    overflow:hidden !important;
+  }
+  .site-header .main-navigation .menu{
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    width:max-content !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    margin:0 !important;
+    padding:4px 0 !important;
+    overflow-x:auto !important;
+    justify-content:flex-end !important;
+  }
+}
+@media(max-width:768px){
+  .site-header .header-container{
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    width:100% !important;
+    min-height:76px !important;
+    padding:5px 8px !important;
+  }
+  .site-header .site-branding{
+    position:static !important;
+    order:1 !important;
+    flex:0 0 68px !important;
+    width:68px !important;
+    height:68px !important;
+    margin:0 !important;
+    padding:0 !important;
+  }
+  .site-header .main-navigation{
+    position:static !important;
+    order:2 !important;
+    flex:1 1 auto !important;
+    width:auto !important;
+    max-width:calc(100% - 76px) !important;
+    margin:0 0 0 8px !important;
+    padding:0 !important;
+    background:transparent !important;
+    overflow:hidden !important;
+  }
+  .site-header .main-navigation .menu{
+    width:max-content !important;
+    min-width:0 !important;
+    max-width:none !important;
+    padding:3px 0 !important;
+    overflow-x:auto !important;
+    justify-content:flex-start !important;
+  }
+}
