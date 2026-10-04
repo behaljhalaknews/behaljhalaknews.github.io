@@ -35,76 +35,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (document.querySelector(".article-page") && !document.getElementById("featured-news")) {
         return;
     }
-    // MOBILE BOTTOM NAV:
-    // फोन पर समाचार साइट के लिए स्थायी, साफ और एक-जैसा bottom menu।
-    // यह किसी बाहरी icon library पर निर्भर नहीं है।
-    function installMobileBottomNav() {
-        if (document.querySelector(".mobile-bottom-nav")) return;
-
-        const nav = document.createElement("nav");
-        nav.className = "mobile-bottom-nav";
-        nav.setAttribute("aria-label", "मोबाइल मुख्य मेनू");
-        nav.innerHTML =
-            '<a class="mobile-bottom-item active" href="./index.html" aria-label="होम"><span class="mobile-bottom-icon">⌂</span><span>होम</span></a>' +
-            '<a class="mobile-bottom-item" href="./index.html#video-news" aria-label="वीडियो"><span class="mobile-bottom-icon">▶</span><span>वीडियो</span></a>' +
-            '<a class="mobile-bottom-item" href="./index.html#latest-news" aria-label="ताज़ा खबरें"><span class="mobile-bottom-icon">●</span><span>ताज़ा</span></a>' +
-            '<a class="mobile-bottom-item" href="./index.html#latest-news" aria-label="न्यूज़"><span class="mobile-bottom-icon">▤</span><span>न्यूज़</span></a>' +
-            '<button class="mobile-bottom-item mobile-bottom-menu" type="button" aria-expanded="false" aria-controls="mobile-bottom-drawer" aria-label="मेन्यू"><span class="mobile-bottom-icon">☰</span><span>मेनू</span></button>';
-
-        const drawer = document.createElement("div");
-        drawer.className = "mobile-bottom-drawer";
-        drawer.id = "mobile-bottom-drawer";
-        drawer.innerHTML =
-            '<div class="mobile-drawer-backdrop" data-mobile-menu-close></div>' +
-            '<div class="mobile-drawer-panel" role="dialog" aria-modal="true" aria-label="बहल झलक मेन्यू">' +
-                '<div class="mobile-drawer-head"><strong>बहल झलक मेन्यू</strong><button type="button" class="mobile-drawer-close" data-mobile-menu-close aria-label="मेन्यू बंद करें">×</button></div>' +
-                '<div class="mobile-drawer-links">' +
-                    '<a href="./index.html">🏠 मुख्य पृष्ठ</a>' +
-                    '<a href="./index.html#latest-news">📰 ताज़ा खबरें</a>' +
-                    '<a href="./index.html#bahal-news">📍 बहल</a>' +
-                    '<a href="./index.html#bhiwani-news">🏙️ भिवानी</a>' +
-                    '<a href="./index.html#haryana-news">🇮🇳 हरियाणा</a>' +
-                    '<a href="./index.html#national-news">🌐 राष्ट्रीय</a>' +
-                    '<a href="./index.html#politics-news">⚖️ राजनीति</a>' +
-                    '<a href="./index.html#crime-news">🚨 अपराध</a>' +
-                    '<a href="./index.html#sports-news">🏆 खेल</a>' +
-                    '<a href="./index.html#video-news">▶️ वीडियो न्यूज़</a>' +
-                    '<a href="./index.html#contact">📞 संपर्क करें</a>' +
-                '</div>' +
-            '</div>';
-
-        document.body.appendChild(nav);
-        document.body.appendChild(drawer);
-
-        const bottomMenu = nav.querySelector(".mobile-bottom-menu");
-        const closeButtons = drawer.querySelectorAll("[data-mobile-menu-close]");
-
-        function closeBottomMenu() {
-            drawer.classList.remove("is-open");
-            bottomMenu.setAttribute("aria-expanded", "false");
-            document.body.classList.remove("mobile-menu-open");
-        }
-
-        bottomMenu.addEventListener("click", function () {
-            const open = drawer.classList.toggle("is-open");
-            bottomMenu.setAttribute("aria-expanded", String(open));
-            document.body.classList.toggle("mobile-menu-open", open);
-        });
-
-        closeButtons.forEach(function (button) {
-            button.addEventListener("click", closeBottomMenu);
-        });
-
-        drawer.querySelectorAll("a").forEach(function (link) {
-            link.addEventListener("click", closeBottomMenu);
-        });
-    }
-
-    // Article pages use a dedicated article layout; do not inject the homepage mobile bottom nav/drawer there.
-    // This prevents article-page scroll/runtime interference while preserving the homepage navigation.
-    // Main navigation is now shown directly as word links on mobile.
-    // Do not inject the old bottom menu/drawer.
-
+    // Mobile bottom navigation was intentionally removed.
+    // The mobile menu now lives inside the header and is rendered by index.html.
 
     const menuButton = document.querySelector(".menu-toggle");
     const navigation = document.querySelector(".main-navigation");
