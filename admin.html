@@ -340,7 +340,16 @@ $("loginBtn").addEventListener("click",async()=>{
   if(!email||!password){loginStatus.textContent="Email और Password दोनों भरें।";return;}
   const r=await sb.auth.signInWithPassword({email,password});
   if(r.error){loginStatus.textContent="Login नहीं हुआ: "+r.error.message;return;}
-  await refreshSession();
+  await document.getElementById("channelNoticePublishBtn").addEventListener("click",async function(){
+ const value=document.getElementById("channelNoticeText").value.trim();
+ const st=document.getElementById("channelNoticeStatus");
+ if(!value){st.textContent="⚠️ पहले अपनी सूचना/हिदायत लिखें।";return;}
+ const pkg=JSON.stringify({notice:value},null,2);
+ try{await navigator.clipboard.writeText(pkg);st.innerHTML="<strong>✅ सूचना पैकेज Clipboard में कॉपी हो गया।</strong><br>अब GitHub में Channel Notice Workflow खोलकर Run workflow करें और package पेस्ट करें।";}
+ catch(e){st.textContent="⚠️ Clipboard कॉपी नहीं हुई। नीचे दिया पैकेज कॉपी करें: "+pkg;}
+ window.open("https://github.com/behaljhalaknews/behaljhalaknews.github.io/actions/workflows/publish-notice.yml","_blank","noopener");
+});
+refreshSession();
  }catch(e){loginStatus.textContent="Login में समस्या: "+e.message;}
  finally{$("loginBtn").disabled=false;}
 });
