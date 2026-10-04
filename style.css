@@ -1799,3 +1799,8 @@ html::before{
     display:none !important;
   }
 }
+
+/* STEP REMOVE TOP SOCIAL ICONS — ALL VIEWPORTS */
+.top-social-icons{
+  display:none !important;
+}
