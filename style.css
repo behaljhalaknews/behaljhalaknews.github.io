@@ -2306,3 +2306,77 @@ div.channel-notice-bar .channel-notice-track{
     justify-content:flex-start !important;
   }
 }
+
+
+/* SEPARATE MOBILE HEADER MENU — independent from desktop navigation */
+.mobile-header-navigation{display:none !important;}
+@media(max-width:768px){
+  .site-header .header-container{
+    width:100% !important;
+    min-height:76px !important;
+    padding:5px 8px !important;
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:8px !important;
+  }
+  .site-header .site-branding{
+    position:static !important;
+    flex:0 0 68px !important;
+    width:68px !important;
+    height:68px !important;
+    margin:0 !important;
+    padding:0 !important;
+    order:1 !important;
+  }
+  .site-header .mobile-header-navigation{
+    display:block !important;
+    visibility:visible !important;
+    position:static !important;
+    order:2 !important;
+    flex:1 1 auto !important;
+    width:auto !important;
+    max-width:calc(100% - 76px) !important;
+    min-width:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    background:transparent !important;
+  }
+  .site-header .mobile-header-menu{
+    display:flex !important;
+    align-items:center !important;
+    gap:5px !important;
+    width:max-content !important;
+    min-width:100% !important;
+    padding:3px 0 !important;
+    box-sizing:border-box !important;
+    overflow-x:auto !important;
+    scrollbar-width:none !important;
+    -webkit-overflow-scrolling:touch !important;
+  }
+  .site-header .mobile-header-menu::-webkit-scrollbar{display:none !important;}
+  .site-header .mobile-header-menu a{
+    display:inline-flex !important;
+    flex:0 0 auto !important;
+    align-items:center !important;
+    justify-content:center !important;
+    min-height:32px !important;
+    padding:0 11px !important;
+    border:1px solid rgba(255,255,255,.18) !important;
+    border-radius:17px !important;
+    background:rgba(255,255,255,.10) !important;
+    color:#fff !important;
+    font-size:12px !important;
+    font-weight:800 !important;
+    line-height:32px !important;
+    white-space:nowrap !important;
+    text-decoration:none !important;
+  }
+  .site-header .mobile-header-menu a.active{background:var(--red) !important;border-color:var(--red) !important;color:#fff !important;}
+  .site-header .main-navigation{display:none !important;visibility:hidden !important;}
+}
+@media(min-width:769px){
+  .site-header .mobile-header-navigation{display:none !important;}
+}
