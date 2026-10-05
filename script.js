@@ -168,12 +168,30 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // AUTO TICKER: show the 10 newest published stories from news-data.js.
     // Each headline links directly to its article page.
+    function getCleanTickerTitle(item) {
+        let title = String((item && item.title) || "").trim();
+        // Some older/published records may contain the complete JSON object
+        // inside the title field. Extract only its real headline.
+        if (title.charAt(0) === "{" && title.charAt(title.length - 1) === "}") {
+            try {
+                const parsed = JSON.parse(title);
+                if (parsed && typeof parsed.title === "string" && parsed.title.trim()) {
+                    title = parsed.title.trim();
+                }
+            } catch (error) {
+                // Keep the original title if it is not valid JSON.
+            }
+        }
+        // Remove invisible zero-width characters that can appear in copied headlines.
+        return title.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
+    }
+
     function renderBreakingTicker() {
         const breakingTicker = document.getElementById("breaking-news-ticker");
         if (!breakingTicker) return;
 
         const latestTickerNews = news.slice(0, 10).filter(function (item) {
-            return item && item.title;
+            return item && getCleanTickerTitle(item);
         });
 
         if (!latestTickerNews.length) {
@@ -184,7 +202,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         breakingTicker.innerHTML = latestTickerNews.map(function (item) {
             const href = item.page || ("./article.html?id=" + encodeURIComponent(item.id));
             return '<a href="' + esc(href) + '" class="breaking-news-link">' +
-                esc(item.title) + '</a>';
+                esc(getCleanTickerTitle(item)) + '</a>';
         }).join('<span class="breaking-news-separator" aria-hidden="true"> • </span>');
     }
 
