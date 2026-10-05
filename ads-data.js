@@ -27,5 +27,19 @@ window.BAHAL_DIRECT_ADS = [
     "startAt": "2026-10-05T00:00:00+05:30",
     "endAt": "2026-10-07T23:59:59+05:30",
     "active": true
+  },
+  {
+    "id": "ad-1791183405302",
+    "name": "कटारिया",
+    "imageUrl": "https://exkoxaxbmspxsqdokdcg.supabase.co/storage/v1/object/public/news-images/direct-ads/1791183404610-e8m4c8.jpg",
+    "clickUrl": "https://behaljhalaknews.github.io",
+    "placement": "SELECTED_NEWS",
+    "selectedArticleIds": [
+      "news-1791118630824"
+    ],
+    "displayType": "SLIDER",
+    "startAt": "2026-10-05T00:00:00+05:30",
+    "endAt": "2026-10-07T23:59:59+05:30",
+    "active": true
   }
 ];
