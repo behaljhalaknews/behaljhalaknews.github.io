@@ -7,6 +7,7 @@
 <script src="./supabase-config.js?v=20260929-02"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./news-data.js?v=20261003-01"></script>
+<script src="./ads-data.js?v=20261005-01"></script>
 <style>
 body{font-family:Arial,sans-serif;max-width:760px;margin:0 auto;padding:16px;background:#f4f6f8;color:#172033}
 .card{background:#fff;padding:18px;border-radius:12px;margin:14px 0;box-shadow:0 2px 10px #0001}
@@ -362,13 +363,13 @@ $("uploadBtn").addEventListener("click",()=>handlePhotoUpload(false));
 $("replaceBtn").addEventListener("click",()=>handlePhotoUpload(true));
 $("deleteAllBtn").addEventListener("click",async()=>{const articleId=$("articleSelect").value;if(!articleId){$("status").textContent="पहले खबर चुनें।";return;}if(!confirm("इस खबर की सभी फोटो हटानी हैं?"))return;$("deleteAllBtn").disabled=true;$("status").textContent="⏳ सभी फोटो हटाई जा रही हैं...";try{const ur=await sb.auth.getUser(),uid=ur.data&&ur.data.user&&ur.data.user.id;if(!uid)throw new Error("Admin Login session नहीं मिला।");const db=await sb.from("article_images").upsert({article_id:articleId,image_url:"[]",updated_by:uid,updated_at:new Date().toISOString()},{onConflict:"article_id"});if(db.error)throw new Error("फोटो Database error: "+db.error.message);$("status").textContent="✅ इस खबर की सभी फोटो हटा दी गई हैं।";showCurrent();}catch(e){$("status").textContent="❌ "+e.message;}finally{$("deleteAllBtn").disabled=false;}});
 /* ================= DIRECT ADVERTISEMENT MANAGER ================= */
-let directAdsDraft=Array.isArray(window.BAHAL_DIRECT_ADS)?window.BAHAL_DIRECT_ADS:[];let latestAdsPackage="";
+let directAdsDraft=Array.isArray(window.BAHAL_DIRECT_ADS)?window.BAHAL_DIRECT_ADS.map(a=>({...a,selectedArticleIds:Array.isArray(a.selectedArticleIds)?[...a.selectedArticleIds]:[]})):[];let latestAdsPackage="";
 function adEscape(v){return String(v==null?"":v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 function adDateISO(d,end){return d?(d+(end?"T23:59:59+05:30":"T00:00:00+05:30")):"";}
 function addDaysIST(d,days){const p=d.split("-").map(Number),x=new Date(Date.UTC(p[0],p[1]-1,p[2]));x.setUTCDate(x.getUTCDate()+Math.max(0,Number(days||1)-1));return x.toISOString().slice(0,10);}
 function renderAdNewsOptions(){const b=$("adSelectedNews");if(!b)return;b.innerHTML=news.map(n=>"<option value=\""+adEscape(n.id)+"\">"+adEscape((n.date||"")+" — "+(n.title||""))+"</option>").join("");}
 function renderAdList(){const b=$("adList");if(!b)return;if(!directAdsDraft.length){b.innerHTML="<div class=\"status\">अभी कोई Direct Advertisement package तैयार नहीं है।</div>";return;}b.innerHTML=directAdsDraft.map((a,i)=>{const place=a.placement==="TOP"?"TOP":a.placement==="ALL_NEWS"?"ALL NEWS":"SELECTED NEWS";const dates=(a.startAt?a.startAt.slice(0,10):"—")+" → "+(a.endAt?a.endAt.slice(0,10):"—");return "<div style=\"margin:10px 0;padding:12px;border:1px solid #d0d5dd;border-radius:10px;background:#f8fafc\"><strong>"+adEscape(a.name)+"</strong><br>"+(a.active?"🟢 ON":"⚪ OFF")+" • "+place+" • "+dates+"<br><button type=\"button\" style=\"background:#b42318;margin-top:8px\" onclick=\"removeDraftAd("+i+")\">🗑️ इस विज्ञापन को package से हटाएँ</button></div>";}).join("");}
-window.removeDraftAd=function(i){if(!confirm("इस विज्ञापन को package से हटाना है?"))return;directAdsDraft.splice(i,1);renderAdList();$("adStatus").textContent="विज्ञापन package से हटा दिया गया।";};
+window.removeDraftAd=function(i){const ad=directAdsDraft[i];if(!ad){$("adStatus").textContent="यह विज्ञापन उपलब्ध नहीं है।";return;}const ok=confirm("⚠️ क्या आप इस विज्ञापन को हटाना चाहते हैं?\n\n"+(ad.name||"बिना नाम का विज्ञापन")+"\nID: "+(ad.id||"")+"\n\nहटाने के बाद Advertisement Publish Workflow चलाना होगा।\nबाकी विज्ञापन सुरक्षित रहेंगे।");if(!ok)return;directAdsDraft.splice(i,1);latestAdsPackage=JSON.stringify(directAdsDraft,null,2);renderAdList();$("adStatus").innerHTML="<strong>✅ विज्ञापन हटाने के लिए तैयार है।</strong><br>अब <b>🚀 Advertisement Publish Workflow खोलें</b> दबाएँ।";};
 $("adPlacement").addEventListener("change",function(){$("adSelectedBox").style.display=this.value==="SELECTED_NEWS"?"block":"none";});
 $("adStartDate").value=new Date().toISOString().slice(0,10);
 $("adImage").addEventListener("change",function(){const f=this.files[0],p=$("adImagePreview");if(!f){p.style.display="none";return;}p.style.display="block";p.textContent="Banner चुना गया: "+f.name;});
