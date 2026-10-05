@@ -1768,3 +1768,46 @@ div.channel-notice-bar .channel-notice-track{
     margin-bottom:1px !important;
   }
 }
+
+
+/* HEADER POSITION FIX — 2026-10-05
+   Mobile: keep logo at left, social icons at right, navigation on its own row.
+   Desktop rules remain unchanged. */
+@media (max-width:768px){
+  .site-header .header-container{
+    display:flex !important;
+    flex-wrap:wrap !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    min-height:112px !important;
+    padding:6px 8px 5px !important;
+    gap:5px 8px !important;
+    overflow:hidden !important;
+  }
+  .site-header .site-branding{
+    order:1 !important;
+    flex:0 0 68px !important;
+    width:68px !important;
+    height:68px !important;
+    margin:0 !important;
+  }
+  .site-header .top-social-icons{
+    order:2 !important;
+    flex:0 0 auto !important;
+    width:auto !important;
+    margin-left:auto !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    gap:5px !important;
+  }
+  .site-header .mobile-header-navigation{
+    order:3 !important;
+    flex:1 0 100% !important;
+    width:100% !important;
+    min-width:100% !important;
+    max-width:100% !important;
+    margin:0 !important;
+    padding:0 !important;
+  }
+}
