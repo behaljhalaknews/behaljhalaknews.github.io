@@ -2065,4 +2065,16 @@ div.channel-notice-bar .channel-notice-track{
   body:has(.article-page) .site-header .site-branding .logo-tagline{
     display:none !important;
   }
+  body:has(.article-page) .site-header .main-navigation,
+  body:has(.article-page) .site-header .menu-toggle{
+    display:none !important;
+    visibility:hidden !important;
+  }
+  body:has(.article-page) .site-header .site-logo-image{
+    display:block !important;
+    width:58px !important;
+    height:58px !important;
+    max-width:58px !important;
+    object-fit:contain !important;
+  }
 }
