@@ -2022,3 +2022,47 @@ div.channel-notice-bar .channel-notice-track{
   .site-header .mobile-header-menu{gap:4px !important;}
   .site-header .mobile-header-menu a{padding:0 8px !important;font-size:11px !important;}
 }
+
+
+/* ARTICLE PAGE — MOBILE LOGO SAFETY FIX — 2026-10-06 */
+@media (max-width:768px){
+  body:has(.article-page) .site-header{
+    overflow:visible !important;
+  }
+  body:has(.article-page) .site-header .header-container{
+    width:100% !important;
+    min-height:76px !important;
+    height:76px !important;
+    padding:8px 12px !important;
+    margin:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    overflow:visible !important;
+  }
+  body:has(.article-page) .site-header .site-branding{
+    width:58px !important;
+    min-width:58px !important;
+    max-width:58px !important;
+    height:58px !important;
+    margin:0 !important;
+    padding:0 !important;
+    position:static !important;
+  }
+  body:has(.article-page) .site-header .site-branding .logo-box{
+    width:58px !important;
+    height:58px !important;
+    display:block !important;
+    padding:0 !important;
+    margin:0 !important;
+    background:url('./images/behal-jhalak-logo.svg?v=20261006-article-logo-1') center/contain no-repeat !important;
+    font-size:0 !important;
+    line-height:0 !important;
+    overflow:visible !important;
+  }
+  body:has(.article-page) .site-header .site-branding .logo-red,
+  body:has(.article-page) .site-header .site-branding .logo-yellow,
+  body:has(.article-page) .site-header .site-branding .logo-tagline{
+    display:none !important;
+  }
+}
