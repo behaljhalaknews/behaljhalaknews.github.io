@@ -2492,3 +2492,74 @@ body:has(.article-page) .site-header .main-navigation .menu a{
     line-height:27px !important;
   }
 }
+
+
+/* ARTICLE HEADER — DIRECT CLASS MOBILE MENU FIX — 2026-10-06 */
+@media (max-width:768px){
+  .article-site-header .main-navigation{
+    display:none !important;
+    visibility:hidden !important;
+  }
+  .article-site-header .mobile-header-navigation{
+    display:block !important;
+    visibility:visible !important;
+    position:absolute !important;
+    top:70px !important;
+    left:8px !important;
+    right:8px !important;
+    width:auto !important;
+    height:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:visible !important;
+    z-index:99999 !important;
+  }
+  .article-site-header .mobile-header-menu{
+    display:flex !important;
+    flex-wrap:wrap !important;
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    justify-content:flex-start !important;
+    align-items:center !important;
+    gap:4px !important;
+    padding:2px 0 !important;
+    margin:0 !important;
+    overflow:visible !important;
+  }
+  .article-site-header .mobile-header-menu a{
+    display:inline-flex !important;
+    flex:0 0 auto !important;
+    width:auto !important;
+    min-width:max-content !important;
+    min-height:28px !important;
+    height:28px !important;
+    padding:0 8px !important;
+    align-items:center !important;
+    justify-content:center !important;
+    font-size:11px !important;
+    line-height:28px !important;
+    white-space:nowrap !important;
+    visibility:visible !important;
+  }
+  .article-site-header .header-container{
+    min-height:126px !important;
+    height:126px !important;
+    overflow:visible !important;
+  }
+}
+@media (max-width:420px){
+  .article-site-header .header-container{
+    min-height:138px !important;
+    height:138px !important;
+  }
+  .article-site-header .mobile-header-navigation{top:70px !important;}
+  .article-site-header .mobile-header-menu{gap:3px !important;}
+  .article-site-header .mobile-header-menu a{
+    min-height:27px !important;
+    height:27px !important;
+    padding:0 7px !important;
+    font-size:10px !important;
+    line-height:27px !important;
+  }
+}
