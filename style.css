@@ -2416,3 +2416,79 @@ body:has(.article-page) .site-header .main-navigation .menu a{
     line-height:27px !important;
   }
 }
+
+
+/* ARTICLE MOBILE NAV — CORRECT SELECTOR FIX — 2026-10-06 */
+@media (max-width:768px){
+  body:has(main.article-page) .site-header{
+    overflow:visible !important;
+  }
+  body:has(main.article-page) .site-header .main-navigation{
+    display:none !important;
+    visibility:hidden !important;
+  }
+  body:has(main.article-page) .site-header .mobile-header-navigation{
+    display:block !important;
+    visibility:visible !important;
+    position:absolute !important;
+    top:70px !important;
+    left:8px !important;
+    right:8px !important;
+    width:auto !important;
+    height:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:visible !important;
+    z-index:9999 !important;
+  }
+  body:has(main.article-page) .site-header .mobile-header-menu{
+    display:flex !important;
+    flex-wrap:wrap !important;
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    justify-content:flex-start !important;
+    align-items:center !important;
+    gap:4px !important;
+    margin:0 !important;
+    padding:2px 0 !important;
+    overflow:visible !important;
+  }
+  body:has(main.article-page) .site-header .mobile-header-menu a{
+    display:inline-flex !important;
+    flex:0 0 auto !important;
+    min-height:28px !important;
+    height:28px !important;
+    padding:0 8px !important;
+    align-items:center !important;
+    justify-content:center !important;
+    font-size:11px !important;
+    line-height:28px !important;
+    white-space:nowrap !important;
+    visibility:visible !important;
+  }
+  body:has(main.article-page) .site-header .header-container{
+    min-height:126px !important;
+    height:126px !important;
+    overflow:visible !important;
+  }
+}
+@media (max-width:420px){
+  body:has(main.article-page) .site-header .header-container{
+    min-height:138px !important;
+    height:138px !important;
+  }
+  body:has(main.article-page) .site-header .mobile-header-navigation{
+    top:70px !important;
+  }
+  body:has(main.article-page) .site-header .mobile-header-menu{
+    gap:3px !important;
+  }
+  body:has(main.article-page) .site-header .mobile-header-menu a{
+    min-height:27px !important;
+    height:27px !important;
+    padding:0 7px !important;
+    font-size:10px !important;
+    line-height:27px !important;
+  }
+}
