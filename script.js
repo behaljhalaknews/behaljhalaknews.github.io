@@ -100,7 +100,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                 if (markerIndex !== -1) {
                     let jsonText = rawData.slice(markerIndex + marker.length).trim();
                     if (jsonText.endsWith(";")) jsonText = jsonText.slice(0, -1).trim();
-                    const fallbackNews = JSON.parse(jsonText);
+                    // news-data.js is a JavaScript assignment, not strict JSON.
+                    // Evaluate only the array expression so the homepage can recover
+                    // even if the external data script is temporarily unavailable.
+                    const fallbackNews = Function('"use strict"; return (' + jsonText + ');')();
                     if (Array.isArray(fallbackNews)) news = fallbackNews.slice().reverse();
                 }
             }
