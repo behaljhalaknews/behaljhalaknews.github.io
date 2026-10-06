@@ -2041,6 +2041,11 @@ div.channel-notice-bar .channel-notice-track{
     overflow:visible !important;
   }
   body:has(.article-page) .site-header .site-branding{
+    position:absolute !important;
+    left:10px !important;
+    right:auto !important;
+    top:8px !important;
+    bottom:auto !important;
     width:58px !important;
     min-width:58px !important;
     max-width:58px !important;
