@@ -2658,3 +2658,45 @@ body:has(.article-page) .site-header .main-navigation .menu a{
     line-height:27px !important;
   }
 }
+
+
+/* TOP ADVERTISEMENT — FINAL HOMEPAGE POSITION FIX — 2026-10-06 */
+.home-site-header + .channel-notice-bar + .breaking-news-container + .ad-slot-header,
+.home-site-header ~ .ad-slot-header {
+  position: relative !important;
+  display: flex !important;
+  order: initial !important;
+  float: none !important;
+  clear: both !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  min-height: 78px !important;
+  margin: 12px auto 16px !important;
+  padding: 8px 12px !important;
+  box-sizing: border-box !important;
+  z-index: 10 !important;
+  visibility: visible !important;
+}
+.home-site-header + .channel-notice-bar + .breaking-news-container + .ad-slot-header > span {
+  display: inline-block !important;
+  visibility: visible !important;
+}
+.home-site-header + .channel-notice-bar + .breaking-news-container + .ad-slot-header:empty::before {
+  content: "ADVERTISEMENT";
+  display: block !important;
+  opacity: .8;
+}
+@media (max-width: 768px) {
+  .home-site-header + .channel-notice-bar + .breaking-news-container + .ad-slot-header,
+  .home-site-header ~ .ad-slot-header {
+    width: calc(100% - 20px) !important;
+    max-width: 100% !important;
+    min-height: 62px !important;
+    margin: 10px auto 14px !important;
+    padding: 6px 8px !important;
+  }
+}
+/* Keep the TOP slot before the first news section and never after news cards. */
+.home-site-header + .channel-notice-bar + .breaking-news-container + .ad-slot-header + .main-content-area {
+  margin-top: 0 !important;
+}
