@@ -1936,3 +1936,39 @@ div.channel-notice-bar .channel-notice-track{
     overflow:hidden !important;
   }
 }
+
+
+/* MOBILE CONTENT EDGE FIX — 2026-10-06
+   Keep news headings/cards fully inside the phone viewport.
+   No changes to News Manager, publishing, ads, or desktop layout. */
+@media (max-width:768px){
+  .main-content-area{
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    box-sizing:border-box !important;
+    padding-left:10px !important;
+    padding-right:10px !important;
+  }
+  .news-content-column,
+  .top-news-section,
+  .news-section,
+  .section-heading-row,
+  .news-grid-2,
+  .news-grid-3,
+  #featured-news,
+  #latest-news-grid,
+  .featured-news-card,
+  .small-news-card,
+  .news-card{
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    box-sizing:border-box !important;
+  }
+  .section-heading{
+    min-width:0 !important;
+    max-width:100% !important;
+    overflow-wrap:anywhere !important;
+  }
+}
