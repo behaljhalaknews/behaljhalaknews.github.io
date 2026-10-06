@@ -1998,3 +1998,27 @@ div.channel-notice-bar .channel-notice-track{
     object-fit:contain !important;
   }
 }
+
+
+/* MOBILE HEADER — FINAL VISIBLE NEWS MENU FIX — 2026-10-06 */
+@media (max-width:768px){
+  .site-header .header-container{min-height:150px !important;height:auto !important;overflow:visible !important;}
+  .site-header .mobile-header-navigation{top:78px !important;left:8px !important;right:8px !important;width:auto !important;overflow:visible !important;}
+  .site-header .mobile-header-menu{
+    width:100% !important;max-width:100% !important;min-width:0 !important;
+    display:flex !important;flex-wrap:wrap !important;justify-content:flex-start !important;
+    align-items:center !important;gap:5px !important;padding:3px 0 !important;
+    overflow:visible !important;
+  }
+  .site-header .mobile-header-menu a{
+    flex:0 0 auto !important;min-height:32px !important;height:32px !important;
+    padding:0 10px !important;line-height:32px !important;font-size:12px !important;
+    white-space:nowrap !important;
+  }
+}
+@media (max-width:420px){
+  .site-header .header-container{min-height:185px !important;}
+  .site-header .mobile-header-navigation{top:78px !important;}
+  .site-header .mobile-header-menu{gap:4px !important;}
+  .site-header .mobile-header-menu a{padding:0 8px !important;font-size:11px !important;}
+}
