@@ -111,7 +111,14 @@
     if(!host)return;
     var list=ads.filter(function(a){return eligible(a,kind,id);});
     host.innerHTML="";
-    if(!list.length){host.style.display="none";return;}
+    if(!list.length){
+      // Keep the reserved TOP advertisement slot in its fixed position
+      // even when no direct advertisement is currently active.
+      host.style.display="";
+      host.classList.remove("direct-ad-carousel");
+      host.innerHTML='<span>ADVERTISEMENT</span>';
+      return;
+    }
     host.style.display="";
     if(kind==="top"&&list.length>1){
       renderSlider(host,list);
