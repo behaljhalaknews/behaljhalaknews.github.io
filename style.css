@@ -1972,3 +1972,29 @@ div.channel-notice-bar .channel-notice-track{
     overflow-wrap:anywhere !important;
   }
 }
+
+
+/* MOBILE NEWS IMAGE HEIGHT FIX — 2026-10-06
+   Prevent portrait photos from pushing the rest of the homepage far below.
+   Full photo remains visible; no crop. */
+@media (max-width:768px){
+  .featured-news-card .news-card-image-link,
+  .small-news-card .news-card-image-link,
+  .news-card .news-card-image-link{
+    height:clamp(220px,62vw,420px) !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    background:#dfe4e8 !important;
+  }
+  .featured-news-card img,
+  .small-news-card img,
+  .news-card img{
+    width:100% !important;
+    height:100% !important;
+    max-width:100% !important;
+    max-height:100% !important;
+    aspect-ratio:auto !important;
+    object-fit:contain !important;
+  }
+}
