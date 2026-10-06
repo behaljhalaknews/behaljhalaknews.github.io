@@ -244,6 +244,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             "bahal-news-grid": ["बहल"],
             "bhiwani-news-grid": ["भिवानी"],
             "haryana-news-grid": ["हरियाणा", "राज्य अपडेट"],
+            "rajasthan-news-grid": ["राजस्थान"],
             "national-news-grid": ["राष्ट्रीय"],
             "politics-news-grid": ["राजनीति"],
             "crime-news-grid": ["अपराध"],
