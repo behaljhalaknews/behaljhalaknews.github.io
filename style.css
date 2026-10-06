@@ -1883,3 +1883,56 @@ div.channel-notice-bar .channel-notice-track{
     box-sizing:border-box !important;
   }
 }
+
+
+/* MOBILE NEWS + IMAGE SAFETY FIX — 2026-10-06
+   Keep the complete news card/photo inside the viewport.
+   Do not alter News Manager, publishing, ads, or desktop layout. */
+@media (max-width:768px){
+  .main-content-area,
+  .news-content-column,
+  .news-grid-2,
+  .news-grid-3,
+  .featured-news-card,
+  .small-news-card,
+  .news-card,
+  .article-card{
+    min-width:0 !important;
+    max-width:100% !important;
+  }
+
+  .featured-news-card img,
+  .small-news-card img,
+  .news-card img{
+    width:100% !important;
+    max-width:100% !important;
+    height:auto !important;
+    aspect-ratio:auto !important;
+    object-fit:contain !important;
+  }
+
+  .article-image{
+    width:100% !important;
+    max-width:100% !important;
+    height:auto !important;
+    object-fit:contain !important;
+  }
+
+  .featured-news-content,
+  .small-news-content,
+  .news-card-content,
+  .article-header,
+  .article-body{
+    min-width:0 !important;
+    max-width:100% !important;
+    overflow-wrap:anywhere !important;
+  }
+
+  .news-card-image-link,
+  .featured-news-card .news-card-image-link{
+    display:block !important;
+    width:100% !important;
+    max-width:100% !important;
+    overflow:hidden !important;
+  }
+}
