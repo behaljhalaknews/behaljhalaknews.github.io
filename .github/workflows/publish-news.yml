@@ -64,7 +64,8 @@ jobs:
               "featured": bool(obj.get("featured", False)),
               "breaking": bool(obj.get("breaking", False)),
               "excerpt": obj["excerpt"],
-              "content": obj["content"]
+              "content": obj["content"],
+              "relatedNews": obj.get("relatedNews", "")
           }
 
           if entry["featured"]:
@@ -114,6 +115,26 @@ jobs:
           if video_block and paragraphs:
               mid = max(1, len(paragraphs) // 2)
               paragraphs.insert(mid, video_block)
+          related = obj.get("relatedNews") or {}
+          if isinstance(related, dict) and related.get("id") and related.get("title"):
+              related_id = str(related.get("id"))
+              related_title = html.escape(str(related.get("title")), quote=True)
+              related_page = str(related.get("page") or ("./" + related_id + ".html"))
+              related_image = str(related.get("image") or "").strip()
+              related_image_url = related_image if related_image.startswith("http") else (site + "/" + related_image.lstrip("./") if related_image else "")
+              related_image_html = ('<img class="related-news-image" src="' + html.escape(related_image_url, quote=True) + '" alt="' + related_title + '" loading="lazy">') if related_image_url else '<div class="related-news-no-image" aria-hidden="true">📰</div>'
+              related_block = (
+                  '<aside class="related-news-box" aria-label="यह भी पढ़ें">'
+                  '<div class="related-news-label">📌 यह भी पढ़ें</div>'
+                  '<a class="related-news-link" href="' + html.escape(related_page, quote=True) + '">'
+                  + related_image_html +
+                  '<div class="related-news-content"><div class="related-news-title">' + related_title + '</div><div class="related-news-read">पूरी खबर पढ़ें →</div></div>'
+                  '</a></aside>'
+              )
+              if paragraphs:
+                  insert_at = min(3, len(paragraphs))
+                  paragraphs.insert(insert_at, related_block)
+
           body = "\n".join(paragraphs)
 
           schema = {
