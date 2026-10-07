@@ -3,7 +3,8 @@
    ========================================================= */
 
 :root {
-    --navy: #87CEEB;
+    --navy: #0b2545;
+    --header-sky: #87CEEB;
     --navy-dark: #071a31;
     --red: #d90429;
     --red-dark: #b30322;
@@ -36,7 +37,7 @@ button { font: inherit; }
 
 /* HEADER */
 .site-header {
-    background: var(--navy);
+    background: var(--header-sky);
     border-bottom: 3px solid var(--red);
     position: relative;
     z-index: 1000;
