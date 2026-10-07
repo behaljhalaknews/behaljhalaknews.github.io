@@ -1,41 +1,49 @@
-/* Top advertisement — show full creative without cropping */
-.ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport{
-  height:auto !important;
-  min-height:0 !important;
-  overflow:hidden !important;
-}
-.ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide{
-  height:auto !important;
-  min-height:0 !important;
-}
-.ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide .direct-ad{
-  height:auto !important;
-  min-height:0 !important;
-  box-sizing:border-box !important;
-  padding:5px !important;
-}
+/* Top advertisement — FINAL anti-crop fix 2026-10-07 */
+.ad-slot-header.direct-ad-carousel,
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport,
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-track,
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide,
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide .direct-ad,
 .ad-slot-header.direct-ad-carousel .direct-ad-link{
   height:auto !important;
+  min-height:0 !important;
+  max-height:none !important;
+  aspect-ratio:auto !important;
+}
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport{
+  width:100% !important;
+  overflow:hidden !important;
+}
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-track{
+  display:flex !important;
+  align-items:flex-start !important;
+}
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide{
+  flex:0 0 100% !important;
+  min-width:100% !important;
+}
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide .direct-ad{
+  width:100% !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+  padding:5px !important;
+  overflow:hidden !important;
+}
+.ad-slot-header.direct-ad-carousel .direct-ad-link{
+  display:block !important;
+  width:100% !important;
   overflow:hidden !important;
 }
 .ad-slot-header.direct-ad-carousel .direct-ad img{
+  display:block !important;
   width:100% !important;
   height:auto !important;
   max-width:100% !important;
   max-height:none !important;
   object-fit:contain !important;
-  object-position:center !important;
-  display:block !important;
+  object-position:center center !important;
+  margin:0 !important;
 }
-@media(max-width:768px){
-  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport,
-  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide,
-  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide .direct-ad{
-    height:auto !important;
-    min-height:0 !important;
-  }
-  .ad-slot-header.direct-ad-carousel .direct-ad img{
-    height:auto !important;
-    max-height:none !important;
-  }
+.ad-slot-header.direct-ad-carousel .direct-ad-label{
+  flex:none !important;
 }
