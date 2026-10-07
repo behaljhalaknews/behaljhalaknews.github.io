@@ -213,4 +213,19 @@
 <script src="./breaking-news.js?v=20260928-01"></script>
 <script src="./script.js?v=20261006-home-fix-2"></script>
 
+<script>
+(function(){
+  var nav=window.performance && performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
+  var isReload=nav ? nav.type==='reload' : (window.performance && performance.navigation && performance.navigation.type===1);
+  if(isReload){
+    try{ history.scrollRestoration='manual'; }catch(e){}
+    if(window.location.hash){
+      history.replaceState(null,'',window.location.pathname+window.location.search);
+    }
+    window.scrollTo(0,0);
+    requestAnimationFrame(function(){ window.scrollTo(0,0); });
+  }
+})();
+</script>
+
 </body></html>
