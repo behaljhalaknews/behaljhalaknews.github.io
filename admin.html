@@ -21,6 +21,11 @@ img{max-width:100%;max-height:260px;object-fit:contain;border-radius:8px;backgro
 .help{font-size:14px;color:#667085;line-height:1.5}
 .check{display:flex;gap:8px;align-items:center;margin:8px 0}.check input{width:auto;margin:0}
 </style>
+<style id="related-news-search-style">
+#newRelatedNewsSearch{margin-bottom:4px}
+#newRelatedNews{min-height:150px;background:#fff}
+#newRelatedNews option{padding:9px 6px}
+</style>
 </head>
 <body>
 <h1>बहल झलक — News Manager</h1>
@@ -72,10 +77,11 @@ img{max-width:100%;max-height:260px;object-fit:contain;border-radius:8px;backgro
 <div class="check"><input id="newBreaking" type="checkbox"><label for="newBreaking">Breaking News में शामिल करें</label></div>
 
 <label><strong>📌 यह भी पढ़ें (Related News)</strong></label>
-<select id="newRelatedNews">
+<input id="newRelatedNewsSearch" type="search" placeholder="🔎 खबर का शीर्षक लिखकर खोजें..." autocomplete="off">
+<select id="newRelatedNews" size="5">
   <option value="">— यह भी पढ़ें नहीं लगाना —</option>
 </select>
-<p class="help">इस खबर के बीच में चुनी हुई दूसरी खबर फोटो और शीर्षक के साथ दिखाई जाएगी। बॉक्स पर क्लिक करने से पूरी खबर खुलेगी।</p>
+<p class="help">खोज बॉक्स में शीर्षक का कोई शब्द लिखें। सूची अपने-आप छोटी हो जाएगी। फिर संबंधित खबर चुनें।</p>
 
 <button id="publishNewsBtn" class="publish" type="button">🚀 खबर प्रकाशित करें</button>
 <div id="newsStatus" class="status" style="margin-top:10px">अभी कोई खबर तैयार नहीं है।</div>
@@ -149,8 +155,13 @@ const draftFields=["newTitle","newCategory","newLocation","newDate","newExcerpt"
 function saveDraft(){const d={};draftFields.forEach(id=>{const el=$(id);d[id]=el.type==="checkbox"?el.checked:el.value;});localStorage.setItem("bahal_news_draft",JSON.stringify(d));}
 function restoreDraft(){try{const d=JSON.parse(localStorage.getItem("bahal_news_draft")||"null");if(!d)return;const hasNewsDraft=!!(d.newTitle||d.newLocation||d.newExcerpt||d.newContent);if(!hasNewsDraft)return;draftFields.forEach(id=>{if(id==="newCategory")return;const el=$(id);if(d[id]!==undefined){if(el.type==="checkbox")el.checked=!!d[id];else el.value=d[id];}});}catch(e){}}
 draftFields.forEach(id=>$(id).addEventListener("input",saveDraft));
+$("newRelatedNewsSearch").addEventListener("input",saveDraft);
 $("newDate").value=$("newDate").value||new Intl.DateTimeFormat("hi-IN",{day:"numeric",month:"long",year:"numeric"}).format(new Date());
 restoreDraft();
+if($("newRelatedNewsSearch") && $("newRelatedNews").value){
+  const selectedRelated=news.find(n=>n.id===$("newRelatedNews").value);
+  if(selectedRelated) $("newRelatedNewsSearch").value=selectedRelated.title||"";
+}
 
 $("newImage").addEventListener("change",()=>{
  const f=$("newImage").files[0], p=$("imagePreview");
@@ -256,13 +267,23 @@ async function refreshSession(){
  }catch(e){loginStatus.textContent="Supabase connection error: "+e.message;}
 }
 function initRelatedNews(){
- const el=$("newRelatedNews"); if(!el)return;
+ const el=$("newRelatedNews"),search=$("newRelatedNewsSearch"); if(!el||!search)return;
  const currentId="";
- el.innerHTML='<option value="">— यह भी पढ़ें नहीं लगाना —</option>'+
-   news.filter(n=>n&&n.id!==currentId).map(n=>{
-     const title=String(n.title||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-     return '<option value="'+String(n.id).replace(/"/g,"&quot;")+'">'+title+'</option>';
-   }).join("");
+ function renderRelatedNews(){
+   const q=String(search.value||"").trim().toLocaleLowerCase("hi-IN");
+   const filtered=news.filter(n=>{
+     if(!n||n.id===currentId)return false;
+     const title=String(n.title||"");
+     return !q || title.toLocaleLowerCase("hi-IN").includes(q);
+   });
+   el.innerHTML='<option value="">— यह भी पढ़ें नहीं लगाना —</option>'+
+     filtered.map(n=>{
+       const title=String(n.title||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+       return '<option value="'+String(n.id).replace(/"/g,"&quot;")+'">'+title+'</option>';
+     }).join("");
+ }
+ search.addEventListener("input",renderRelatedNews);
+ renderRelatedNews();
 }
 function initArticles(){
  initRelatedNews();
