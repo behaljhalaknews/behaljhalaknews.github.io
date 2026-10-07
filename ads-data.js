@@ -141,5 +141,18 @@ window.BAHAL_DIRECT_ADS = [
     "endAt": "2026-11-05T23:59:59+05:30",
     "active": true,
     "sliderSeconds": 10
+  },
+  {
+    "id": "ad-1791367818568",
+    "name": "बहल झलक 4",
+    "imageUrl": "https://exkoxaxbmspxsqdokdcg.supabase.co/storage/v1/object/public/news-images/direct-ads/1791367815407-z14u7a.jpg",
+    "clickUrl": "https://behaljhalaknews.github.io",
+    "placement": "ALL_NEWS",
+    "selectedArticleIds": [],
+    "displayType": "SLIDER",
+    "startAt": "2026-10-07T00:00:00+05:30",
+    "endAt": "2026-11-05T23:59:59+05:30",
+    "active": true,
+    "sliderSeconds": 10
   }
 ];
