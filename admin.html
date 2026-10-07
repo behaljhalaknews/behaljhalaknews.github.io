@@ -93,6 +93,35 @@ img{max-width:100%;max-height:260px;object-fit:contain;border-radius:8px;backgro
 </div>
 </div>
 
+
+<div class="card" id="categoryChangeManager">
+<h2>📝 प्रकाशित खबर की श्रेणी बदलें</h2>
+<p class="help">अगर किसी प्रकाशित खबर की श्रेणी गलती से गलत चुन गई है, तो पूरी खबर दोबारा लिखे बिना केवल उसकी श्रेणी बदली जा सकती है। शीर्षक, फोटो, तारीख और खबर का बाकी कंटेंट सुरक्षित रहेगा।</p>
+<label><strong>खबर चुनें</strong></label>
+<select id="categoryChangeSelect"></select>
+<div id="categoryChangePreview" class="status">खबर चुनें।</div>
+<label><strong>नई सही श्रेणी</strong></label>
+<select id="categoryChangeNew">
+  <option value="" selected disabled>— नई श्रेणी चुनें —</option>
+  <option value="बहल">बहल</option>
+  <option value="भिवानी">भिवानी</option>
+  <option value="हरियाणा">हरियाणा</option>
+  <option value="राष्ट्रीय">राष्ट्रीय</option>
+  <option value="राजस्थान">राजस्थान</option>
+  <option value="राजनीति">राजनीति</option>
+  <option value="अपराध">अपराध</option>
+  <option value="खेल">खेल</option>
+  <option value="वीडियो">वीडियो</option>
+</select>
+<button id="categoryChangeBtn" type="button" style="background:#0b6b4f">🔄 श्रेणी बदलें</button>
+<div id="categoryChangeStatus" class="status"></div>
+<div id="categoryChangeFallback" style="display:none;margin-top:12px;padding:12px;background:#fff7ed;border:2px solid #f97316;border-radius:10px">
+<strong>सुरक्षित Publish चरण</strong>
+<p class="help">Category Change Package Clipboard में कॉपी हो गया है। नीचे बटन दबाएँ और GitHub Actions में package पेस्ट करके Run करें।</p>
+<button id="categoryChangeWorkflowBtn" type="button" style="background:#7c3aed">🚀 Category Change Workflow खोलें</button>
+</div>
+</div>
+
 <div class="card">
 <h2>🗑️ प्रकाशित खबर हटाएँ</h2>
 <p class="help">जिस खबर को हटाना है उसे चुनें। हटाने से वेबसाइट की खबर और उसकी HTML page हटेगी। Supabase में पुरानी फोटो अपने-आप delete नहीं होगी।</p>
@@ -285,8 +314,45 @@ function initRelatedNews(){
  search.addEventListener("input",renderRelatedNews);
  renderRelatedNews();
 }
+
+let latestCategoryChangePackage="";
+function initCategoryChange(){
+ const select=$("categoryChangeSelect"),preview=$("categoryChangePreview");
+ if(!select||!preview)return;
+ select.innerHTML='<option value="" selected disabled>— श्रेणी बदलने के लिए खबर चुनें —</option>'+
+   news.map(n=>'<option value="'+String(n.id).replace(/"/g,"&quot;")+'">'+
+   String(n.date||"")+" — "+String(n.title||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))+
+   '</option>').join("");
+ function updatePreview(){
+   const n=news.find(x=>x.id===select.value);
+   preview.textContent=n?
+     ("वर्तमान श्रेणी: "+(n.category||"—")+" | खबर: "+n.title+" | ID: "+n.id):
+     "खबर चुनें।";
+   $("categoryChangeNew").value="";
+   $("categoryChangeStatus").textContent="";
+   $("categoryChangeFallback").style.display="none";
+ }
+ select.addEventListener("change",updatePreview);
+ updatePreview();
+}
+function prepareCategoryChange(){
+ const id=$("categoryChangeSelect").value;
+ const newCategory=$("categoryChangeNew").value;
+ const n=news.find(x=>x.id===id);
+ if(!n){$("categoryChangeStatus").textContent="⚠️ पहले खबर चुनें।";return;}
+ if(!newCategory){$("categoryChangeStatus").textContent="⚠️ पहले नई सही श्रेणी चुनें।";return;}
+ if(newCategory===n.category){$("categoryChangeStatus").textContent="⚠️ नई श्रेणी वर्तमान श्रेणी के समान है।";return;}
+ latestCategoryChangePackage=JSON.stringify({id:n.id,category:newCategory},null,2);
+ $("categoryChangeStatus").innerHTML="<strong>✅ Category Change Package तैयार है।</strong><br><br>"+
+   "पुरानी श्रेणी: <b>"+n.category+"</b><br>नई श्रेणी: <b>"+newCategory+"</b><br><br>"+
+   "अब नीचे वाला सुरक्षित Workflow खोलें।";
+ $("categoryChangeFallback").style.display="block";
+ try{navigator.clipboard.writeText(latestCategoryChangePackage);}catch(e){}
+}
+
 function initArticles(){
  initRelatedNews();
+ initCategoryChange();
  $("articleSelect").innerHTML=news.map(n=>'<option value="'+String(n.id).replace(/"/g,"&quot;")+'">'+String(n.title||"").replace(/</g,"&lt;")+"</option>").join("");
  $("deleteNewsSelect").innerHTML='<option value="" selected disabled>— हटाने के लिए खबर चुनें —</option>'+news.map(n=>'<option value="'+String(n.id).replace(/"/g,"&quot;")+'">'+String(n.date||"")+" — "+String(n.title||"").replace(/</g,"&lt;")+"</option>").join("");
  showCurrent();
@@ -355,6 +421,19 @@ function showDeletePreview(){
  $("deletePreview").textContent=n?("चयनित खबर: "+n.title+" | ID: "+n.id+" | तारीख: "+(n.date||"")):"खबर चुनें।";
 }
 $("deleteNewsSelect").addEventListener("change",showDeletePreview);
+
+$("categoryChangeBtn").addEventListener("click",prepareCategoryChange);
+$("categoryChangeWorkflowBtn").addEventListener("click",async()=>{
+ if(!latestCategoryChangePackage){prepareCategoryChange();if(!latestCategoryChangePackage)return;}
+ try{
+   await navigator.clipboard.writeText(latestCategoryChangePackage);
+   $("categoryChangeStatus").textContent="✅ Category Change Package Clipboard में कॉपी हो गया। Workflow खुल रहा है।";
+ }catch(e){
+   $("categoryChangeStatus").textContent="⚠️ Clipboard कॉपी नहीं हो सकी; package ऊपर तैयार है। Workflow फिर भी खुलेगा।";
+ }
+ window.open("https://github.com/behaljhalaknews/behaljhalaknews.github.io/actions/workflows/change-news-category.yml","_blank","noopener");
+});
+
 
 $("deleteNewsBtn").addEventListener("click",async()=>{
  const id=$("deleteNewsSelect").value,n=news.find(x=>x.id===id);
