@@ -12,7 +12,8 @@ window.BAHAL_DIRECT_ADS = [
     "displayType": "SLIDER",
     "startAt": "2026-10-05T00:00:00+05:30",
     "endAt": "2026-10-07T23:59:59+05:30",
-    "active": true
+    "active": true,
+    "sliderSeconds": 10
   },
   {
     "id": "ad-1791183324662",
@@ -26,7 +27,8 @@ window.BAHAL_DIRECT_ADS = [
     "displayType": "SLIDER",
     "startAt": "2026-10-05T00:00:00+05:30",
     "endAt": "2026-10-07T23:59:59+05:30",
-    "active": true
+    "active": true,
+    "sliderSeconds": 10
   },
   {
     "id": "ad-1791183405302",
@@ -40,7 +42,8 @@ window.BAHAL_DIRECT_ADS = [
     "displayType": "SLIDER",
     "startAt": "2026-10-05T00:00:00+05:30",
     "endAt": "2026-10-07T23:59:59+05:30",
-    "active": true
+    "active": true,
+    "sliderSeconds": 10
   },
   {
     "id": "ad-1791302090240",
@@ -52,7 +55,8 @@ window.BAHAL_DIRECT_ADS = [
     "displayType": "SLIDER",
     "startAt": "2026-10-06T00:00:00+05:30",
     "endAt": "2026-11-04T23:59:59+05:30",
-    "active": true
+    "active": true,
+    "sliderSeconds": 10
   },
   {
     "id": "ad-1791302189823",
@@ -64,7 +68,8 @@ window.BAHAL_DIRECT_ADS = [
     "displayType": "SLIDER",
     "startAt": "2026-10-06T00:00:00+05:30",
     "endAt": "2026-11-04T23:59:59+05:30",
-    "active": true
+    "active": true,
+    "sliderSeconds": 10
   },
   {
     "id": "ad-1791302288488",
@@ -76,6 +81,20 @@ window.BAHAL_DIRECT_ADS = [
     "displayType": "SLIDER",
     "startAt": "2026-10-06T00:00:00+05:30",
     "endAt": "2026-11-04T23:59:59+05:30",
-    "active": true
+    "active": true,
+    "sliderSeconds": 10
+  },
+  {
+    "id": "ad-1791350041880",
+    "name": "देवी नाथ वेल्डिंग वर्कशॉप",
+    "imageUrl": "https://exkoxaxbmspxsqdokdcg.supabase.co/storage/v1/object/public/news-images/direct-ads/1791350041042-ri1i72.jpg",
+    "clickUrl": "https://behaljhalaknews.github.io",
+    "placement": "TOP",
+    "selectedArticleIds": [],
+    "displayType": "SLIDER",
+    "startAt": "2026-10-07T00:00:00+05:30",
+    "endAt": "2026-11-05T23:59:59+05:30",
+    "active": true,
+    "sliderSeconds": 10
   }
 ];
