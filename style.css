@@ -42,15 +42,28 @@ button { font: inherit; }
     position: relative;
     z-index: 1000;
 }
-/* WHITE HEADER — KEEP MAIN MENU CLEARLY VISIBLE */
+/* WHITE HEADER — RED MAIN MENU OPTIONS */
 .main-navigation .menu a, .submenu-toggle {
-    color: var(--navy);
+    color: var(--white) !important;
+    background: var(--red) !important;
 }
-.menu-toggle {
-    color: var(--navy);
-    border-color: rgba(11,37,69,.22);
+.main-navigation .menu a:hover,
+.main-navigation .menu a.active,
+.submenu-toggle:hover,
+.submenu-toggle[aria-expanded="true"] {
+    background: var(--red-dark) !important;
+    color: var(--white) !important;
 }
-.menu-icon span { background: var(--navy); }
+.site-header .mobile-header-menu a {
+    color: var(--white) !important;
+    background: var(--red) !important;
+    border-radius: 5px !important;
+}
+.site-header .mobile-header-menu a:hover,
+.site-header .mobile-header-menu a.active {
+    color: var(--white) !important;
+    background: var(--red-dark) !important;
+}
 .header-container {
     width: min(1200px, calc(100% - 30px));
     min-height: 78px;
