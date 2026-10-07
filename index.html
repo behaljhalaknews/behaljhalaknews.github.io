@@ -217,14 +217,21 @@
 (function(){
   var nav=window.performance && performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
   var isReload=nav ? nav.type==='reload' : (window.performance && performance.navigation && performance.navigation.type===1);
-  if(isReload){
-    try{ history.scrollRestoration='manual'; }catch(e){}
-    if(window.location.hash){
-      history.replaceState(null,'',window.location.pathname+window.location.search);
-    }
-    window.scrollTo(0,0);
-    requestAnimationFrame(function(){ window.scrollTo(0,0); });
+  if(!isReload) return;
+  try{ history.scrollRestoration='manual'; }catch(e){}
+  try{ document.documentElement.style.scrollBehavior='auto'; }catch(e){}
+  if(window.location.hash){
+    try{ history.replaceState(null,'',window.location.pathname+window.location.search); }catch(e){}
   }
+  function resetTop(){ window.scrollTo(0,0); }
+  resetTop();
+  requestAnimationFrame(resetTop);
+  setTimeout(resetTop,50);
+  setTimeout(resetTop,200);
+  setTimeout(function(){
+    resetTop();
+    try{ document.documentElement.style.scrollBehavior='smooth'; }catch(e){}
+  },600);
 })();
 </script>
 
