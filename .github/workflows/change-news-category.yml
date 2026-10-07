@@ -68,6 +68,8 @@ jobs:
           open(data_path, "w", encoding="utf-8").write(data)
 
           page_path = news_id + ".html"
+          with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as envf:
+              envf.write("NEWS_ID=" + news_id + "\n")
           if not os.path.exists(page_path):
               raise SystemExit("Article HTML page not found: " + page_path)
 
@@ -102,8 +104,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add news-data.js "$PACKAGE_ID.html" 2>/dev/null || true
-          git add news-data.js
-          git add ./*.html
+          git add news-data.js "$NEWS_ID.html"
           git diff --cached --quiet || git commit -m "Change news category from News Manager"
           git push
