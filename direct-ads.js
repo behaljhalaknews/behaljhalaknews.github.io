@@ -79,7 +79,9 @@
 
     var index=0;
     var timer=null;
-    var delay=90000;
+    var seconds=Number(list[0]&&list[0].sliderSeconds)||30;
+    seconds=Math.max(10,Math.min(300,seconds));
+    var delay=seconds*1000;
 
     function go(next){
       index=(next+list.length)%list.length;
