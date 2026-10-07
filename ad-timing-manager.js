@@ -5,7 +5,7 @@
   function clamp(v){
     v=Number(v);
     if(!isFinite(v)) return DEFAULT_SECONDS;
-    return Math.max(10,Math.min(300,Math.round(v)));
+    return Math.max(5,Math.min(300,Math.round(v)));
   }
   function getDraft(){
     try{return Array.isArray(directAdsDraft)?directAdsDraft:null;}catch(e){return null;}
@@ -20,6 +20,7 @@
     box.style.margin="10px 0";
     box.innerHTML='<label><strong>🔄 TOP विज्ञापन कितने सेकंड में बदलें?</strong></label>'+
       '<select id="adSliderSeconds">'+
+      '<option value="5">5 सेकंड</option>'+
       '<option value="10">10 सेकंड</option>'+
       '<option value="15">15 सेकंड</option>'+
       '<option value="30" selected>30 सेकंड — Default</option>'+
