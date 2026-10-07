@@ -1,0 +1,109 @@
+name: Change News Category
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: "News Manager ka Category Change Package JSON"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  change-category:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Change category
+        env:
+          PACKAGE: ${{ inputs.package }}
+        run: |
+          python3 <<'PY'
+          import json
+          import os
+          import re
+          import html
+
+          obj = json.loads(os.environ["PACKAGE"])
+          news_id = str(obj.get("id", "")).strip()
+          new_category = str(obj.get("category", "")).strip()
+
+          allowed = {"बहल", "भिवानी", "हरियाणा", "राष्ट्रीय", "राजस्थान", "राजनीति", "अपराध", "खेल", "वीडियो"}
+          if not news_id or not re.fullmatch(r"[a-z0-9-]+", news_id):
+              raise SystemExit("Invalid article ID")
+          if new_category not in allowed:
+              raise SystemExit("Invalid category")
+
+          data_path = "news-data.js"
+          data = open(data_path, encoding="utf-8").read()
+
+          marker = '"id": "' + news_id + '"'
+          pos = data.find(marker)
+          if pos < 0:
+              raise SystemExit("Article ID not found in news-data.js")
+
+          block_end = data.find("\n  },", pos)
+          if block_end < 0:
+              block_end = data.find("\n  }", pos)
+          if block_end < 0:
+              raise SystemExit("Article block ending not found")
+
+          block = data[pos:block_end]
+          category_match = re.search(r'"category"\s*:\s*"[^"]*"', block)
+          if not category_match:
+              raise SystemExit("Article category field not found")
+
+          old_category = re.search(r'"category"\s*:\s*"([^"]*)"', block).group(1)
+          new_block = re.sub(
+              r'"category"\s*:\s*"[^"]*"',
+              '"category": ' + json.dumps(new_category, ensure_ascii=False),
+              block,
+              count=1
+          )
+          data = data[:pos] + new_block + data[block_end:]
+          open(data_path, "w", encoding="utf-8").write(data)
+
+          page_path = news_id + ".html"
+          if not os.path.exists(page_path):
+              raise SystemExit("Article HTML page not found: " + page_path)
+
+          article = open(page_path, encoding="utf-8").read()
+          escaped_new = html.escape(new_category, quote=True)
+
+          article, changed_tag = re.subn(
+              r'(<span class="category-tag">)[^<]*(</span>)',
+              lambda m: m.group(1) + escaped_new + m.group(2),
+              article,
+              count=1
+          )
+
+          article, changed_schema = re.subn(
+              r'("articleSection"\s*:\s*)"[^"]*"',
+              lambda m: m.group(1) + json.dumps(new_category, ensure_ascii=False),
+              article,
+              count=1
+          )
+
+          if changed_tag == 0:
+              raise SystemExit("Article category tag not found")
+          if changed_schema == 0:
+              raise SystemExit("Article schema category not found")
+
+          open(page_path, "w", encoding="utf-8").write(article)
+
+          print("Category changed: " + old_category + " -> " + new_category)
+          PY
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add news-data.js "$PACKAGE_ID.html" 2>/dev/null || true
+          git add news-data.js
+          git add ./*.html
+          git diff --cached --quiet || git commit -m "Change news category from News Manager"
+          git push
