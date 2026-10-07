@@ -2700,3 +2700,94 @@ body:has(.article-page) .site-header .main-navigation .menu a{
 .home-site-header + .channel-notice-bar + .breaking-news-container + .ad-slot-header + .main-content-area {
   margin-top: 0 !important;
 }
+
+
+/* RELATED NEWS — "यह भी पढ़ें" BOX — 2026-10-07 */
+.related-news-box{
+  display:block;
+  width:100%;
+  margin:28px 0;
+  padding:0;
+  border:1px solid #d8dee8;
+  border-left:5px solid #dc2626;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 4px 14px rgba(15,23,42,.08);
+  overflow:hidden;
+  box-sizing:border-box;
+}
+.related-news-label{
+  padding:10px 14px 8px;
+  font-size:18px;
+  font-weight:800;
+  color:#b42318;
+  background:#fff7f7;
+}
+.related-news-link{
+  display:flex;
+  align-items:stretch;
+  gap:14px;
+  width:100%;
+  color:inherit;
+  text-decoration:none;
+  box-sizing:border-box;
+}
+.related-news-image{
+  display:block;
+  flex:0 0 180px;
+  width:180px;
+  height:112px;
+  object-fit:cover;
+  background:#eef2f6;
+}
+.related-news-no-image{
+  display:flex;
+  flex:0 0 180px;
+  width:180px;
+  height:112px;
+  align-items:center;
+  justify-content:center;
+  background:#eef2f6;
+  font-size:34px;
+}
+.related-news-content{
+  flex:1 1 auto;
+  min-width:0;
+  padding:13px 14px 13px 0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.related-news-title{
+  font-size:18px;
+  line-height:1.45;
+  font-weight:800;
+  color:#172033;
+}
+.related-news-read{
+  margin-top:8px;
+  font-size:14px;
+  font-weight:700;
+  color:#b42318;
+}
+@media(max-width:600px){
+  .related-news-box{margin:22px 0;border-left-width:4px;border-radius:10px}
+  .related-news-label{font-size:16px;padding:9px 11px 7px}
+  .related-news-link{gap:10px}
+  .related-news-image,.related-news-no-image{
+    flex:0 0 112px;
+    width:112px;
+    height:82px;
+  }
+  .related-news-content{padding:9px 10px 9px 0}
+  .related-news-title{font-size:15px;line-height:1.35}
+  .related-news-read{font-size:12px;margin-top:5px}
+}
+@media(max-width:360px){
+  .related-news-image,.related-news-no-image{
+    flex-basis:96px;
+    width:96px;
+    height:72px;
+  }
+  .related-news-title{font-size:14px}
+}
