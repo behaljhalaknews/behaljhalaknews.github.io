@@ -42,6 +42,15 @@ button { font: inherit; }
     position: relative;
     z-index: 1000;
 }
+/* WHITE HEADER — KEEP MAIN MENU CLEARLY VISIBLE */
+.main-navigation .menu a, .submenu-toggle {
+    color: var(--navy);
+}
+.menu-toggle {
+    color: var(--navy);
+    border-color: rgba(11,37,69,.22);
+}
+.menu-icon span { background: var(--navy); }
 .header-container {
     width: min(1200px, calc(100% - 30px));
     min-height: 78px;
@@ -1688,6 +1697,7 @@ div.channel-notice-bar .channel-notice-track{
   }
   .site-header .mobile-header-menu::-webkit-scrollbar{display:none !important;}
   .site-header .mobile-header-menu a{
+    color:var(--navy) !important;
     display:inline-flex !important;
     flex:0 0 auto !important;
     min-height:32px !important;
