@@ -129,7 +129,19 @@
     font-size:10px !important;
   }
 }
-</style></head>
+</style><script id="homepage-reload-scroll-guard">
+(function(){
+  var nav=window.performance && performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
+  var reload=nav ? nav.type==='reload' : (window.performance && performance.navigation && performance.navigation.type===1);
+  if(!reload) return;
+  try{ history.scrollRestoration='manual'; }catch(e){}
+  try{ if(location.hash) history.replaceState(null,'',location.pathname+location.search); }catch(e){}
+  document.documentElement.style.scrollBehavior='auto';
+  window.scrollTo(0,0);
+  window.addEventListener('pageshow',function(){ window.scrollTo(0,0); },{once:true});
+})();
+</script>
+</head>
 <body>
 <header class="site-header home-site-header" style="position:relative !important;"><div class="header-container" style="position:relative !important;display:flex !important;justify-content:flex-start !important;align-items:center !important;flex-wrap:nowrap !important;min-height:185px !important;height:185px !important;overflow:visible !important;">
 <div class="site-branding" style="position:absolute !important;left:12px !important;top:6px !important;right:auto !important;bottom:auto !important;width:68px !important;height:68px !important;margin:0 !important;padding:0 !important;transform:none !important;z-index:9999 !important;"><a href="./index.html" class="logo-box" style="display:flex !important;width:68px !important;height:68px !important;margin:0 !important;transform:none !important;" aria-label="बहल झलक मुख्य पृष्ठ"><img src="./images/behal-jhalak-logo.svg?v=20261004-livefix-1" alt="बहल झलक — खबर आपकी, नज़र हमारी" class="site-logo-image"></a></div>
