@@ -1,6 +1,41 @@
-/* Top direct advertisement size fix — 2026-10-06 */
-.ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport{height:clamp(160px,36vw,210px)!important}
-.ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide .direct-ad{height:100%!important;box-sizing:border-box!important;padding:5px!important}
-.ad-slot-header.direct-ad-carousel .direct-ad-link{overflow:hidden!important}
-.ad-slot-header.direct-ad-carousel .direct-ad img{width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:cover!important;object-position:center!important}
-@media(min-width:769px){.ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport{height:clamp(170px,20vw,240px)!important}}
+/* Top advertisement — show full creative without cropping */
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport{
+  height:auto !important;
+  min-height:0 !important;
+  overflow:hidden !important;
+}
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide{
+  height:auto !important;
+  min-height:0 !important;
+}
+.ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide .direct-ad{
+  height:auto !important;
+  min-height:0 !important;
+  box-sizing:border-box !important;
+  padding:5px !important;
+}
+.ad-slot-header.direct-ad-carousel .direct-ad-link{
+  height:auto !important;
+  overflow:hidden !important;
+}
+.ad-slot-header.direct-ad-carousel .direct-ad img{
+  width:100% !important;
+  height:auto !important;
+  max-width:100% !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  display:block !important;
+}
+@media(max-width:768px){
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport,
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide,
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide .direct-ad{
+    height:auto !important;
+    min-height:0 !important;
+  }
+  .ad-slot-header.direct-ad-carousel .direct-ad img{
+    height:auto !important;
+    max-height:none !important;
+  }
+}
