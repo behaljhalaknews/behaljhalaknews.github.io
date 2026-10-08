@@ -2815,3 +2815,104 @@ body:has(.article-page) .site-header .main-navigation .menu a{
   }
   .related-news-title{font-size:14px}
 }
+
+
+/* FINAL MOBILE HOMEPAGE CLEANUP — 2026-10-08
+   Safe layout-only correction: removes duplicate mobile navigation,
+   compacts the header, and prevents the top ad from reserving phantom height. */
+@media (max-width:768px){
+  .site-header .header-container{
+    min-height:112px !important;
+    height:112px !important;
+    max-height:112px !important;
+    overflow:visible !important;
+    padding:6px 8px 4px !important;
+  }
+  .site-header .site-branding{
+    position:absolute !important;
+    left:8px !important;
+    top:6px !important;
+    width:58px !important;
+    height:58px !important;
+    z-index:9999 !important;
+  }
+  .site-header .site-branding .logo-box,
+  .site-header .site-branding .site-logo-image{
+    width:58px !important;
+    height:58px !important;
+    max-width:58px !important;
+  }
+  .site-header .top-social-icons{
+    display:none !important;
+  }
+  .site-header .main-navigation{
+    display:none !important;
+    visibility:hidden !important;
+  }
+  .site-header .mobile-header-navigation{
+    display:block !important;
+    visibility:visible !important;
+    position:absolute !important;
+    left:8px !important;
+    right:8px !important;
+    top:66px !important;
+    width:auto !important;
+    height:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    z-index:99999 !important;
+  }
+  .site-header .mobile-header-menu{
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    gap:4px !important;
+    width:100% !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    padding:2px 0 4px !important;
+    scrollbar-width:none !important;
+  }
+  .site-header .mobile-header-menu::-webkit-scrollbar{display:none !important;}
+  .site-header .mobile-header-menu a{
+    flex:0 0 auto !important;
+    min-height:28px !important;
+    line-height:28px !important;
+    padding:0 9px !important;
+    font-size:10px !important;
+    border-radius:14px !important;
+  }
+  .breaking-news-container{
+    margin-top:0 !important;
+  }
+  .main-content-area{
+    margin-top:10px !important;
+  }
+  .ad-slot-header.direct-ad-carousel,
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport,
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-track,
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide,
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide .direct-ad,
+  .ad-slot-header.direct-ad-carousel .direct-ad-link{
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    aspect-ratio:auto !important;
+  }
+  .ad-slot-header.direct-ad-carousel .direct-ad img{
+    width:100% !important;
+    height:auto !important;
+    max-width:100% !important;
+    max-height:none !important;
+    object-fit:contain !important;
+  }
+  .ad-slot-header.direct-ad-carousel{
+    margin:4px auto !important;
+    padding:0 !important;
+  }
+}
+@media (min-width:769px){
+  .site-header .header-container{
+    min-height:76px !important;
+    height:76px !important;
+  }
+}
