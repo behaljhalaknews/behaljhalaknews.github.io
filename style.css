@@ -2916,3 +2916,36 @@ body:has(.article-page) .site-header .main-navigation .menu a{
     height:76px !important;
   }
 }
+
+
+/* FINAL MOBILE NAV OVERFLOW FIX — 2026-10-08-2
+   Keep all navigation items on one horizontal row; never overlap the tickers. */
+@media(max-width:768px){
+  .site-header .header-container{
+    height:112px !important;
+    min-height:112px !important;
+    max-height:112px !important;
+    overflow:visible !important;
+  }
+  .site-header .mobile-header-navigation{
+    top:68px !important;
+    height:34px !important;
+    overflow:hidden !important;
+  }
+  .site-header .mobile-header-menu{
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    width:max-content !important;
+    max-width:none !important;
+    min-width:0 !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    white-space:nowrap !important;
+    scrollbar-width:none !important;
+  }
+  .site-header .mobile-header-menu::-webkit-scrollbar{display:none !important;}
+  .site-header .mobile-header-menu a{
+    flex:0 0 auto !important;
+    white-space:nowrap !important;
+  }
+}
