@@ -231,7 +231,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     function renderHomepage() {
         if (!document.getElementById("featured-news") || !news.length) return;
-        const featured = news.find(item => item.featured) || news[0];
+        // Keep the Bhivani electricity-board newborn story inside the Bhivani category, not the permanent main/featured slot.
+        const mainExcludedIds = ["bhiwani-electricity-board-colony-newborn-2026-09-28"];
+        const isMainExcluded = item => item && mainExcludedIds.includes(item.id);
+        const featured = news.find(item => item.featured && !isMainExcluded(item)) ||
+            news.find(item => !isMainExcluded(item)) || news[0];
         const latest = news.filter(item => item.id !== featured.id).slice(0, 2);
 
         const featuredImage = featured.image || "";
