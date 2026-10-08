@@ -302,7 +302,7 @@ async function loadSubscribers(){
  status.textContent="⏳ Subscriber list लोड हो रही है...";
  list.innerHTML="";
  try{
-   const r=await sb.from("subscriber_profiles").select("id,email,created_at,status").order("created_at",{ascending:false});
+   const r=await sb.rpc("get_subscriber_profiles_admin");
    if(r.error) throw r.error;
    const rows=Array.isArray(r.data)?r.data:[];
    status.textContent="👥 कुल Subscribers: "+rows.length;
@@ -315,7 +315,7 @@ async function loadSubscribers(){
  }catch(e){
    const msg=e&&e.message?e.message:String(e||"Unknown error");
    status.textContent="❌ Subscriber list पढ़ने में समस्या: "+msg;
-   list.innerHTML='<div class="status">Table Supabase में बन चुकी है। ऊपर दिख रहा वास्तविक error देखकर अगला fix किया जा सकता है।<br>🔒 Auth users को browser से सीधे नहीं पढ़ा जाता।</div>';
+   list.innerHTML='<div class="status">Admin-only सुरक्षित database function उपलब्ध होने के बाद सूची यहां दिखाई देगी।</div>';
  }
 }
 async function refreshSession(){
