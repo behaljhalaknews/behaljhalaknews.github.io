@@ -3184,3 +3184,76 @@ body:has(.article-page) .site-header .main-navigation .menu a{
 .site-header.home-site-header .contact-address{
   color:#fff !important;
 }
+
+
+/* FINAL HEADER PRESENTATION LOCK — 2026-10-08
+   Full-health-check safe layer: visual header positioning only.
+   Does not alter News Manager, news data, Supabase, GA4 or advertisement logic. */
+.site-header.home-site-header{
+  background:#fff !important;
+  border-bottom:2px solid var(--red) !important;
+}
+.site-header.home-site-header .header-container{
+  background:#fff !important;
+  box-shadow:none !important;
+}
+.site-header.home-site-header .mobile-header-menu a{
+  background:var(--red) !important;
+  color:#fff !important;
+  border:0 !important;
+  font-weight:700 !important;
+}
+.site-header.home-site-header .mobile-header-menu a.active,
+.site-header.home-site-header .mobile-header-menu a:hover{
+  background:var(--red-dark) !important;
+  color:#fff !important;
+}
+@media(max-width:768px){
+  .site-header.home-site-header .header-container{
+    height:108px !important;
+    min-height:108px !important;
+    max-height:108px !important;
+    padding:0 !important;
+  }
+  .site-header.home-site-header .site-branding{
+    left:10px !important;
+    top:5px !important;
+    width:60px !important;
+    height:60px !important;
+  }
+  .site-header.home-site-header .site-branding .logo-box,
+  .site-header.home-site-header .site-branding .site-logo-image{
+    width:60px !important;
+    height:60px !important;
+    max-width:60px !important;
+  }
+  .site-header.home-site-header .mobile-header-navigation{
+    left:6px !important;
+    right:6px !important;
+    top:66px !important;
+    height:30px !important;
+    overflow:hidden !important;
+  }
+  .site-header.home-site-header .mobile-header-menu{
+    gap:3px !important;
+    padding:1px 0 !important;
+  }
+  .site-header.home-site-header .mobile-header-menu a{
+    min-height:25px !important;
+    height:25px !important;
+    padding:2px 6px !important;
+    border-radius:13px !important;
+    font-size:10px !important;
+    line-height:21px !important;
+  }
+}
+@media(min-width:769px){
+  .site-header.home-site-header .header-container{
+    height:76px !important;
+    min-height:76px !important;
+    max-height:76px !important;
+  }
+  .site-header.home-site-header .site-branding{
+    top:4px !important;
+  }
+}
