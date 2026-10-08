@@ -3147,3 +3147,40 @@ body:has(.article-page) .site-header .main-navigation .menu a{
     display:none !important;
   }
 }
+
+
+/* MOBILE NAV — COMPACT ITEMS + WHITE TEXT — 2026-10-08 */
+@media (max-width:768px){
+  .site-header.home-site-header .mobile-header-navigation{
+    left:6px !important;
+    right:6px !important;
+    height:30px !important;
+  }
+  .site-header.home-site-header .mobile-header-menu{
+    gap:2px !important;
+    padding:1px 0 !important;
+  }
+  .site-header.home-site-header .mobile-header-menu a{
+    min-height:25px !important;
+    height:25px !important;
+    padding:2px 6px !important;
+    border-radius:13px !important;
+    font-size:10px !important;
+    line-height:21px !important;
+    color:#fff !important;
+    background:var(--red) !important;
+  }
+  .site-header.home-site-header .mobile-header-menu a:hover,
+  .site-header.home-site-header .mobile-header-menu a.active{
+    color:#fff !important;
+    background:var(--red-dark) !important;
+  }
+}
+
+/* Header/contact/address-style text should remain clearly white. */
+.site-header.home-site-header .top-social-icon,
+.site-header.home-site-header .header-address,
+.site-header.home-site-header .address,
+.site-header.home-site-header .contact-address{
+  color:#fff !important;
+}
