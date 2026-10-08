@@ -313,8 +313,9 @@ async function loadSubscribers(){
      return '<div style="padding:12px;border:1px solid #e2e8f0;border-radius:10px;margin:8px 0;background:#fff"><strong>'+(i+1)+'. '+email+'</strong><br><small>📅 '+date+' &nbsp; 🟢 '+String(u.status||"active")+'</small></div>';
    }).join("");
  }catch(e){
-   status.textContent="⚠️ Subscriber Database table अभी तैयार नहीं है। Supabase में subscriber-manager.sql चलाने के बाद यहां सूची दिखाई देगी।";
-   list.innerHTML='<div class="status">सुरक्षा के लिए Auth users को browser से सीधे नहीं पढ़ा जाता।</div>';
+   const msg=e&&e.message?e.message:String(e||"Unknown error");
+   status.textContent="❌ Subscriber list पढ़ने में समस्या: "+msg;
+   list.innerHTML='<div class="status">Table Supabase में बन चुकी है। ऊपर दिख रहा वास्तविक error देखकर अगला fix किया जा सकता है।<br>🔒 Auth users को browser से सीधे नहीं पढ़ा जाता।</div>';
  }
 }
 async function refreshSession(){
