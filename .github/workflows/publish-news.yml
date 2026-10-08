@@ -106,12 +106,20 @@ jobs:
               m = re.search(r"(?:youtu\.be/|youtube\.com/(?:watch\?v=|shorts/|embed/))([A-Za-z0-9_-]{6,})", value)
               return "https://www.youtube.com/embed/" + m.group(1) if m else ""
 
-          video_url = youtube_embed_url(obj.get("videoUrl", ""))
+          raw_video_url = str(obj.get("videoUrl", "") or "").strip()
+          youtube_video_url = youtube_embed_url(raw_video_url)
+          is_direct_video = bool(raw_video_url) and not youtube_video_url
+          video_url = youtube_video_url or (raw_video_url if is_direct_video else "")
 
           paragraphs = []
           for p in obj["content"]:
               paragraphs.append("<p>" + html.escape(str(p)) + "</p>")
-          video_block = ('<div class="article-video"><div class="article-video-title">▶️ वीडियो क्लिप</div><div class="article-video-frame"><iframe src="' + html.escape(video_url, quote=True) + '" title="बहल झलक वीडियो क्लिप" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></div>') if video_url else ""
+          if youtube_video_url:
+              video_block = '<div class="article-video"><div class="article-video-title">▶️ वीडियो क्लिप</div><div class="article-video-frame"><iframe src="' + html.escape(youtube_video_url, quote=True) + '" title="बहल झलक वीडियो क्लिप" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></div>'
+          elif is_direct_video:
+              video_block = '<div class="article-video"><div class="article-video-title">▶️ वीडियो क्लिप</div><div class="article-video-frame"><video src="' + html.escape(video_url, quote=True) + '" controls playsinline preload="metadata"></video></div></div>'
+          else:
+              video_block = ""
           if video_block and paragraphs:
               mid = max(1, len(paragraphs) // 2)
               paragraphs.insert(mid, video_block)
@@ -151,7 +159,7 @@ jobs:
               "articleSection": obj["category"]
           }
           if video_url:
-              schema["video"] = {"@type":"VideoObject","name":obj["title"],"embedUrl":video_url,"contentUrl":str(obj.get("videoUrl",""))}
+              schema["video"] = {"@type":"VideoObject","name":obj["title"],"embedUrl":(youtube_video_url or video_url),"contentUrl":raw_video_url}
 
           article = "\n".join([
               '<!DOCTYPE html>',
