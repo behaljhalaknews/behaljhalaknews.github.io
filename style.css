@@ -2949,3 +2949,140 @@ body:has(.article-page) .site-header .main-navigation .menu a{
     white-space:nowrap !important;
   }
 }
+
+
+/* =========================================================
+   STEP 1 APPROVED — HEADER STABILITY / CASCADE CLEANUP
+   2026-10-08
+   Safe override layer: preserves news, ads, News Manager and article layout.
+   ========================================================= */
+.site-header.home-site-header {
+    position: relative !important;
+    z-index: 1000 !important;
+    overflow: visible !important;
+}
+.site-header.home-site-header .header-container {
+    position: relative !important;
+    width: min(1200px, calc(100% - 20px)) !important;
+    margin-inline: auto !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 0 !important;
+    overflow: visible !important;
+}
+.site-header.home-site-header .site-branding {
+    position: absolute !important;
+    left: 12px !important;
+    right: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 10001 !important;
+}
+.site-header.home-site-header .logo-box {
+    margin: 0 !important;
+    transform: none !important;
+}
+.site-header.home-site-header .top-social-icons {
+    display: none !important;
+}
+
+/* Desktop: one navigation system only. */
+@media (min-width: 769px) {
+    .site-header.home-site-header .mobile-header-navigation {
+        display: none !important;
+    }
+    .site-header.home-site-header .main-navigation {
+        display: block !important;
+        margin-left: auto !important;
+        width: auto !important;
+    }
+    .site-header.home-site-header .main-navigation .menu {
+        flex-wrap: nowrap !important;
+        white-space: nowrap !important;
+    }
+    .site-header.home-site-header .header-container {
+        min-height: 76px !important;
+        height: 76px !important;
+    }
+    .site-header.home-site-header .site-branding {
+        top: 4px !important;
+    }
+}
+
+/* Mobile: exactly one compact, horizontally scrollable navigation row. */
+@media (max-width: 768px) {
+    .site-header.home-site-header .header-container {
+        min-height: 112px !important;
+        height: 112px !important;
+        padding: 0 !important;
+    }
+    .site-header.home-site-header .site-branding {
+        top: 6px !important;
+        left: 12px !important;
+        width: 68px !important;
+        height: 68px !important;
+    }
+    .site-header.home-site-header .mobile-header-navigation {
+        display: block !important;
+        visibility: visible !important;
+        position: absolute !important;
+        left: 8px !important;
+        right: 8px !important;
+        top: 68px !important;
+        width: auto !important;
+        height: 36px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        z-index: 10000 !important;
+    }
+    .site-header.home-site-header .mobile-header-menu {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        width: max-content !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        gap: 4px !important;
+        margin: 0 !important;
+        padding: 2px 0 !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scrollbar-width: none !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    .site-header.home-site-header .mobile-header-menu::-webkit-scrollbar {
+        display: none !important;
+    }
+    .site-header.home-site-header .mobile-header-menu a {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        min-height: 30px !important;
+        padding: 5px 9px !important;
+        margin: 0 !important;
+        border-radius: 5px !important;
+        white-space: nowrap !important;
+        line-height: 20px !important;
+        font-size: 13px !important;
+    }
+    .site-header.home-site-header .main-navigation,
+    .site-header.home-site-header .menu-toggle {
+        display: none !important;
+    }
+}
+
+/* Keep the header's red bottom rule visually separate from the ticker. */
+.site-header.home-site-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    background: var(--red);
+    pointer-events: none;
+    z-index: 10002;
+}
