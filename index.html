@@ -163,7 +163,12 @@
   function openAuth(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');menu.classList.remove('open');more.setAttribute('aria-expanded','false');setMsg('');setTimeout(function(){email.focus();},50);}
   function closeAuth(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');}
   function setMode(m){mode=m; loginTab.classList.toggle('active',m==='login');signupTab.classList.toggle('active',m==='signup');submit.textContent=m==='login'?'लॉगिन करें':'Subscriber ID बनाएं';setMsg('');}
-  subscribe.addEventListener('click',openAuth); loginMenu.addEventListener('click',openAuth); close.addEventListener('click',closeAuth);
+  subscribe.addEventListener('click',async function(e){
+    if(subscribe.textContent.indexOf('लॉगआउट')>=0){
+      var sb=client(); if(sb) await sb.auth.signOut(); renderUser(null); return;
+    }
+    openAuth();
+  }); loginMenu.addEventListener('click',openAuth); close.addEventListener('click',closeAuth);
   modal.addEventListener('click',function(e){if(e.target===modal)closeAuth();});
   more.addEventListener('click',function(){var open=menu.classList.toggle('open');menu.setAttribute('aria-hidden',String(!open));more.setAttribute('aria-expanded',String(open));});
   document.addEventListener('click',function(e){if(!menu.contains(e.target)&&!more.contains(e.target)){menu.classList.remove('open');more.setAttribute('aria-expanded','false');}});
@@ -189,10 +194,7 @@
     }catch(err){setMsg(err.message||'कुछ समस्या हुई।');}
     finally{submit.disabled=false;}
   });
-  subscribe.addEventListener('click',async function(e){
-    if(subscribe.textContent.indexOf('लॉगआउट')<0) return;
-    e.stopImmediatePropagation(); var sb=client(); if(sb) await sb.auth.signOut(); renderUser(null);
-  });
+
   (async function(){
     var sb=client(); if(!sb) return;
     var s=await sb.auth.getSession(); renderUser(s.data && s.data.session ? s.data.session.user : null);
