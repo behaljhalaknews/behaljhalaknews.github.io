@@ -3257,3 +3257,57 @@ body:has(.article-page) .site-header .main-navigation .menu a{
     top:4px !important;
   }
 }
+
+
+/* MOBILE HEADER — NO-CUT NAVIGATION FIX — 2026-10-08 */
+@media (max-width:768px){
+  .site-header.home-site-header .mobile-header-navigation{
+    display:block !important;
+    visibility:visible !important;
+    left:4px !important;
+    right:4px !important;
+    top:66px !important;
+    width:auto !important;
+    height:32px !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    white-space:nowrap !important;
+    touch-action:pan-x !important;
+    -webkit-overflow-scrolling:touch !important;
+    scrollbar-width:none !important;
+  }
+  .site-header.home-site-header .mobile-header-navigation::-webkit-scrollbar{display:none !important;}
+  .site-header.home-site-header .mobile-header-menu{
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    justify-content:flex-start !important;
+    align-items:center !important;
+    width:max-content !important;
+    max-width:none !important;
+    min-width:max-content !important;
+    gap:2px !important;
+    padding:2px 0 !important;
+    margin:0 !important;
+    overflow:visible !important;
+  }
+  .site-header.home-site-header .mobile-header-menu a{
+    flex:0 0 auto !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    box-sizing:border-box !important;
+    height:25px !important;
+    min-height:25px !important;
+    padding:2px 5px !important;
+    margin:0 !important;
+    font-size:9px !important;
+    line-height:19px !important;
+    white-space:nowrap !important;
+    border-radius:12px !important;
+    color:#fff !important;
+    background:var(--red) !important;
+  }
+}
+
+/* Cache-busting marker: forces GitHub Pages/mobile browsers to load this final layer. */
+/* HEADER-NOCUT-20261008-01 */
