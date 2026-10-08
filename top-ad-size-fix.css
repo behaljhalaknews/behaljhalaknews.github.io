@@ -47,3 +47,25 @@
 .ad-slot-header.direct-ad-carousel .direct-ad-label{
   flex:none !important;
 }
+
+
+/* FINAL TOP-AD MOBILE HEIGHT RESET — 2026-10-08 */
+@media(max-width:768px){
+  .ad-slot-header.direct-ad-carousel,
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-viewport,
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-track,
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide,
+  .ad-slot-header.direct-ad-carousel .direct-ad-carousel-slide .direct-ad,
+  .ad-slot-header.direct-ad-carousel .direct-ad-link{
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    aspect-ratio:auto !important;
+  }
+  .ad-slot-header.direct-ad-carousel .direct-ad img{
+    width:100% !important;
+    height:auto !important;
+    max-height:none !important;
+    object-fit:contain !important;
+  }
+}
