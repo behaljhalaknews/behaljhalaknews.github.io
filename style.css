@@ -3086,3 +3086,64 @@ body:has(.article-page) .site-header .main-navigation .menu a{
     pointer-events: none;
     z-index: 10002;
 }
+
+
+/* =========================================================
+   STEP 7 APPROVED — FINAL HEADER CASCADE LOCK
+   2026-10-08
+   Final deterministic header lock. Does not modify ad/news systems.
+   ========================================================= */
+.site-header.home-site-header{
+  overflow:visible !important;
+  z-index:1000 !important;
+}
+.site-header.home-site-header .top-social-icons{
+  display:none !important;
+}
+@media (min-width:769px){
+  .site-header.home-site-header .header-container{
+    height:76px !important;
+    min-height:76px !important;
+    max-height:76px !important;
+    overflow:visible !important;
+  }
+  .site-header.home-site-header .mobile-header-navigation,
+  .site-header.home-site-header .menu-toggle{
+    display:none !important;
+  }
+  .site-header.home-site-header .main-navigation{
+    display:block !important;
+    visibility:visible !important;
+  }
+}
+@media (max-width:768px){
+  .site-header.home-site-header .header-container{
+    height:112px !important;
+    min-height:112px !important;
+    max-height:112px !important;
+    overflow:visible !important;
+  }
+  .site-header.home-site-header .mobile-header-navigation{
+    display:block !important;
+    visibility:visible !important;
+    top:68px !important;
+    height:36px !important;
+    overflow:hidden !important;
+  }
+  .site-header.home-site-header .mobile-header-menu{
+    flex-wrap:nowrap !important;
+    width:max-content !important;
+    max-width:none !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    white-space:nowrap !important;
+  }
+  .site-header.home-site-header .mobile-header-menu a{
+    flex:0 0 auto !important;
+    white-space:nowrap !important;
+  }
+  .site-header.home-site-header .main-navigation,
+  .site-header.home-site-header .menu-toggle{
+    display:none !important;
+  }
+}
