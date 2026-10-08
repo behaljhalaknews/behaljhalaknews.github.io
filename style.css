@@ -3311,3 +3311,98 @@ body:has(.article-page) .site-header .main-navigation .menu a{
 
 /* Cache-busting marker: forces GitHub Pages/mobile browsers to load this final layer. */
 /* HEADER-NOCUT-20261008-01 */
+
+
+/* NEWS LIST LAYOUT — 2026-10-08
+   One news item per line: image on the left, headline/content on the right.
+   Keeps existing News Manager, publishing, ads and article links unchanged. */
+.news-grid-2,
+.news-grid-3{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:12px !important;
+}
+.small-news-card,
+.news-card{
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:stretch !important;
+  width:100% !important;
+  min-width:0 !important;
+}
+.small-news-card .news-card-image-link,
+.news-card .news-card-image-link{
+  flex:0 0 190px !important;
+  width:190px !important;
+  height:120px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:#eef2f5 !important;
+  overflow:hidden !important;
+}
+.small-news-card img,
+.news-card img{
+  width:100% !important;
+  height:100% !important;
+  aspect-ratio:auto !important;
+  object-fit:contain !important;
+}
+.small-news-content,
+.news-card-content{
+  flex:1 1 auto !important;
+  min-width:0 !important;
+  padding:10px 12px !important;
+}
+.small-news-content h3,
+.news-card-content h3{
+  margin:2px 0 0 !important;
+  font-size:17px !important;
+  line-height:1.38 !important;
+}
+.small-news-content p,
+.news-card-content p{
+  margin:5px 0 0 !important;
+  font-size:13px !important;
+  line-height:1.4 !important;
+}
+@media(max-width:768px){
+  .small-news-card,
+  .news-card{
+    min-height:92px !important;
+  }
+  .small-news-card .news-card-image-link,
+  .news-card .news-card-image-link{
+    flex:0 0 112px !important;
+    width:112px !important;
+    height:92px !important;
+  }
+  .small-news-content,
+  .news-card-content{
+    padding:8px 9px !important;
+  }
+  .small-news-content h3,
+  .news-card-content h3{
+    font-size:14px !important;
+    line-height:1.35 !important;
+    display:-webkit-box !important;
+    -webkit-box-orient:vertical !important;
+    -webkit-line-clamp:3 !important;
+    overflow:hidden !important;
+  }
+  .small-news-content p,
+  .news-card-content p{
+    display:none !important;
+  }
+  .small-news-content .news-meta,
+  .news-card-content .news-meta{
+    margin-top:5px !important;
+    font-size:10px !important;
+  }
+  .small-news-content .category-tag,
+  .news-card-content .category-tag{
+    font-size:10px !important;
+    padding:3px 6px !important;
+    margin-bottom:3px !important;
+  }
+}
