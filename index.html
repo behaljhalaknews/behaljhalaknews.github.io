@@ -36,100 +36,54 @@
 <meta name="twitter:image" content="https://behaljhalaknews.github.io/images/bhiwani-newborn.jpg?v=20260928-1">
 <meta name="twitter:image:alt" content="बहल झलक — ताज़ा स्थानीय खबरें">
 <!-- HEADER DEPLOY REFRESH: 2026-10-05 -->
-<style id="bahal-header-final-position">
-/* FINAL HEADER POSITION: logo left, navigation right/below as available */
-.site-header .header-container{
-  position:relative !important;
-  display:flex !important;
-  flex-wrap:nowrap !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  width:100% !important;
-  max-width:1200px !important;
-  min-height:76px !important;
-  margin:0 auto !important;
-  padding:6px 12px 6px 92px !important;
-  box-sizing:border-box !important;
-}
-.site-header .site-branding{
-  position:static !important;
-  order:1 !important;
-  flex:0 0 68px !important;
-  width:68px !important;
-  min-width:68px !important;
-  max-width:68px !important;
-  height:68px !important;
-  margin:0 !important;
-  padding:0 !important;
-}
-.site-header .site-branding .logo-box,
-.site-header .site-branding .site-logo-image{
-  width:68px !important;
-  height:68px !important;
-  max-width:68px !important;
-  margin:0 !important;
-}
-.site-header .top-social-icons{display:none !important;}
-.site-header .mobile-header-navigation{display:none !important;}
-.site-header .main-navigation{
-  display:block !important;
-  position:static !important;
-  order:2 !important;
-  flex:1 1 auto !important;
-  width:auto !important;
-  max-width:calc(100% - 78px) !important;
-  min-width:0 !important;
-  margin:0 0 0 auto !important;
-  padding:0 !important;
-}
-.site-header .main-navigation .menu{
-  display:flex !important;
-  flex-wrap:nowrap !important;
-  justify-content:flex-end !important;
-  align-items:center !important;
-  width:max-content !important;
-  min-width:0 !important;
-  max-width:none !important;
-  margin:0 0 0 auto !important;
-  padding:3px 0 !important;
-  overflow-x:auto !important;
-}
-.site-header .main-navigation .menu li{flex:0 0 auto !important;}
-.site-header .main-navigation .menu a{white-space:nowrap !important;}
+
+<style id="bahal-header-v2">
+/* बहल झलक Header V2 — compact, mobile-first, no duplicate navigation */
+.site-header{position:relative!important;z-index:1000!important;background:#fff;border-bottom:1px solid #e5e7eb;}
+.bj-header-main{max-width:1200px;margin:0 auto;padding:7px 10px 6px;box-sizing:border-box;}
+.bj-header-top{display:flex;align-items:center;gap:9px;min-height:58px;}
+.bj-brand{display:flex;align-items:center;gap:8px;min-width:0;text-decoration:none;color:#0b2545;}
+.bj-brand img{width:56px;height:56px;display:block;flex:0 0 56px;border-radius:50%;object-fit:contain;}
+.bj-brand-text{display:flex;flex-direction:column;line-height:1.05;min-width:0;}
+.bj-brand-name{font-size:19px;font-weight:900;white-space:nowrap;}
+.bj-brand-tag{font-size:9px;font-weight:700;color:#c62828;letter-spacing:.3px;white-space:nowrap;}
+.bj-header-actions{margin-left:auto;display:flex;align-items:center;gap:7px;flex:0 0 auto;}
+.bj-subscribe-btn{border:0;border-radius:18px;background:#c62828;color:#fff;font-weight:800;font-size:12px;padding:9px 12px;white-space:nowrap;cursor:pointer;box-shadow:0 2px 7px rgba(0,0,0,.12);}
+.bj-more-btn{width:38px;height:38px;border:1px solid #d8dee8;background:#fff;border-radius:50%;font-size:24px;line-height:30px;color:#0b2545;cursor:pointer;}
+.bj-nav-wrap{position:relative;overflow:hidden;margin-top:6px;}
+.bj-nav{display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;white-space:nowrap;padding:3px 2px 5px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.bj-nav::-webkit-scrollbar{display:none;}
+.bj-nav a{flex:0 0 auto;text-decoration:none;color:#263238;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:15px;padding:6px 10px;font-size:11px;font-weight:700;}
+.bj-nav a.active{background:#0b2545;color:#fff;border-color:#0b2545;}
+.bj-menu-panel{display:none;position:absolute;right:10px;top:65px;width:220px;background:#fff;border:1px solid #dfe5ec;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.16);padding:8px;z-index:100000;}
+.bj-menu-panel.open{display:block;}
+.bj-menu-panel a,.bj-menu-panel button{display:block;width:100%;box-sizing:border-box;text-align:left;text-decoration:none;border:0;background:#fff;color:#172033;padding:10px 11px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;}
+.bj-menu-panel a:hover,.bj-menu-panel button:hover{background:#f3f6fa;}
+.bj-user-state{display:none;font-size:10px;color:#475569;max-width:145px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bj-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.52);z-index:200000;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;}
+.bj-modal.open{display:flex;}
+.bj-modal-card{width:min(390px,100%);background:#fff;border-radius:16px;padding:18px;box-sizing:border-box;box-shadow:0 20px 50px rgba(0,0,0,.25);}
+.bj-modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.bj-modal-title{font-size:19px;font-weight:900;color:#0b2545;}
+.bj-close{border:0;background:#eef2f7;border-radius:50%;width:32px;height:32px;font-size:20px;cursor:pointer;}
+.bj-auth-tabs{display:flex;gap:6px;margin:8px 0 14px;}
+.bj-auth-tab{flex:1;border:1px solid #dbe2ea;background:#fff;border-radius:8px;padding:8px;font-weight:800;cursor:pointer;}
+.bj-auth-tab.active{background:#0b2545;color:#fff;}
+.bj-auth-form label{display:block;font-size:12px;font-weight:800;margin:9px 0 5px;color:#334155;}
+.bj-auth-form input{width:100%;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:9px;padding:10px;font-size:14px;}
+.bj-auth-submit{width:100%;margin-top:13px;border:0;border-radius:9px;padding:11px;background:#c62828;color:#fff;font-weight:900;cursor:pointer;}
+.bj-auth-msg{min-height:20px;margin-top:9px;font-size:12px;font-weight:700;}
 @media(max-width:768px){
-  .site-header .header-container{
-    width:100% !important;
-    max-width:100% !important;
-    min-height:76px !important;
-    padding:4px 8px 4px 74px !important;
-  }
-  .site-header .site-branding{
-    flex-basis:58px !important;
-    width:58px !important;
-    min-width:58px !important;
-    max-width:58px !important;
-    height:58px !important;
-  }
-  .site-header .site-branding .logo-box,
-  .site-header .site-branding .site-logo-image{
-    width:58px !important;
-    height:58px !important;
-    max-width:58px !important;
-  }
-  .site-header .main-navigation{max-width:100% !important;width:100% !important;}
-  .site-header .main-navigation .menu{
-    justify-content:flex-start !important;
-    margin-left:0 !important;
-    gap:3px !important;
-  }
-  .site-header .main-navigation .menu a{
-    min-height:26px !important;
-    line-height:26px !important;
-    padding:0 8px !important;
-    font-size:10px !important;
-  }
+  .bj-header-main{padding:5px 8px 5px;}
+  .bj-header-top{min-height:55px;gap:7px;}
+  .bj-brand img{width:50px;height:50px;flex-basis:50px;}
+  .bj-brand-text{display:none;}
+  .bj-subscribe-btn{font-size:11px;padding:8px 10px;}
+  .bj-more-btn{width:36px;height:36px;font-size:23px;}
+  .bj-menu-panel{right:8px;top:60px;width:205px;}
 }
-</style><script id="homepage-reload-scroll-guard">
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script id="homepage-reload-scroll-guard">
 (function(){
   var nav=window.performance && performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
   var isReload=nav ? nav.type==='reload' : (window.performance && performance.navigation && performance.navigation.type===1);
@@ -150,16 +104,102 @@
 </script>
 </head>
 <body>
-<header class="site-header home-site-header" style="position:relative !important;"><div class="header-container" style="position:relative !important;display:flex !important;justify-content:flex-start !important;align-items:center !important;flex-wrap:nowrap !important;min-height:112px !important;height:112px !important;overflow:visible !important;">
-<div class="site-branding" style="position:absolute !important;left:12px !important;top:6px !important;right:auto !important;bottom:auto !important;width:68px !important;height:68px !important;margin:0 !important;padding:0 !important;transform:none !important;z-index:9999 !important;"><a href="./index.html" class="logo-box" style="display:flex !important;width:68px !important;height:68px !important;margin:0 !important;transform:none !important;" aria-label="बहल झलक मुख्य पृष्ठ"><img src="./images/behal-jhalak-logo.svg?v=20261004-livefix-1" alt="बहल झलक — खबर आपकी, नज़र हमारी" class="site-logo-image"></a></div>
-<div class="top-social-icons" aria-label="सोशल मीडिया"><a class="top-social-icon youtube" href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶</a><a class="top-social-icon facebook" href="https://www.facebook.com/share/1JQLY1vQ9k/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">f</a><a class="top-social-icon instagram" href="https://www.instagram.com/behaljhalak?stkn=d3BiZHc3djhvMmc0" target="_blank" rel="noopener noreferrer" aria-label="Instagram">◎</a><a class="top-social-icon whatsapp" href="https://whatsapp.com/channel/0029Vb8J2087j6g1F4oEO646" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">◉</a></div>
-<nav class="mobile-header-navigation" aria-label="मोबाइल मुख्य नेविगेशन" style="display:block !important;visibility:visible !important;position:absolute !important;left:8px !important;right:8px !important;top:68px !important;width:auto !important;height:32px !important;margin:0 !important;padding:0 !important;overflow:hidden !important;z-index:99999 !important;"><div class="mobile-header-menu" style="display:flex !important;flex-wrap:nowrap !important;align-items:center !important;justify-content:flex-start !important;width:max-content !important;max-width:none !important;min-width:0 !important;gap:4px !important;margin:0 !important;padding:2px 0 !important;overflow-x:auto !important;overflow-y:hidden !important;">
-<a href="./index.html" class="active">मुख्य</a><a href="#latest-news">ताज़ा</a><a href="#bhiwani-news">भिवानी</a><a href="#bahal-news">बहल</a><a href="#haryana-news">हरियाणा</a><a href="#rajasthan-news">राजस्थान</a><a href="#national-news">राष्ट्रीय</a><a href="#politics-news">राजनीति</a><a href="#crime-news">अपराध</a><a href="#sports-news">खेल</a><a href="#video-news">वीडियो</a><a href="#contact">संपर्क</a>
-</div></nav>
-<nav class="main-navigation" aria-label="मुख्य नेविगेशन"><ul class="menu" id="main-menu">
-<li><a href="./index.html" class="active">मुख्य पृष्ठ</a></li><li><a href="#latest-news">ताज़ा खबरें</a></li><li><a href="#bhiwani-news">भिवानी</a></li><li><a href="#bahal-news">बहल</a></li><li><a href="#haryana-news">हरियाणा</a></li><li><a href="#rajasthan-news">राजस्थान</a></li><li><a href="#national-news">राष्ट्रीय</a></li><li><a href="#politics-news">राजनीति</a></li><li><a href="#crime-news">अपराध</a></li><li><a href="#sports-news">खेल</a></li><li><a href="#video-news">वीडियो</a></li><li><a href="#contact">संपर्क करें</a></li>
-</ul></nav>
-</div></header>
+<header class="site-header home-site-header">
+  <div class="bj-header-main">
+    <div class="bj-header-top">
+      <a class="bj-brand" href="./index.html" aria-label="बहल झलक मुख्य पृष्ठ">
+        <img src="./images/behal-jhalak-logo.svg?v=20261004-livefix-1" alt="बहल झलक">
+        <span class="bj-brand-text"><span class="bj-brand-name">बहल झलक</span><span class="bj-brand-tag">खबर आपकी, नज़र हमारी • LIVE</span></span>
+      </a>
+      <div class="bj-header-actions">
+        <span class="bj-user-state" id="bjUserState"></span>
+        <button class="bj-subscribe-btn" id="bjSubscribeBtn" type="button">🔔 सब्सक्राइब</button>
+        <button class="bj-more-btn" id="bjMoreBtn" type="button" aria-label="अधिक विकल्प" aria-expanded="false">⋮</button>
+      </div>
+    </div>
+    <div class="bj-nav-wrap">
+      <nav class="bj-nav" aria-label="मुख्य नेविगेशन">
+        <a href="./index.html" class="active">मुख्य</a>
+        <a href="#latest-news">ताज़ा</a><a href="#bhiwani-news">भिवानी</a><a href="#bahal-news">बहल</a>
+        <a href="#haryana-news">हरियाणा</a><a href="#rajasthan-news">राजस्थान</a><a href="#national-news">राष्ट्रीय</a>
+        <a href="#politics-news">राजनीति</a><a href="#crime-news">अपराध</a><a href="#sports-news">खेल</a>
+        <a href="#video-news">वीडियो</a><a href="#contact">संपर्क</a>
+      </nav>
+    </div>
+  </div>
+  <div class="bj-menu-panel" id="bjMenuPanel" aria-hidden="true">
+    <button type="button" id="bjLoginMenuBtn">👤 Subscriber Login</button>
+    <a href="#latest-news">📰 सभी खबरें</a>
+    <a href="#contact">📱 सोशल मीडिया / संपर्क</a>
+    <a href="./privacy.html">🔒 गोपनीयता नीति</a>
+    <a href="./about.html">ℹ️ हमारे बारे में</a>
+  </div>
+</header>
+
+<div class="bj-modal" id="bjAuthModal" aria-hidden="true">
+  <div class="bj-modal-card" role="dialog" aria-modal="true" aria-labelledby="bjAuthTitle">
+    <div class="bj-modal-head"><div class="bj-modal-title" id="bjAuthTitle">Subscriber Login</div><button class="bj-close" id="bjAuthClose" type="button" aria-label="बंद करें">×</button></div>
+    <div class="bj-auth-tabs"><button class="bj-auth-tab active" id="bjLoginTab" type="button">लॉगिन</button><button class="bj-auth-tab" id="bjSignupTab" type="button">नई ID बनाएं</button></div>
+    <form class="bj-auth-form" id="bjAuthForm">
+      <label for="bjEmail">Subscriber ID / Email</label><input id="bjEmail" type="email" autocomplete="email" required placeholder="आपकी ईमेल ID">
+      <label for="bjPassword">पासवर्ड</label><input id="bjPassword" type="password" autocomplete="current-password" minlength="6" required placeholder="कम से कम 6 अक्षर">
+      <button class="bj-auth-submit" id="bjAuthSubmit" type="submit">लॉगिन करें</button>
+      <div class="bj-auth-msg" id="bjAuthMsg" role="status"></div>
+    </form>
+  </div>
+</div>
+
+<script id="bahal-subscriber-auth">
+(function(){
+  var modal=document.getElementById('bjAuthModal'), menu=document.getElementById('bjMenuPanel');
+  var subscribe=document.getElementById('bjSubscribeBtn'), more=document.getElementById('bjMoreBtn');
+  var loginMenu=document.getElementById('bjLoginMenuBtn'), close=document.getElementById('bjAuthClose');
+  var form=document.getElementById('bjAuthForm'), email=document.getElementById('bjEmail'), pass=document.getElementById('bjPassword');
+  var msg=document.getElementById('bjAuthMsg'), submit=document.getElementById('bjAuthSubmit');
+  var loginTab=document.getElementById('bjLoginTab'), signupTab=document.getElementById('bjSignupTab'), userState=document.getElementById('bjUserState');
+  var mode='login';
+
+  function setMsg(t){msg.textContent=t||'';}
+  function openAuth(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');menu.classList.remove('open');more.setAttribute('aria-expanded','false');setMsg('');setTimeout(function(){email.focus();},50);}
+  function closeAuth(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');}
+  function setMode(m){mode=m; loginTab.classList.toggle('active',m==='login');signupTab.classList.toggle('active',m==='signup');submit.textContent=m==='login'?'लॉगिन करें':'Subscriber ID बनाएं';setMsg('');}
+  subscribe.addEventListener('click',openAuth); loginMenu.addEventListener('click',openAuth); close.addEventListener('click',closeAuth);
+  modal.addEventListener('click',function(e){if(e.target===modal)closeAuth();});
+  more.addEventListener('click',function(){var open=menu.classList.toggle('open');menu.setAttribute('aria-hidden',String(!open));more.setAttribute('aria-expanded',String(open));});
+  document.addEventListener('click',function(e){if(!menu.contains(e.target)&&!more.contains(e.target)){menu.classList.remove('open');more.setAttribute('aria-expanded','false');}});
+  loginTab.addEventListener('click',function(){setMode('login');}); signupTab.addEventListener('click',function(){setMode('signup');});
+
+  function client(){
+    if(!window.supabase || !window.BAHAL_SUPABASE_URL || !window.BAHAL_SUPABASE_PUBLISHABLE_KEY) return null;
+    if(!window.__bahalSupabase) window.__bahalSupabase=window.supabase.createClient(window.BAHAL_SUPABASE_URL,window.BAHAL_SUPABASE_PUBLISHABLE_KEY);
+    return window.__bahalSupabase;
+  }
+  function renderUser(u){
+    if(u && u.email){userState.style.display='inline-block';userState.textContent='👤 '+u.email;subscribe.textContent='🚪 लॉगआउट';}
+    else{userState.style.display='none';subscribe.textContent='🔔 सब्सक्राइब';}
+  }
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();setMsg('कृपया प्रतीक्षा करें…');submit.disabled=true;
+    try{
+      var sb=client(); if(!sb) throw new Error('Subscriber service अभी उपलब्ध नहीं है।');
+      var res=mode==='login' ? await sb.auth.signInWithPassword({email:email.value.trim(),password:pass.value}) : await sb.auth.signUp({email:email.value.trim(),password:pass.value});
+      if(res.error) throw res.error;
+      if(mode==='signup' && !res.data.session){setMsg('ID बन गई है। ईमेल में आए confirmation link से खाता सक्रिय करें।');}
+      else{setMsg(mode==='login'?'लॉगिन सफल।':'Subscriber ID सफलतापूर्वक बन गई।');renderUser(res.data.user);setTimeout(closeAuth,700);}
+    }catch(err){setMsg(err.message||'कुछ समस्या हुई।');}
+    finally{submit.disabled=false;}
+  });
+  subscribe.addEventListener('click',async function(e){
+    if(subscribe.textContent.indexOf('लॉगआउट')<0) return;
+    e.stopImmediatePropagation(); var sb=client(); if(sb) await sb.auth.signOut(); renderUser(null);
+  });
+  (async function(){
+    var sb=client(); if(!sb) return;
+    var s=await sb.auth.getSession(); renderUser(s.data && s.data.session ? s.data.session.user : null);
+    sb.auth.onAuthStateChange(function(_,session){renderUser(session?session.user:null);});
+  })();
+})();
+</script>
 
 <script src="./channel-notice.js?v=20261004-01"></script>
 <div class="channel-notice-bar" role="region" aria-label="बहल झलक चैनल सूचना">
