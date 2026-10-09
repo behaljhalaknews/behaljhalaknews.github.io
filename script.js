@@ -255,7 +255,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
         if (!valid.length) return;
         const withPhotos = valid.filter(function (item) { return !!String(item.image || "").trim(); });
-        bjPopupNewsItems = withPhotos.slice(0, 6);
+        bjPopupNewsItems = withPhotos.slice(0, 3);
         if (bjPopupNewsItems.length < 3) {
             valid.forEach(function (item) {
                 if (bjPopupNewsItems.length >= Math.min(3, valid.length)) return;
