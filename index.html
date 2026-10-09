@@ -48,6 +48,10 @@
 .bj-brand-name{font-size:19px;font-weight:900;white-space:nowrap;}
 .bj-brand-tag{font-size:9px;font-weight:700;color:#c62828;letter-spacing:.3px;white-space:nowrap;}
 .bj-header-actions{margin-left:auto;display:flex;align-items:center;gap:7px;flex:0 0 auto;}
+.bj-datetime{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;padding:5px 8px;margin-top:3px;border-top:1px solid #f1f5f9;color:#334155;font-size:11px;font-weight:750;line-height:1.35;font-variant-numeric:tabular-nums;}
+.bj-datetime span{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;}
+.bj-datetime .bj-datetime-time{color:#b71c1c;font-weight:900;}
+@media(max-width:768px){.bj-datetime{justify-content:flex-start;gap:6px 12px;padding:5px 3px 4px;font-size:10px;}.bj-datetime span{gap:4px;}}
 .bj-subscribe-btn{border:0;border-radius:18px;background:#c62828;color:#fff;font-weight:800;font-size:12px;padding:9px 12px;white-space:nowrap;cursor:pointer;box-shadow:0 2px 7px rgba(0,0,0,.12);}
 .bj-ad-header-btn{width:auto;min-width:0;height:36px;flex:0 1 auto;border:1px solid #f0c6c6;background:#fff5f5;border-radius:18px;font-size:12px;line-height:1.1;color:#b71c1c;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0 10px;white-space:nowrap;font-weight:800;box-sizing:border-box;}
   .bj-more-btn{width:38px;height:38px;border:1px solid #d8dee8;background:#fff;border-radius:50%;font-size:24px;line-height:30px;color:#0b2545;cursor:pointer;}
@@ -265,6 +269,7 @@
         <button class="bj-more-btn" id="bjMoreBtn" type="button" aria-label="मेनू खोलें" aria-expanded="false">☰</button>
       </div>
     </div>
+    <div class="bj-datetime" aria-label="वर्तमान भारतीय तारीख और समय"><span>📅 <time id="bjCurrentDate">तारीख लोड हो रही है</time></span><span class="bj-datetime-time">🕒 <time id="bjCurrentTime">समय लोड हो रहा है</time> IST</span></div>
     <div class="bj-nav-wrap">
       <nav class="bj-nav" aria-label="मुख्य नेविगेशन">
         <a href="./index.html" class="active">मुख्य</a>
@@ -285,6 +290,7 @@
     <a href="./about.html">ℹ️ हमारे बारे में</a>
   </div>
 </header>
+<script id="bj-live-india-clock">(function(){var d=document.getElementById("bjCurrentDate"),t=document.getElementById("bjCurrentTime");if(!d||!t)return;var dateFmt=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",weekday:"long",day:"numeric",month:"long",year:"numeric"});var timeFmt=new Intl.DateTimeFormat("hi-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true});function tick(){var now=new Date();d.textContent=dateFmt.format(now);t.textContent=timeFmt.format(now);}tick();setInterval(tick,1000);})();</script>
 
 <div class="bj-popup" id="bjSubscriberPopup" aria-hidden="true"><div class="bj-popup-card bj-device-card" role="dialog" aria-modal="true" aria-labelledby="bjSubscriberPopupTitle"><button class="bj-popup-close" type="button" data-popup-close="subscriber" aria-label="बंद करें">×</button><div class="bj-popup-body"><div class="bj-popup-brand"><span class="bj-popup-live">● LIVE</span><span class="bj-popup-brand-name">बहल झलक</span></div><div class="bj-popup-title" id="bjSubscriberPopupTitle">हर स्क्रीन पर आपकी अपनी खबरें</div><p class="bj-popup-text">मोबाइल, लैपटॉप और टैबलेट पर बहल झलक की ताज़ा खबरें पढ़ें।</p><div class="bj-device-showcase"><div class="bj-mock-phone"><div class="bj-mock-screen"><b>बहल झलक <em>LIVE</em></b><small>विज्ञापन</small><strong>भिवानी की ताज़ा खबरें</strong><strong>हरियाणा की बड़ी खबर</strong><strong>बहल की स्थानीय खबरें</strong></div></div><div class="bj-mock-laptop"><div class="bj-mock-screen"><b>बहल झलक <em>LIVE</em></b><small>बहल　 भिवानी　 हरियाणा　 राजस्थान</small><small>विज्ञापन स्लॉट</small><strong>ताज़ा और प्रमुख खबरें</strong><strong>देश-विदेश की खबरें</strong></div><i></i></div><div class="bj-mock-tablet"><div class="bj-mock-screen"><b>बहल झलक <em>LIVE</em></b><small>विज्ञापन</small><strong>राजस्थान की खबरें</strong><strong>स्थानीय समाचार और अपडेट</strong></div></div></div></div><div class="bj-popup-bottom-strip"><button class="bj-popup-action" id="bjSubscriberPopupAction" type="button">🔔 सब्सक्राइब करें</button><button class="bj-popup-ad-action" id="bjSubscriberPopupAdAction" type="button">📢 विज्ञापन के लिए संपर्क करें</button></div></div></div>
 <div class="bj-popup" id="bjAdPopup" aria-hidden="true"><div class="bj-popup-card" role="dialog" aria-modal="true" aria-labelledby="bjAdPopupTitle"><button class="bj-popup-close" type="button" data-popup-close="ad" aria-label="बंद करें">×</button><div id="bjAdPopupContent"></div></div></div>
