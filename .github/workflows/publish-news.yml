@@ -98,7 +98,8 @@ jobs:
               image_item = str(image_item)
               images.append((image_item if image_item.startswith("http") else site + "/" + image_item.lstrip("./")) if image_item else "")
           images = [x for x in images if x]
-          image_url = images[0] if images else site + "/images/behal-jhalak-logo.svg?v=20261009-share-fix-1"
+          # Prefer the story photo; Facebook does not support SVG for og:image.
+          image_url = images[0] if images else site + "/images/bhiwani-electricity.jpg"
 
           def youtube_embed_url(value):
               value = str(value or "").strip()
@@ -175,11 +176,15 @@ jobs:
               '<meta property="og:title" content="' + (('▶️ वीडियो: ' + title) if video_url else title) + ' | बहल झलक">',
               '<meta property="og:description" content="' + html.escape(('▶️ इस खबर में वीडियो देखें। ' if video_url else '') + str(obj["excerpt"]), quote=True) + '">',
               '<meta property="og:image" content="' + html.escape(image_url, quote=True) + '">',
+              '<meta property="og:image:secure_url" content="' + html.escape(image_url, quote=True) + '">',
+              '<meta property="og:image:type" content="' + ('image/png' if image_url.lower().split('?')[0].endswith('.png') else 'image/jpeg') + '">',
+              '<meta property="og:image:alt" content="' + html.escape(("वीडियो थंबनेल: " if video_url else "") + str(obj["title"]), quote=True) + '">',
               '<meta property="og:url" content="' + page_url + '">',
               '<meta name="twitter:card" content="summary_large_image">',
               '<meta name="twitter:title" content="' + title + ' | बहल झलक">',
               '<meta name="twitter:description" content="' + desc + '">',
               '<meta name="twitter:image" content="' + html.escape(image_url, quote=True) + '">',
+              '<meta name="twitter:image:alt" content="' + html.escape(("वीडियो थंबनेल: " if video_url else "") + str(obj["title"]), quote=True) + '">',
               '<link rel="canonical" href="' + page_url + '">',
               '<script type="application/ld+json">' + json.dumps(schema, ensure_ascii=False) + '</script>',
               '<script async src="https://www.googletagmanager.com/gtag/js?id=G-G2EC83JEL3"></script>',
