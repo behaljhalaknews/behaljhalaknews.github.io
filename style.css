@@ -3492,3 +3492,15 @@ body:has(.article-page) .site-header .main-navigation .menu a{
 .article-video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:8px;background:#0f172a;}
 .article-video-frame video,.article-video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:contain;}
 @media(max-width:600px){.bj-video-play-icon{width:46px;height:46px;font-size:21px}.bj-video-play-text{font-size:11px}.article-video{padding:7px}}
+
+
+/* ARTICLE DIRECT ADS — carousel, full-width natural-size JPGs */
+.ad-slot-article.direct-ad-carousel,.ad-slot-article-end.direct-ad-carousel{display:block!important;width:min(calc(100% - 24px),970px)!important;max-width:970px!important;min-height:0!important;height:auto!important;margin:10px auto 22px!important;padding:0!important;overflow:hidden!important;border:0!important;border-radius:10px!important;background:transparent!important;box-sizing:border-box!important}
+.ad-slot-article.direct-ad-carousel .direct-ad-carousel-viewport,.ad-slot-article-end.direct-ad-carousel .direct-ad-carousel-viewport{width:100%!important;height:auto!important;overflow:hidden!important}
+.ad-slot-article.direct-ad-carousel .direct-ad-carousel-track,.ad-slot-article.direct-ad-carousel .direct-ad-carousel-slide,.ad-slot-article-end.direct-ad-carousel .direct-ad-carousel-track,.ad-slot-article-end.direct-ad-carousel .direct-ad-carousel-slide{height:auto!important;min-height:0!important}
+.ad-slot-article.direct-ad-carousel .direct-ad-carousel-slide,.ad-slot-article-end.direct-ad-carousel .direct-ad-carousel-slide{flex:0 0 100%!important;min-width:100%!important}
+.ad-slot-article.direct-ad-carousel .direct-ad,.ad-slot-article-end.direct-ad-carousel .direct-ad{width:100%!important;height:auto!important;min-height:0!important;margin:0!important;padding:6px!important;box-sizing:border-box!important}
+.ad-slot-article.direct-ad-carousel .direct-ad-label,.ad-slot-article-end.direct-ad-carousel .direct-ad-label{margin:0 2px 4px!important;line-height:1.2!important}
+.ad-slot-article.direct-ad-carousel .direct-ad-link,.ad-slot-article-end.direct-ad-carousel .direct-ad-link{display:block!important;width:100%!important;height:auto!important;overflow:visible!important}
+.ad-slot-article.direct-ad-carousel .direct-ad img,.ad-slot-article-end.direct-ad-carousel .direct-ad img{display:block!important;width:100%!important;max-width:100%!important;height:auto!important;max-height:none!important;object-fit:contain!important}
+@media(max-width:768px){.ad-slot-article.direct-ad-carousel,.ad-slot-article-end.direct-ad-carousel{width:calc(100% - 16px)!important;margin:8px auto 18px!important}.ad-slot-article.direct-ad-carousel .direct-ad,.ad-slot-article-end.direct-ad-carousel .direct-ad{padding:3px!important}}
