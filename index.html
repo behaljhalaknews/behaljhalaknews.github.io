@@ -49,7 +49,7 @@
 .bj-brand-tag{font-size:9px;font-weight:700;color:#c62828;letter-spacing:.3px;white-space:nowrap;}
 .bj-header-actions{margin-left:auto;display:flex;align-items:center;gap:7px;flex:0 0 auto;}
 .bj-subscribe-btn{border:0;border-radius:18px;background:#c62828;color:#fff;font-weight:800;font-size:12px;padding:9px 12px;white-space:nowrap;cursor:pointer;box-shadow:0 2px 7px rgba(0,0,0,.12);}
-.bj-ad-header-btn{width:36px;height:36px;flex:0 0 36px;border:1px solid #f0c6c6;background:#fff5f5;border-radius:50%;font-size:18px;line-height:30px;color:#b71c1c;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;}
+.bj-ad-header-btn{width:auto;min-width:0;height:36px;flex:0 1 auto;border:1px solid #f0c6c6;background:#fff5f5;border-radius:18px;font-size:12px;line-height:1.1;color:#b71c1c;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0 10px;white-space:nowrap;font-weight:800;box-sizing:border-box;}
   .bj-more-btn{width:38px;height:38px;border:1px solid #d8dee8;background:#fff;border-radius:50%;font-size:24px;line-height:30px;color:#0b2545;cursor:pointer;}
 .bj-nav-wrap{position:relative;overflow:hidden;margin-top:6px;}
 .bj-nav{display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;white-space:nowrap;padding:3px 2px 5px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
@@ -79,7 +79,9 @@
   .bj-header-top{min-height:55px;gap:7px;}
   .bj-brand img{width:50px;height:50px;flex-basis:50px;}
   .bj-brand-text{display:none;}
-  .bj-subscribe-btn{font-size:11px;padding:8px 10px;}
+  .bj-subscribe-btn{font-size:10px;padding:8px 8px;}
+  .bj-ad-header-btn{height:34px;font-size:10px;padding:0 7px;}
+  .bj-header-actions{gap:5px;}
   .bj-more-btn{width:36px;height:36px;font-size:23px;}
   .bj-menu-panel{right:8px;top:60px;width:205px;}
 }
@@ -115,7 +117,7 @@
       <div class="bj-header-actions">
         <span class="bj-user-state" id="bjUserState"></span>
         <button class="bj-subscribe-btn" id="bjSubscribeBtn" type="button">🔔 सब्सक्राइब</button>
-        <button class="bj-ad-header-btn" id="bjAdHeaderBtn" type="button" aria-label="विज्ञापन देखें" title="विज्ञापन देखें">📢</button>
+        <button class="bj-ad-header-btn" id="bjAdHeaderBtn" type="button" aria-label="विज्ञापन देखें" title="विज्ञापन देखें">📢 विज्ञापन देखें</button>
         <button class="bj-more-btn" id="bjMoreBtn" type="button" aria-label="मेनू खोलें" aria-expanded="false">☰</button>
       </div>
     </div>
