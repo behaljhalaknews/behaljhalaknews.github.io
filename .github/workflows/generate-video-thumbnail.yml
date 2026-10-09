@@ -1,0 +1,92 @@
+name: Generate Video Thumbnail for News
+
+on:
+  workflow_dispatch:
+    inputs:
+      article_id:
+        description: "Article ID (without .html)"
+        required: true
+        default: "2-02-1791541139600"
+        type: string
+      video_url:
+        description: "Public MP4 video URL"
+        required: true
+        default: "https://exkoxaxbmspxsqdokdcg.supabase.co/storage/v1/object/public/news-videos/news/2-02-1791541139600/video-1791541141492-qrfl51.mp4"
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  thumbnail:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Create JPG thumbnail from video
+        env:
+          VIDEO_URL: ${{ inputs.video_url }}
+          ARTICLE_ID: ${{ inputs.article_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p "images/video-thumbnails"
+          curl -fL --retry 3 "$VIDEO_URL" -o /tmp/news-video.mp4
+          ffmpeg -hide_banner -loglevel error -y -ss 1 -i /tmp/news-video.mp4 -frames:v 1 -vf "scale='min(1200,iw)':-2" -q:v 2 "images/video-thumbnails/$ARTICLE_ID.jpg"
+          test -s "images/video-thumbnails/$ARTICLE_ID.jpg"
+
+      - name: Update article sharing image
+        env:
+          ARTICLE_ID: ${{ inputs.article_id }}
+          REPO_OWNER: ${{ github.repository_owner }}
+        run: |
+          python3 <<'PY'
+          import json, os, re
+          from pathlib import Path
+
+          article_id = os.environ["ARTICLE_ID"].strip()
+          if not re.fullmatch(r"[a-zA-Z0-9-]+", article_id):
+              raise SystemExit("Invalid article ID")
+          image_url = f"https://{os.environ['REPO_OWNER']}.github.io/images/video-thumbnails/{article_id}.jpg"
+          html_path = Path(article_id + ".html")
+          if not html_path.exists():
+              raise SystemExit(f"Article file not found: {html_path}")
+          html = html_path.read_text(encoding="utf-8")
+          for prop in ("og:image", "og:image:secure_url"):
+              pattern = r'(<meta property="' + re.escape(prop) + r'" content=")[^"]*(">)'
+              html, count = re.subn(pattern, lambda m: m.group(1) + image_url + m.group(2), html, count=1)
+              if count != 1:
+                  raise SystemExit(f"Could not update {prop}")
+          pattern = r'(<meta name="twitter:image" content=")[^"]*(">)'
+          html, count = re.subn(pattern, lambda m: m.group(1) + image_url + m.group(2), html, count=1)
+          if count != 1:
+              raise SystemExit("Could not update twitter:image")
+          alt = "वीडियो क्लिप का थंबनेल"
+          html = re.sub(r'(<meta property="og:image:alt" content=")[^"]*(">)', lambda m: m.group(1) + alt + m.group(2), html, count=1)
+          html = re.sub(r'(<meta name="twitter:image:alt" content=")[^"]*(">)', lambda m: m.group(1) + alt + m.group(2), html, count=1)
+          html = re.sub(r'(<meta property="og:image:type" content=")[^"]*(">)', r'\1image/jpeg\2', html, count=1)
+          html = re.sub(r'("image":\s*)\[\]', lambda m: m.group(1) + json.dumps([image_url]), html, count=1)
+          html_path.write_text(html, encoding="utf-8")
+
+          data_path = Path("news-data.js")
+          data = data_path.read_text(encoding="utf-8")
+          pattern = r'("id"\s*:\s*"' + re.escape(article_id) + r'"[\s\S]*?"image"\s*:\s*)"[^"]*"'
+          data, count = re.subn(pattern, lambda m: m.group(1) + json.dumps(image_url), data, count=1)
+          if count != 1:
+              raise SystemExit("Could not update image field for article in news-data.js")
+          data_path.write_text(data, encoding="utf-8")
+          print("Updated article metadata and news-data.js with the generated JPG thumbnail.")
+          PY
+
+      - name: Commit thumbnail and metadata
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "images/video-thumbnails/${{ inputs.article_id }}.jpg" "${{ inputs.article_id }}.html" news-data.js
+          git commit -m "Add video thumbnail for ${{ inputs.article_id }}"
+          git push
