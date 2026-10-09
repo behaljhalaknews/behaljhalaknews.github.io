@@ -13,7 +13,7 @@ window.BAHAL_DIRECT_ADS = [
     "startAt": "2026-10-05T00:00:00+05:30",
     "endAt": "2026-10-07T23:59:59+05:30",
     "active": true,
-    "sliderSeconds": 10
+    "sliderSeconds": 5
   },
   {
     "id": "ad-1791183324662",
@@ -28,7 +28,7 @@ window.BAHAL_DIRECT_ADS = [
     "startAt": "2026-10-05T00:00:00+05:30",
     "endAt": "2026-10-07T23:59:59+05:30",
     "active": true,
-    "sliderSeconds": 10
+    "sliderSeconds": 5
   },
   {
     "id": "ad-1791183405302",
@@ -43,7 +43,7 @@ window.BAHAL_DIRECT_ADS = [
     "startAt": "2026-10-05T00:00:00+05:30",
     "endAt": "2026-10-07T23:59:59+05:30",
     "active": true,
-    "sliderSeconds": 10
+    "sliderSeconds": 5
   },
   {
     "id": "ad-1791302090240",
@@ -56,7 +56,7 @@ window.BAHAL_DIRECT_ADS = [
     "startAt": "2026-10-06T00:00:00+05:30",
     "endAt": "2026-11-04T23:59:59+05:30",
     "active": true,
-    "sliderSeconds": 10
+    "sliderSeconds": 5
   },
   {
     "id": "ad-1791302189823",
@@ -69,7 +69,7 @@ window.BAHAL_DIRECT_ADS = [
     "startAt": "2026-10-06T00:00:00+05:30",
     "endAt": "2026-11-04T23:59:59+05:30",
     "active": true,
-    "sliderSeconds": 10
+    "sliderSeconds": 5
   },
   {
     "id": "ad-1791302288488",
@@ -82,7 +82,7 @@ window.BAHAL_DIRECT_ADS = [
     "startAt": "2026-10-06T00:00:00+05:30",
     "endAt": "2026-11-04T23:59:59+05:30",
     "active": true,
-    "sliderSeconds": 10
+    "sliderSeconds": 5
   },
   {
     "id": "ad-1791350041880",
@@ -95,7 +95,7 @@ window.BAHAL_DIRECT_ADS = [
     "startAt": "2026-10-07T00:00:00+05:30",
     "endAt": "2026-11-05T23:59:59+05:30",
     "active": true,
-    "sliderSeconds": 10
+    "sliderSeconds": 5
   },
   {
     "id": "ad-1791367528636",
@@ -110,7 +110,7 @@ window.BAHAL_DIRECT_ADS = [
     "startAt": "2026-10-07T00:00:00+05:30",
     "endAt": "2026-11-05T23:59:59+05:30",
     "active": true,
-    "sliderSeconds": 10
+    "sliderSeconds": 5
   },
   {
     "id": "ad-1791367620626",
@@ -125,7 +125,7 @@ window.BAHAL_DIRECT_ADS = [
     "startAt": "2026-10-07T00:00:00+05:30",
     "endAt": "2026-11-05T23:59:59+05:30",
     "active": true,
-    "sliderSeconds": 10
+    "sliderSeconds": 5
   },
   {
     "id": "ad-1791367706904",
@@ -140,7 +140,7 @@ window.BAHAL_DIRECT_ADS = [
     "startAt": "2026-10-07T00:00:00+05:30",
     "endAt": "2026-11-05T23:59:59+05:30",
     "active": true,
-    "sliderSeconds": 10
+    "sliderSeconds": 5
   },
   {
     "id": "ad-1791367818568",
@@ -153,6 +153,19 @@ window.BAHAL_DIRECT_ADS = [
     "startAt": "2026-10-07T00:00:00+05:30",
     "endAt": "2026-11-05T23:59:59+05:30",
     "active": true,
-    "sliderSeconds": 10
+    "sliderSeconds": 5
+  },
+  {
+    "id": "ad-1791538843555",
+    "name": "अमित सैनी",
+    "imageUrl": "https://exkoxaxbmspxsqdokdcg.supabase.co/storage/v1/object/public/news-images/direct-ads/1791538842763-th48as.jpg",
+    "clickUrl": "https://behaljhalaknews.github.io",
+    "placement": "ALL_NEWS",
+    "selectedArticleIds": [],
+    "displayType": "SLIDER",
+    "startAt": "2026-10-09T00:00:00+05:30",
+    "endAt": "2026-11-07T23:59:59+05:30",
+    "active": true,
+    "sliderSeconds": 5
   }
 ];
