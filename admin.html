@@ -209,13 +209,21 @@ const news=Array.isArray(window.BAHAL_JHALAK_NEWS)?window.BAHAL_JHALAK_NEWS:[];
 let latestNewsPackage="";
 let latestDeleteId="";
 
-// रिफ्रेश/दोबारा खोलने पर पिछली खबर का ड्राफ्ट वापस न भरें।
-const draftFields=["newTitle","newCategory","newLocation","newDate","newExcerpt","newContent","newVideoUrl","newFeatured","newBreaking","newEditorialPick","newRelatedNews"];
-try{localStorage.removeItem("bahal_news_draft");}catch(e){}
-function saveDraft(){const d={};draftFields.forEach(id=>{const el=$(id);d[id]=el.type==="checkbox"?el.checked:el.value;});try{localStorage.setItem("bahal_news_draft",JSON.stringify(d));}catch(e){}}
-draftFields.forEach(id=>$(id).addEventListener("input",saveDraft));
-$("newRelatedNewsSearch").addEventListener("input",saveDraft);
-$("newDate").value=$("newDate").value||new Intl.DateTimeFormat("hi-IN",{day:"numeric",month:"long",year:"numeric"}).format(new Date());
+// हर बार पेज खोलने/रिफ्रेश करने पर नई खबर का खाली फॉर्म खोलें।
+function resetNewNewsForm(){
+ ["newTitle","newLocation","newExcerpt","newContent","newVideoUrl","newRelatedNewsSearch"].forEach(id=>{const el=$(id);if(el)el.value="";});
+ ["newCategory","newRelatedNews"].forEach(id=>{const el=$(id);if(el)el.selectedIndex=0;});
+ ["newFeatured","newBreaking","newEditorialPick"].forEach(id=>{const el=$(id);if(el)el.checked=false;});
+ ["newImage","newVideoFile"].forEach(id=>{const el=$(id);if(el)el.value="";});
+ ["imagePreview","videoPreview"].forEach(id=>{const el=$(id);if(el){el.style.display="none";el.innerHTML="";}});
+ $("newDate").value=new Intl.DateTimeFormat("hi-IN",{day:"numeric",month:"long",year:"numeric"}).format(new Date());
+ $("newsStatus").textContent="अभी कोई खबर तैयार नहीं है।";
+ $("manualFallback").style.display="none";
+ latestNewsPackage="";
+ try{localStorage.removeItem("bahal_news_draft");}catch(e){}
+}
+resetNewNewsForm();
+window.addEventListener("pageshow",resetNewNewsForm);
 if($("newRelatedNewsSearch") && $("newRelatedNews").value){
   const selectedRelated=news.find(n=>n.id===$("newRelatedNews").value);
   if(selectedRelated) $("newRelatedNewsSearch").value=selectedRelated.title||"";
