@@ -432,4 +432,17 @@
 
 
 
+<script id="bj-latest-popup-fallback">
+(function(){
+  var started=false,index=0,hideTimer=null,previousPromoOpen=false;
+  function promoOpen(){var s=document.getElementById("bjSubscriberPopup"),a=document.getElementById("bjAdPopup");return !!((s&&s.classList.contains("open"))||(a&&a.classList.contains("open")));}
+  function titleOf(n){return String((n&&(n.title||n.headline||n.name))||"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim();}
+  function esc(v){return String(v||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");}
+  function stories(){var list=window.BAHAL_JHALAK_NEWS;if(!Array.isArray(list))return [];return list.filter(function(n){return n&&titleOf(n)&&(n.page||n.id);}).slice(0,3);}
+  function hide(){var p=document.getElementById("bj-breaking-news-popup");if(p)p.classList.remove("is-visible");if(hideTimer){clearTimeout(hideTimer);hideTimer=null;}}
+  function show(){var p=document.getElementById("bj-breaking-news-popup"),list=stories();if(!p||!list.length||promoOpen()||document.visibilityState!=="visible")return;var n=list[index%list.length];index=(index+1)%list.length;var href=n.page||("./article.html?id="+encodeURIComponent(n.id)),img=String(n.image||"./images/behal-jhalak-logo.svg").trim();p.innerHTML='<button type="button" class="bj-breaking-popup-close" aria-label="पॉपअप बंद करें">×</button><a class="bj-breaking-popup-link" href="'+esc(href)+'"><img class="bj-breaking-popup-image" src="'+esc(img)+'" alt="" onerror="this.onerror=null;this.src=\'./images/behal-jhalak-logo.svg\'"><span class="bj-breaking-popup-copy"><small><span class="bj-breaking-popup-dot"></span> ताज़ा खबर</small><strong>'+esc(titleOf(n))+'</strong><em>'+esc(n.location||n.category||"बहल झलक")+' · पूरी खबर पढ़ें →</em></span></a>';p.querySelector(".bj-breaking-popup-close").addEventListener("click",hide);p.classList.add("is-visible");if(hideTimer)clearTimeout(hideTimer);hideTimer=setTimeout(hide,5000);}
+  function start(){if(started)return;started=true;previousPromoOpen=promoOpen();var attempts=0;var ready=setInterval(function(){attempts++;if(document.getElementById("bj-breaking-news-popup")&&stories().length){clearInterval(ready);setTimeout(function(){if(!promoOpen())show();},6500);}else if(attempts>40)clearInterval(ready);},500);setInterval(function(){var now=promoOpen();if(previousPromoOpen&&!now)show();previousPromoOpen=now;},300);setInterval(function(){if(!promoOpen())show();},8000);}
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
+})();
+</script>
 </body></html>
