@@ -212,47 +212,68 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     // PHOTO BREAKING NEWS: a vertical, bottom-to-top loop using the newest published stories.
+    let bjPopupNewsItems = [];
+    let bjPopupNewsIndex = 0;
+    let bjPopupCycleStarted = false;
+    let bjPopupHideTimer = null;
+
+    function hidePhotoBreakingPopup() {
+        const popup = document.getElementById("bj-breaking-news-popup");
+        if (!popup) return;
+        popup.classList.remove("is-visible");
+        if (bjPopupHideTimer) {
+            clearTimeout(bjPopupHideTimer);
+            bjPopupHideTimer = null;
+        }
+    }
+
+    function showPhotoBreakingPopup() {
+        const popup = document.getElementById("bj-breaking-news-popup");
+        if (!popup || !bjPopupNewsItems.length) return;
+        const item = bjPopupNewsItems[bjPopupNewsIndex % bjPopupNewsItems.length];
+        bjPopupNewsIndex = (bjPopupNewsIndex + 1) % bjPopupNewsItems.length;
+        const href = item.page || ("./article.html?id=" + encodeURIComponent(item.id));
+        const title = getCleanTickerTitle(item);
+        const image = String(item.image || "./images/behal-jhalak-logo.svg").trim();
+        popup.innerHTML =
+            '<button type="button" class="bj-breaking-popup-close" aria-label="पॉपअप बंद करें">×</button>' +
+            '<a class="bj-breaking-popup-link" href="' + esc(href) + '">' +
+            '<img class="bj-breaking-popup-image" src="' + esc(image) + '" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'./images/behal-jhalak-logo.svg\'">' +
+            '<span class="bj-breaking-popup-copy"><small><span class="bj-breaking-popup-dot"></span> ताज़ा खबर</small>' +
+            '<strong>' + esc(title) + '</strong><em>' + esc(item.location || item.category || "बहल झलक") + ' · पूरी खबर पढ़ें →</em></span></a>';
+        popup.querySelector(".bj-breaking-popup-close").addEventListener("click", hidePhotoBreakingPopup);
+        popup.classList.add("is-visible");
+        if (bjPopupHideTimer) clearTimeout(bjPopupHideTimer);
+        bjPopupHideTimer = setTimeout(hidePhotoBreakingPopup, 4000);
+    }
+
     function renderPhotoBreakingNews() {
-        const track = document.getElementById("bj-breaking-photo-track");
-        if (!track) return;
+        const popup = document.getElementById("bj-breaking-news-popup");
+        if (!popup) return;
         const valid = news.filter(function (item) {
             return item && getCleanTickerTitle(item) && (item.page || item.id);
         });
-        if (!valid.length) {
-            track.innerHTML = '<p class="bj-breaking-photo-loading">अभी कोई ताज़ा खबर उपलब्ध नहीं है</p>';
-            return;
-        }
-        // Prefer stories with their own photo, then fill to at least three cards if needed.
+        if (!valid.length) return;
         const withPhotos = valid.filter(function (item) { return !!String(item.image || "").trim(); });
-        const chosen = withPhotos.slice(0, 6);
-        valid.forEach(function (item) {
-            if (chosen.length >= 3 || chosen.length >= 6) return;
-            if (chosen.indexOf(item) === -1) chosen.push(item);
-        });
-        if (chosen.length < 3) {
+        bjPopupNewsItems = withPhotos.slice(0, 6);
+        if (bjPopupNewsItems.length < 3) {
             valid.forEach(function (item) {
-                if (chosen.length < Math.min(3, valid.length) && chosen.indexOf(item) === -1) chosen.push(item);
+                if (bjPopupNewsItems.length >= Math.min(3, valid.length)) return;
+                if (bjPopupNewsItems.indexOf(item) === -1) bjPopupNewsItems.push(item);
             });
         }
-        const fallbackImage = "./images/behal-jhalak-logo.svg";
-        function cardHtml(item, duplicate) {
-            const href = item.page || ("./article.html?id=" + encodeURIComponent(item.id));
-            const title = getCleanTickerTitle(item);
-            const image = String(item.image || fallbackImage).trim();
-            return '<a class="bj-breaking-photo-card" href="' + esc(href) + '"' +
-                (duplicate ? ' tabindex="-1" aria-hidden="true"' : '') + '>' +
-                '<img src="' + esc(image) + '" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'' + fallbackImage + '\'">' +
-                '<span class="bj-breaking-photo-copy"><strong>' + esc(title) + '</strong>' +
-                '<small>' + esc(item.location || item.category || "बहल झलक") + ' · ' + esc(item.date || "ताज़ा अपडेट") + '</small></span></a>';
+        if (!bjPopupCycleStarted) {
+            bjPopupCycleStarted = true;
+            // First popup appears shortly after page load; each stays visible for 4 seconds.
+            setTimeout(showPhotoBreakingPopup, 1800);
+            // Leave a short gap between popups so they never become a permanent strip.
+            setInterval(function () {
+                if (document.visibilityState === "visible") showPhotoBreakingPopup();
+            }, 7000);
         }
-        const cards = chosen.slice(0, 6).map(function (item) { return cardHtml(item, false); }).join("");
-        // Duplicate the cards for a seamless vertical loop; reduced-motion users get a static list.
-        track.innerHTML = '<div class="bj-breaking-photo-group">' + cards + '</div><div class="bj-breaking-photo-group" aria-hidden="true">' +
-            chosen.slice(0, 6).map(function (item) { return cardHtml(item, true); }).join("") + '</div>';
-        track.classList.toggle("bj-breaking-photo-track-static", chosen.length < 2);
     }
 
-    // Refresh the photo panel from the published news feed periodically without reloading the page.
+    // Refresh popup news from the published news feed periodically without reloading the page.
     // This leaves the homepage layout, ad slots, and admin tools untouched.
     setInterval(async function () {
         try {
@@ -270,7 +291,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             renderBreakingTicker();
             renderPhotoBreakingNews();
         } catch (error) {
-            console.warn("Photo breaking-news refresh skipped:", error);
+            console.warn("Photo breaking-news popup refresh skipped:", error);
         }
     }, 60000);
 
