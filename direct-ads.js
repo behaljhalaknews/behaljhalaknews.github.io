@@ -79,8 +79,8 @@
 
     var index=0;
     var timer=null;
-    var seconds=Number(list[0]&&list[0].sliderSeconds)||30;
-    seconds=Math.max(10,Math.min(300,seconds));
+    var seconds=Number(list[0]&&list[0].sliderSeconds)||5;
+    seconds=Math.max(5,Math.min(300,seconds));
     var delay=seconds*1000;
 
     function go(next){
@@ -126,6 +126,7 @@
       renderSlider(host,list);
       return;
     }
+    if(kind==="article"&&list.length>1){renderSlider(host,list);return;}
     list.forEach(function(a){host.appendChild(make(a));});
   }
 
@@ -142,7 +143,7 @@
     var id=articleId();
     if(document.body.classList.contains("direct-ad-article")||document.querySelector(".article-page")){
       var mid=document.querySelector(".ad-slot-article");
-      if(mid)renderInto(mid,"article",id);
+      if(mid)render(mid,"article",id);
     }
   }
 
