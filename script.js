@@ -310,10 +310,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         const body = document.getElementById("article-body");
         const paragraphs = Array.isArray(data.content) ? data.content : [data.content];
         const videoUrl = String(data.videoUrl || "").trim();
-        const youtubeMatch = videoUrl.match(/(?:youtu\\.be\\/|youtube\\.com\\/(?:watch\\?(?:[^#]*&)?v=|shorts\\/|embed\\/))([A-Za-z0-9_-]{6,})/i);
+        const youtubeMatch = videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:[^#]*&)?v=|shorts\/|embed\/))([A-Za-z0-9_-]{6,})/i);
         const videoMarkup = youtubeMatch
             ? '<div class="article-video"><div class="article-video-title">▶️ वीडियो देखें</div><div class="article-video-frame"><iframe src="https://www.youtube.com/embed/' + esc(youtubeMatch[1]) + '" title="बहल झलक वीडियो" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></div>'
-            : (videoUrl ? '<div class="article-video"><div class="article-video-title">▶️ वीडियो देखें</div><div class="article-video-frame"><video src="' + esc(videoUrl) + '" controls playsinline preload="metadata"></video></div></div>' : '');
+            : (videoUrl ? '<div class="article-video"><div class="article-video-title">▶️ वीडियो देखें</div><div class="article-video-frame"><video src="' + esc(videoUrl) + '" autoplay muted controls playsinline preload="metadata"></video></div></div>' : '');
         if (videoUrl) image.style.display = "none";
         else image.style.display = data.image ? "" : "none";
         body.innerHTML = videoMarkup + paragraphs.map(p => "<p>" + esc(p) + "</p>").join("");
