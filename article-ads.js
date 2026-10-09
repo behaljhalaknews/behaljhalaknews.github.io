@@ -184,14 +184,15 @@
   }
 
   function init() {
-    loadDirectAdData();
-    placeMidArticleAd();
-    ensurePermanentBottomAd();
-    ensureCompactShare();
+    // Sharing must work even if any advertising helper fails.
+    try { ensureCompactShare(); } catch (e) { console.error("Bahal Jhalak share setup failed:", e); }
+    try { loadDirectAdData(); } catch (e) { console.error("Direct ad data failed:", e); }
+    try { placeMidArticleAd(); } catch (e) { console.error("Mid-article ad setup failed:", e); }
+    try { ensurePermanentBottomAd(); } catch (e) { console.error("Bottom ad setup failed:", e); }
   }
 
   function start() {
-    ensureAnalytics();
+    try { ensureAnalytics(); } catch (e) { console.error("Analytics setup failed:", e); }
     init();
 
     let tries = 0;
