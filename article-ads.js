@@ -97,11 +97,18 @@
       shareButton.className = "share-button";
       actions.appendChild(shareButton);
     }
+    shareButton.removeAttribute("onclick");
     shareButton.textContent = "↗ शेयर करें";
     shareButton.setAttribute("aria-expanded", "false");
     shareButton.setAttribute("aria-controls", "bj-article-share-options");
     panel.id = "bj-article-share-options";
     panel.hidden = true;
+    if (!document.getElementById("bj-compact-share-styles")) {
+      const style = document.createElement("style");
+      style.id = "bj-compact-share-styles";
+      style.textContent = ".article-actions .share-button{display:inline-flex!important;align-items:center;justify-content:center;width:auto!important;min-width:0!important;padding:5px 9px!important;margin:5px 0!important;border:0!important;border-radius:5px!important;font-size:12px!important;line-height:1.25!important;font-weight:700!important;cursor:pointer;box-shadow:none!important}.bj-compact-share-panel[hidden]{display:none!important}.bj-compact-share-panel{margin:5px 0 10px!important;padding:8px!important;border:1px solid #e2e6ea!important;border-radius:8px!important;background:#fff!important}.bj-compact-share-panel .social-share-buttons{display:flex!important;flex-wrap:wrap!important;gap:7px!important}.bj-compact-share-panel .social-share-btn{display:inline-flex!important;align-items:center;justify-content:center;min-height:30px;padding:6px 10px!important;border:0;border-radius:6px;color:#fff!important;font-size:12px;font-weight:700;text-decoration:none;cursor:pointer}.bj-compact-share-panel .instagram-share{background:#c13584!important}.bj-compact-share-panel .copy-share{background:#0b2545!important}@media(max-width:768px){.article-actions .share-button{padding:5px 8px!important;font-size:11px!important}.bj-compact-share-panel .social-share-buttons{grid-template-columns:none!important}.bj-compact-share-panel .social-share-btn{font-size:11px;padding:6px 8px!important}}";
+      document.head.appendChild(style);
+    }
     panel.classList.add("bj-compact-share-panel");
     panel.querySelector(".social-share-title")?.remove();
 
