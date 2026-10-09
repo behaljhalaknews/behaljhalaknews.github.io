@@ -63,6 +63,7 @@ jobs:
               "page": obj["page"],
               "featured": bool(obj.get("featured", False)),
               "breaking": bool(obj.get("breaking", False)),
+              "editorialPick": bool(obj.get("editorialPick", False)),
               "excerpt": obj["excerpt"],
               "content": obj["content"],
               "relatedNews": obj.get("relatedNews", "")
