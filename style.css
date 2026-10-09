@@ -3479,3 +3479,16 @@ body:has(.article-page) .site-header .main-navigation .menu a{
  .bj-breaking-popup-copy small,.bj-breaking-popup-copy em{font-size:10px;}
 }
 @media(prefers-reduced-motion:reduce){.bj-breaking-news-popup{transition:none;}}
+
+/* Video news preview: clearly distinguish video posts from photo-only stories. */
+.news-card-image-link.bj-video-thumb,.bj-editorial-card a.bj-video-thumb{position:relative;display:block;overflow:hidden;background:#0f172a;}
+.bj-video-thumb img{display:block;width:100%;height:100%;object-fit:cover;}
+.bj-video-play-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.36));color:#fff;pointer-events:none;text-shadow:0 1px 3px #000;}
+.bj-video-play-icon{display:flex;align-items:center;justify-content:center;width:54px;height:54px;padding-left:4px;box-sizing:border-box;border-radius:50%;background:#c62828;border:3px solid #fff;box-shadow:0 3px 12px #0007;font-size:24px;line-height:1;}
+.bj-video-play-text{display:inline-block;padding:4px 10px;border-radius:18px;background:#c62828;color:#fff;font-size:12px;font-weight:900;letter-spacing:.1px;}
+.bj-has-video .news-video-link{display:inline-flex;align-items:center;gap:5px;margin:2px 0 8px;padding:6px 10px;border-radius:18px;background:#fff1f2;color:#b91c1c;border:1px solid #fecaca;font-size:12px;font-weight:900;text-decoration:none;}
+.article-video{margin:14px 0 18px;padding:10px;border:1px solid #fecaca;border-radius:12px;background:#fffafa;}
+.article-video-title{margin:0 0 8px;color:#b91c1c;font-size:16px;font-weight:900;}
+.article-video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:8px;background:#0f172a;}
+.article-video-frame video,.article-video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:contain;}
+@media(max-width:600px){.bj-video-play-icon{width:46px;height:46px;font-size:21px}.bj-video-play-text{font-size:11px}.article-video{padding:7px}}
