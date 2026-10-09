@@ -256,6 +256,16 @@ document.addEventListener("DOMContentLoaded", async function () {
             '<button type="button" class="bj-save-news-btn" data-save-news="1" data-url="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '" data-title="' + esc(featured.title) + '" data-image="' + esc(featuredImage) + '" aria-pressed="false">🔖 खबर सेव करें</button></div></article>';
 
         document.getElementById("latest-news-grid").innerHTML = latest.map(item => card(item, true)).join("");
+
+        const editorialGrid = document.getElementById("editorial-picks-grid");
+        if (editorialGrid) {
+            const picks = news.filter(item => item.editorialPick === true).slice(0, 6);
+            editorialGrid.innerHTML = picks.length ? picks.map(item => {
+                const href = item.page || ("./article.html?id=" + encodeURIComponent(item.id));
+                const image = item.image || (Array.isArray(item.images) ? item.images[0] : "") || "./images/behal-jhalak-logo.svg";
+                return '<article class="bj-editorial-card" data-article-id="' + esc(item.id) + '"><a href="' + esc(href) + '" aria-label="' + esc(item.title) + ' पढ़ें"><img src="' + esc(image) + '" alt="' + esc(item.title) + '" loading="lazy"></a><div class="bj-editorial-copy"><span class="bj-editorial-label">⭐ संपादकीय चयन</span><h3><a href="' + esc(href) + '">' + esc(item.title) + '</a></h3><p>' + esc(item.excerpt || "") + '</p><div class="news-meta"><span>' + esc(item.location || "बहल झलक") + '</span><span>•</span><span>' + esc(item.date || "") + '</span></div></div></article>';
+            }).join("") : '<div class="category-placeholder"><strong>अभी कोई खबर चयनित नहीं है</strong><span>News Manager में “संपादकीय की पसंद” चुनकर खबर यहाँ दिखाएँ।</span></div>';
+        }
         const groups = {
             "bahal-news-grid": ["बहल"],
             "bhiwani-news-grid": ["भिवानी"],
