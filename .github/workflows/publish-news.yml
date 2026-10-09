@@ -105,7 +105,7 @@ jobs:
               if not value:
                   return ""
               m = re.search(r"(?:youtu\.be/|youtube\.com/(?:watch\?v=|shorts/|embed/))([A-Za-z0-9_-]{6,})", value)
-              return "https://www.youtube.com/embed/" + m.group(1) if m else ""
+              return "https://www.youtube.com/embed/" + m.group(1) + "?autoplay=1&mute=1" if m else ""
 
           raw_video_url = str(obj.get("videoUrl", "") or "").strip()
           youtube_video_url = youtube_embed_url(raw_video_url)
@@ -116,7 +116,7 @@ jobs:
           for p in obj["content"]:
               paragraphs.append("<p>" + html.escape(str(p)) + "</p>")
           if youtube_video_url:
-              video_block = '<div class="article-video"><div class="article-video-title">▶️ वीडियो क्लिप</div><div class="article-video-frame"><iframe src="' + html.escape(youtube_video_url, quote=True) + '" title="बहल झलक वीडियो क्लिप" loading="lazy" allow="autoplay; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></div>'
+              video_block = '<div class="article-video"><div class="article-video-title">▶️ वीडियो क्लिप</div><div class="article-video-frame"><iframe src="' + html.escape(youtube_video_url, quote=True) + '" title="बहल झलक वीडियो क्लिप" loading="lazy" allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></div>'
           elif is_direct_video:
               video_block = '<div class="article-video"><div class="article-video-title">▶️ वीडियो क्लिप</div><div class="article-video-frame"><video src="' + html.escape(video_url, quote=True) + '" autoplay muted controls playsinline preload="metadata"></video></div></div>'
           else:
