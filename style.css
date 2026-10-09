@@ -3450,3 +3450,41 @@ body:has(.article-page) .site-header .main-navigation .menu a{
 .bj-saved-news-remove{background:#fff5f5;border-color:#f0c6c6;color:#a51f1f}
 .bj-saved-news-empty{padding:22px 14px;text-align:center;border:1px dashed #cbd5e1;border-radius:12px;color:#526174;background:#f8fafc}
 @media(max-width:640px){.bj-saved-news-list{grid-template-columns:1fr}.bj-saved-news-item{grid-template-columns:96px minmax(0,1fr);gap:10px}.bj-saved-news-item img{width:96px;height:78px}.bj-save-news-btn{font-size:11px;padding:6px 8px}}
+
+
+/* BAHAL JHALAK — bottom-to-top photo breaking-news panel */
+.bj-breaking-photo-panel{margin:24px auto 22px;max-width:1200px;padding:0 15px;box-sizing:border-box;}
+.bj-breaking-photo-heading{display:flex;align-items:center;gap:9px;margin:0 0 12px;padding:11px 14px;background:#b71c1c;color:#fff;border-radius:10px 10px 0 0;box-shadow:0 4px 12px rgba(120,0,0,.12);}
+.bj-breaking-photo-heading h2{margin:0;font-size:18px;line-height:1.3;font-weight:900;color:#fff;}
+.bj-breaking-live-dot{width:9px;height:9px;flex:0 0 9px;background:#fff;border-radius:50%;box-shadow:0 0 0 4px rgba(255,255,255,.2);animation:bjBreakingPulse 1.25s infinite;}
+.bj-breaking-photo-subtitle{margin-left:auto;font-size:11px;font-weight:800;white-space:nowrap;background:rgba(255,255,255,.16);border-radius:20px;padding:5px 9px;}
+.bj-breaking-photo-window{height:288px;overflow:hidden;position:relative;border:1px solid #e2e8f0;border-top:0;border-radius:0 0 10px 10px;background:#fff;box-shadow:0 6px 18px rgba(15,23,42,.08);}
+.bj-breaking-photo-track{display:flex;flex-direction:column;will-change:transform;animation:bjBreakingRise 30s linear infinite;}
+.bj-breaking-photo-track:hover,.bj-breaking-photo-track:focus-within{animation-play-state:paused;}
+.bj-breaking-photo-group{display:flex;flex-direction:column;gap:8px;padding:8px;}
+.bj-breaking-photo-card{display:flex;align-items:center;gap:11px;flex:0 0 88px;min-height:88px;height:88px;box-sizing:border-box;padding:7px;border:1px solid #e8edf3;border-radius:9px;background:#fff;color:#142033;text-decoration:none;overflow:hidden;}
+.bj-breaking-photo-card:hover{border-color:#c62828;background:#fffafa;}
+.bj-breaking-photo-card img{width:108px;height:72px;flex:0 0 108px;object-fit:cover;border-radius:6px;background:#eef2f7;}
+.bj-breaking-photo-copy{display:flex;flex-direction:column;justify-content:center;gap:6px;min-width:0;overflow:hidden;}
+.bj-breaking-photo-copy strong{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:14px;line-height:1.4;font-weight:800;color:#142033;}
+.bj-breaking-photo-copy small{font-size:11px;line-height:1.2;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bj-breaking-photo-loading{padding:18px;margin:0;color:#64748b;font-weight:700;}
+.bj-breaking-photo-track-static{animation:none;}
+@keyframes bjBreakingRise{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@keyframes bjBreakingPulse{0%,100%{opacity:1}50%{opacity:.45}}
+@media(max-width:600px){
+ .bj-breaking-photo-panel{margin:18px auto;padding:0 10px;}
+ .bj-breaking-photo-heading{padding:10px 11px;gap:8px;}
+ .bj-breaking-photo-heading h2{font-size:15px;}
+ .bj-breaking-photo-subtitle{font-size:10px;padding:4px 7px;}
+ .bj-breaking-photo-window{height:276px;}
+ .bj-breaking-photo-card{gap:8px;padding:6px;flex-basis:84px;height:84px;min-height:84px;}
+ .bj-breaking-photo-card img{width:94px;height:68px;flex-basis:94px;}
+ .bj-breaking-photo-copy strong{font-size:12px;line-height:1.35;}
+ .bj-breaking-photo-copy small{font-size:10px;}
+}
+@media(prefers-reduced-motion:reduce){
+ .bj-breaking-live-dot{animation:none;}
+ .bj-breaking-photo-track{animation:none;transform:none;}
+ .bj-breaking-photo-group[aria-hidden="true"]{display:none;}
+}
