@@ -227,6 +227,20 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
+    function isBahalPromoPopupOpen() {
+        const subscribePopup = document.getElementById("bjSubscriberPopup");
+        const adPopup = document.getElementById("bjAdPopup");
+        return !!((subscribePopup && subscribePopup.classList.contains("open")) ||
+                  (adPopup && adPopup.classList.contains("open")));
+    }
+
+    // The subscribe/ad card should close first; then show the first latest-news popup.
+    window.addEventListener("bahal:promo-popup-closed", function () {
+        if (document.visibilityState === "visible" && !isBahalPromoPopupOpen()) {
+            showPhotoBreakingPopup();
+        }
+    });
+
     function showPhotoBreakingPopup() {
         const popup = document.getElementById("bj-breaking-news-popup");
         if (!popup || !bjPopupNewsItems.length) return;
@@ -264,11 +278,18 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
         if (!bjPopupCycleStarted) {
             bjPopupCycleStarted = true;
-            // First popup appears shortly after page load; each stays visible for 4 seconds.
-            setTimeout(showPhotoBreakingPopup, 1800);
-            // Leave a short gap between popups so they never become a permanent strip.
+            // Let the automatic Subscribe/Advertisement card open first. If it is still
+            // open, wait; the latest-news popup will appear immediately after it closes.
+            setTimeout(function () {
+                if (document.visibilityState === "visible" && !isBahalPromoPopupOpen()) {
+                    showPhotoBreakingPopup();
+                }
+            }, 5000);
+            // Keep the popup out from underneath the Subscribe/Advertisement overlay.
             setInterval(function () {
-                if (document.visibilityState === "visible") showPhotoBreakingPopup();
+                if (document.visibilityState === "visible" && !isBahalPromoPopupOpen()) {
+                    showPhotoBreakingPopup();
+                }
             }, 7000);
         }
     }
