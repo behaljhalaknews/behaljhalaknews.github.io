@@ -1,0 +1,62 @@
+name: Set Bahal Jhalak Live Status
+
+on:
+  workflow_dispatch:
+    inputs:
+      live_package:
+        description: "Paste the Live Package copied from Admin Manager"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  set-live:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate and save live settings
+        env:
+          LIVE_PACKAGE: ${{ inputs.live_package }}
+        run: |
+          python3 <<'PY'
+          import json
+          import os
+          import re
+
+          try:
+              obj = json.loads(os.environ["LIVE_PACKAGE"])
+          except Exception as exc:
+              raise SystemExit("Live Package valid JSON नहीं है: " + str(exc))
+
+          is_live = obj.get("isLive") is True
+          video_id = str(obj.get("videoId") or "").strip()
+          title = str(obj.get("title") or "बहल झलक LIVE").strip()[:120] or "बहल झलक LIVE"
+
+          if is_live and not re.fullmatch(r"[A-Za-z0-9_-]{6,20}", video_id):
+              raise SystemExit("LIVE ON के लिए सही YouTube Video ID जरूरी है")
+          if not is_live:
+              video_id = ""
+
+          config = {"isLive": is_live, "videoId": video_id, "title": title}
+          with open("live-data.json", "w", encoding="utf-8") as f:
+              json.dump(config, f, ensure_ascii=False, indent=2)
+              f.write("\n")
+          print("LIVE status:", "ON" if is_live else "OFF")
+          print("Video ID:", video_id if is_live else "(cleared)")
+          PY
+
+      - name: Commit and publish live status
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add live-data.json
+          if git diff --cached --quiet; then
+            echo "Live status is already up to date."
+          else
+            git commit -m "Update Bahal Jhalak live status"
+            git push
+          fi
