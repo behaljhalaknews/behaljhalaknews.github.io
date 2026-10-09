@@ -218,14 +218,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     function card(item, small) {
         const cls = small ? "small-news-card" : "news-card";
         const contentCls = small ? "small-news-content" : "news-card-content";
+        const href = item.page || ("./article.html?id=" + encodeURIComponent(item.id));
         return '<article class="' + cls + '">' +
-            (item.image ? '<a href="' + esc(item.page || ("./article.html?id=" + encodeURIComponent(item.id))) + '" class="news-card-image-link"><img src="' + esc(item.image) + '" alt="' + esc(item.title) + '" loading="lazy"></a>' : '') +
+            (item.image ? '<a href="' + esc(href) + '" class="news-card-image-link"><img src="' + esc(item.image) + '" alt="' + esc(item.title) + '" loading="lazy"></a>' : '') +
             '<div class="' + contentCls + '">' +
             '<span class="category-tag' + (item.category === "हरियाणा" || item.category === "राज्य अपडेट" ? " dark" : "") + '">' + esc(item.category) + '</span>' +
-            '<h3><a href="' + esc(item.page || ("./article.html?id=" + encodeURIComponent(item.id))) + '">' + esc(item.title) + '</a></h3>' +
+            '<h3><a href="' + esc(href) + '">' + esc(item.title) + '</a></h3>' +
             '<p>' + esc(item.excerpt) + '</p>' +
-            (item.videoUrl ? '<a class="news-video-link" href="' + esc(item.page || ("./article.html?id=" + encodeURIComponent(item.id))) + '">▶️ वीडियो देखें</a>' : '') +
+            (item.videoUrl ? '<a class="news-video-link" href="' + esc(href) + '">▶️ वीडियो देखें</a>' : '') +
             '<div class="news-meta"><span>' + esc(item.location || "बहल झलक") + '</span><span>•</span><span>' + esc(item.date) + '</span></div>' +
+            '<button type="button" class="bj-save-news-btn" data-save-news="1" data-url="' + esc(href) + '" data-title="' + esc(item.title) + '" data-image="' + esc(item.image || "") + '" aria-pressed="false">🔖 खबर सेव करें</button>' +
             '</div></article>';
     }
 
@@ -244,7 +246,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             (featuredImage ? '<a href="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '" class="news-card-image-link"><img src="' + esc(featuredImage) + '" alt="' + esc(featured.title) + '" loading="lazy"></a>' : '') +
             '<div class="featured-news-content"><span class="category-tag">' + esc(featured.category) + '</span>' +
             '<h2><a href="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '">' + esc(featured.title) + '</a></h2>' +
-            '<p>' + esc(featured.excerpt) + '</p><div class="news-meta"><span>' + esc(featured.location || "बहल झलक") + '</span><span>•</span><span>' + esc(featured.date) + '</span></div></div></article>';
+            '<p>' + esc(featured.excerpt) + '</p><div class="news-meta"><span>' + esc(featured.location || "बहल झलक") + '</span><span>•</span><span>' + esc(featured.date) + '</span></div>' +
+            '<button type="button" class="bj-save-news-btn" data-save-news="1" data-url="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '" data-title="' + esc(featured.title) + '" data-image="' + esc(featuredImage) + '" aria-pressed="false">🔖 खबर सेव करें</button></div></article>';
 
         document.getElementById("latest-news-grid").innerHTML = latest.map(item => card(item, true)).join("");
         const groups = {
