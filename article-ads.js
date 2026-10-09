@@ -87,8 +87,15 @@
 
   function ensureCompactShare() {
     const actions = document.querySelector(".article-actions");
-    const panel = document.querySelector(".social-share-panel");
-    if (!actions || !panel || panel.dataset.bjCompactReady === "1") return;
+    if (!actions) return;
+    let panel = document.querySelector(".social-share-panel");
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.className = "social-share-panel";
+      panel.innerHTML = '<div class="social-share-title">सोशल मीडिया पर शेयर करें</div><div class="social-share-buttons"><a class="social-share-btn facebook-share" target="_blank" rel="noopener noreferrer">Facebook</a><a class="social-share-btn whatsapp-share" target="_blank" rel="noopener noreferrer">WhatsApp</a></div>';
+      actions.insertAdjacentElement("afterend", panel);
+    }
+    if (panel.dataset.bjCompactReady === "1") return;
 
     let shareButton = actions.querySelector(".share-button");
     if (!shareButton) {
@@ -116,10 +123,20 @@
     const oldNative = buttons.querySelector("#native-share");
     if (oldNative) oldNative.remove();
 
+    const articleUrl = window.location.href;
+    const articleTitle = document.querySelector("h1")?.textContent?.trim() || document.title;
     const whatsapp = buttons.querySelector(".whatsapp-share");
     const facebook = buttons.querySelector(".facebook-share");
-    if (whatsapp) { whatsapp.textContent = "WhatsApp"; whatsapp.setAttribute("aria-label", "WhatsApp पर खबर शेयर करें"); }
-    if (facebook) { facebook.textContent = "Facebook"; facebook.setAttribute("aria-label", "Facebook पर खबर शेयर करें"); }
+    if (whatsapp) {
+      whatsapp.href = "https://api.whatsapp.com/send?text=" + encodeURIComponent(articleTitle + " — " + articleUrl);
+      whatsapp.textContent = "WhatsApp";
+      whatsapp.setAttribute("aria-label", "WhatsApp पर खबर शेयर करें");
+    }
+    if (facebook) {
+      facebook.href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(articleUrl);
+      facebook.textContent = "Facebook";
+      facebook.setAttribute("aria-label", "Facebook पर खबर शेयर करें");
+    }
 
     if (!buttons.querySelector(".instagram-share")) {
       const instagram = document.createElement("a");
