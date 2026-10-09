@@ -1585,7 +1585,7 @@ window.BAHAL_JHALAK_NEWS = [
     "category": "हरियाणा",
     "location": "दादरी",
     "date": "9 अक्टूबर 2026",
-    "image": "",
+    "image": "https://behaljhalaknews.github.io/images/video-thumbnails/2-02-1791541139600.jpg",
     "videoUrl": "https://exkoxaxbmspxsqdokdcg.supabase.co/storage/v1/object/public/news-videos/news/2-02-1791541139600/video-1791541141492-qrfl51.mp4",
     "page": "./2-02-1791541139600.html",
     "featured": false,
