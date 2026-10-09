@@ -78,6 +78,7 @@ img{max-width:100%;max-height:260px;object-fit:contain;border-radius:8px;backgro
 
 <div class="check"><input id="newFeatured" type="checkbox"><label for="newFeatured">Featured खबर</label></div>
 <div class="check"><input id="newBreaking" type="checkbox"><label for="newBreaking">Breaking News में शामिल करें</label></div>
+<div class="check"><input id="newEditorialPick" type="checkbox"><label for="newEditorialPick">⭐ संपादकीय की पसंद में दिखाएँ</label></div>
 
 <label><strong>📌 यह भी पढ़ें (Related News)</strong></label>
 <input id="newRelatedNewsSearch" type="search" placeholder="🔎 खबर का शीर्षक लिखकर खोजें..." autocomplete="off">
@@ -191,7 +192,7 @@ let latestNewsPackage="";
 let latestDeleteId="";
 
 // मोबाइल पर अधूरी खबर बंद/रिफ्रेश होने पर न खोए, इसलिए केवल इसी ब्राउज़र में Draft सुरक्षित रखा जाता है।
-const draftFields=["newTitle","newCategory","newLocation","newDate","newExcerpt","newContent","newVideoUrl","newFeatured","newBreaking","newRelatedNews"];
+const draftFields=["newTitle","newCategory","newLocation","newDate","newExcerpt","newContent","newVideoUrl","newFeatured","newBreaking","newEditorialPick","newRelatedNews"];
 function saveDraft(){const d={};draftFields.forEach(id=>{const el=$(id);d[id]=el.type==="checkbox"?el.checked:el.value;});localStorage.setItem("bahal_news_draft",JSON.stringify(d));}
 function restoreDraft(){try{const d=JSON.parse(localStorage.getItem("bahal_news_draft")||"null");if(!d)return;const hasNewsDraft=!!(d.newTitle||d.newLocation||d.newExcerpt||d.newContent);if(!hasNewsDraft)return;draftFields.forEach(id=>{if(id==="newCategory")return;const el=$(id);if(d[id]!==undefined){if(el.type==="checkbox")el.checked=!!d[id];else el.value=d[id];}});}catch(e){}}
 draftFields.forEach(id=>$(id).addEventListener("input",saveDraft));
@@ -305,7 +306,7 @@ $("publishNewsBtn").addEventListener("click",async()=>{
    image:relatedNews.image||"",
    page:relatedNews.page||("./"+relatedNews.id+".html")
  }:"";
- const obj={id,title,category,location,date,image:imageUrl,images,videoUrl:finalVideoUrl,page:"./"+id+".html",featured,breaking,excerpt,content:paragraphs,relatedNews:relatedNewsData};
+ const obj={id,title,category,location,date,image:imageUrl,images,videoUrl:finalVideoUrl,page:"./"+id+".html",featured,breaking,editorialPick:$("newEditorialPick").checked,excerpt,content:paragraphs,relatedNews:relatedNewsData};
    latestNewsPackage=JSON.stringify(obj,null,2);
    localStorage.removeItem("bahal_news_draft");
    /*
