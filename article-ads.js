@@ -85,10 +85,85 @@
     document.head.appendChild(s);
   }
 
+  function ensureCompactShare() {
+    const actions = document.querySelector(".article-actions");
+    const panel = document.querySelector(".social-share-panel");
+    if (!actions || !panel || panel.dataset.bjCompactReady === "1") return;
+
+    let shareButton = actions.querySelector(".share-button");
+    if (!shareButton) {
+      shareButton = document.createElement("button");
+      shareButton.type = "button";
+      shareButton.className = "share-button";
+      actions.appendChild(shareButton);
+    }
+    shareButton.textContent = "↗ शेयर करें";
+    shareButton.setAttribute("aria-expanded", "false");
+    shareButton.setAttribute("aria-controls", "bj-article-share-options");
+    panel.id = "bj-article-share-options";
+    panel.hidden = true;
+    panel.classList.add("bj-compact-share-panel");
+    panel.querySelector(".social-share-title")?.remove();
+
+    const buttons = panel.querySelector(".social-share-buttons") || panel;
+    const oldNative = buttons.querySelector("#native-share");
+    if (oldNative) oldNative.remove();
+
+    const whatsapp = buttons.querySelector(".whatsapp-share");
+    const facebook = buttons.querySelector(".facebook-share");
+    if (whatsapp) { whatsapp.textContent = "WhatsApp"; whatsapp.setAttribute("aria-label", "WhatsApp पर खबर शेयर करें"); }
+    if (facebook) { facebook.textContent = "Facebook"; facebook.setAttribute("aria-label", "Facebook पर खबर शेयर करें"); }
+
+    if (!buttons.querySelector(".instagram-share")) {
+      const instagram = document.createElement("a");
+      instagram.className = "social-share-btn instagram-share";
+      instagram.href = "https://www.instagram.com/";
+      instagram.target = "_blank";
+      instagram.rel = "noopener noreferrer";
+      instagram.textContent = "Instagram";
+      instagram.setAttribute("aria-label", "Instagram खोलें; खबर का लिंक पहले कॉपी होगा");
+      instagram.addEventListener("click", function () {
+        copyCurrentArticleLink();
+      });
+      buttons.appendChild(instagram);
+    }
+    if (!buttons.querySelector(".copy-share")) {
+      const copy = document.createElement("button");
+      copy.type = "button";
+      copy.className = "social-share-btn copy-share";
+      copy.textContent = "कॉपी लिंक";
+      copy.addEventListener("click", async function () {
+        const old = copy.textContent;
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          copy.textContent = "✓ लिंक कॉपी";
+        } catch (e) {
+          window.prompt("इस खबर का लिंक कॉपी करें:", window.location.href);
+        }
+        window.setTimeout(function () { copy.textContent = old; }, 1800);
+      });
+      buttons.appendChild(copy);
+    }
+
+    function copyCurrentArticleLink() {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(window.location.href).catch(function () {});
+      }
+    }
+
+    shareButton.addEventListener("click", function () {
+      const isOpen = !panel.hidden;
+      panel.hidden = isOpen;
+      shareButton.setAttribute("aria-expanded", String(!isOpen));
+    });
+    panel.dataset.bjCompactReady = "1";
+  }
+
   function init() {
     loadDirectAdData();
     placeMidArticleAd();
     ensurePermanentBottomAd();
+    ensureCompactShare();
   }
 
   function start() {
