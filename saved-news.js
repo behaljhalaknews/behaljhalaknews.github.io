@@ -30,7 +30,8 @@
       var exists = saved.some(function (item) { return cleanUrl(item.url) === url; });
       button.classList.toggle("is-saved", exists);
       button.setAttribute("aria-pressed", exists ? "true" : "false");
-      button.textContent = exists ? "✓ सेव हो गई" : "🔖 खबर सेव करें";
+      var label = exists ? "✓ सेव हो गई" : "🔖 खबर सेव करें";
+      if (button.textContent !== label) button.textContent = label;
     });
   }
   function renderList() {
