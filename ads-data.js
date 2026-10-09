@@ -193,5 +193,18 @@ window.BAHAL_DIRECT_ADS = [
     "endAt": "2026-11-07T23:59:59+05:30",
     "active": true,
     "sliderSeconds": 5
+  },
+  {
+    "id": "ad-1791550278549",
+    "name": "श्योराण फव्वारा एजेंसी",
+    "imageUrl": "https://exkoxaxbmspxsqdokdcg.supabase.co/storage/v1/object/public/news-images/direct-ads/1791550277719-kw04e5.jpg",
+    "clickUrl": "https://behaljhalaknews.github.io",
+    "placement": "ALL_NEWS",
+    "selectedArticleIds": [],
+    "displayType": "SLIDER",
+    "startAt": "2026-10-09T00:00:00+05:30",
+    "endAt": "2026-11-07T23:59:59+05:30",
+    "active": true,
+    "sliderSeconds": 5
   }
 ];
