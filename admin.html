@@ -209,14 +209,13 @@ const news=Array.isArray(window.BAHAL_JHALAK_NEWS)?window.BAHAL_JHALAK_NEWS:[];
 let latestNewsPackage="";
 let latestDeleteId="";
 
-// मोबाइल पर अधूरी खबर बंद/रिफ्रेश होने पर न खोए, इसलिए केवल इसी ब्राउज़र में Draft सुरक्षित रखा जाता है।
+// रिफ्रेश/दोबारा खोलने पर पिछली खबर का ड्राफ्ट वापस न भरें।
 const draftFields=["newTitle","newCategory","newLocation","newDate","newExcerpt","newContent","newVideoUrl","newFeatured","newBreaking","newEditorialPick","newRelatedNews"];
-function saveDraft(){const d={};draftFields.forEach(id=>{const el=$(id);d[id]=el.type==="checkbox"?el.checked:el.value;});localStorage.setItem("bahal_news_draft",JSON.stringify(d));}
-function restoreDraft(){try{const d=JSON.parse(localStorage.getItem("bahal_news_draft")||"null");if(!d)return;const hasNewsDraft=!!(d.newTitle||d.newLocation||d.newExcerpt||d.newContent);if(!hasNewsDraft)return;draftFields.forEach(id=>{if(id==="newCategory")return;const el=$(id);if(d[id]!==undefined){if(el.type==="checkbox")el.checked=!!d[id];else el.value=d[id];}});}catch(e){}}
+try{localStorage.removeItem("bahal_news_draft");}catch(e){}
+function saveDraft(){const d={};draftFields.forEach(id=>{const el=$(id);d[id]=el.type==="checkbox"?el.checked:el.value;});try{localStorage.setItem("bahal_news_draft",JSON.stringify(d));}catch(e){}}
 draftFields.forEach(id=>$(id).addEventListener("input",saveDraft));
 $("newRelatedNewsSearch").addEventListener("input",saveDraft);
 $("newDate").value=$("newDate").value||new Intl.DateTimeFormat("hi-IN",{day:"numeric",month:"long",year:"numeric"}).format(new Date());
-restoreDraft();
 if($("newRelatedNewsSearch") && $("newRelatedNews").value){
   const selectedRelated=news.find(n=>n.id===$("newRelatedNews").value);
   if(selectedRelated) $("newRelatedNewsSearch").value=selectedRelated.title||"";
