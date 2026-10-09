@@ -60,6 +60,18 @@
 .bj-nav::-webkit-scrollbar{display:none;}
 .bj-nav a{flex:0 0 auto;text-decoration:none;color:#263238;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:15px;padding:6px 10px;font-size:11px;font-weight:700;}
 .bj-nav a.active{background:#0b2545;color:#fff;border-color:#0b2545;}
+/* Bahal Jhalak Live player */
+.bj-live-section{margin:14px 0 20px;padding:14px;border:1px solid #fecaca;border-radius:14px;background:#fff;box-sizing:border-box}
+.bj-live-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.bj-live-title{margin:0;color:#0b2545;font-size:20px;font-weight:900}
+.bj-live-badge{display:inline-flex;align-items:center;gap:5px;background:#c62828;color:#fff;border-radius:6px;padding:5px 9px;font-size:11px;font-weight:900;letter-spacing:.4px}
+.bj-live-dot{width:7px;height:7px;border-radius:50%;background:#fff;display:inline-block;animation:bjLivePulse 1.2s infinite}
+@keyframes bjLivePulse{50%{opacity:.35}}
+.bj-live-frame{position:relative;width:100%;aspect-ratio:16/9;background:#0f172a;border-radius:10px;overflow:hidden}
+.bj-live-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.bj-live-off{padding:16px;border:1px dashed #cbd5e1;border-radius:10px;background:#f8fafc;color:#475569;text-align:center;font-size:14px;line-height:1.6}
+.bj-live-subtitle{font-size:13px;color:#64748b;margin:0 0 10px}
+@media(max-width:600px){.bj-live-section{padding:10px;margin:12px 0 16px}.bj-live-title{font-size:18px}}
 /* Editorial picks: curated homepage section */
 .bj-editorial-section{margin:18px 0 22px;padding:14px;background:#fffdf7;border:1px solid #ead9a7;border-radius:14px;box-sizing:border-box;}
 .bj-editorial-section .section-heading{color:#8b1e1e;}
@@ -389,6 +401,12 @@
 
 <div class="breaking-news-container"><div class="breaking-title">ताज़ा खबरें</div><div class="breaking-news-text"><marquee id="breaking-news-ticker" behavior="scroll" direction="left" scrollamount="6">ताज़ा खबरें लोड हो रही हैं...</marquee></div></div><div class="ad-slot ad-slot-header" aria-label="विज्ञापन"><span>ADVERTISEMENT</span></div>
 
+<section class="bj-live-section" id="bjLiveSection" aria-label="बहल झलक लाइव प्रसारण">
+  <div class="bj-live-head"><h2 class="bj-live-title" id="bjLiveTitle">बहल झलक LIVE</h2><span class="bj-live-badge" id="bjLiveBadge" style="display:none"><span class="bj-live-dot"></span> LIVE</span></div>
+  <p class="bj-live-subtitle" id="bjLiveSubtitle">लाइव प्रसारण की स्थिति जाँची जा रही है…</p>
+  <div id="bjLivePlayer"><div class="bj-live-off">लाइव प्रसारण उपलब्ध होने पर वीडियो यहाँ दिखाई देगा।</div></div>
+</section>
+
 <main class="main-content-area">
 <div class="news-content-column">
 <section class="top-news-section" id="latest-news" aria-labelledby="latest-news-title">
@@ -449,6 +467,7 @@
 <script src="./breaking-news.js?v=20260928-01"></script>
 <script src="./script.js?v=20261009-editorial-picks-01"></script>
 <script src="./saved-news.js?v=20261009-01"></script>
+<script src="./live-player.js?v=20261009-live-01"></script>
 
 
 
