@@ -121,9 +121,9 @@ jobs:
               video_block = '<div class="article-video"><div class="article-video-title">▶️ वीडियो क्लिप</div><div class="article-video-frame"><video src="' + html.escape(video_url, quote=True) + '" controls playsinline preload="metadata"></video></div></div>'
           else:
               video_block = ""
-          if video_block and paragraphs:
-              mid = max(1, len(paragraphs) // 2)
-              paragraphs.insert(mid, video_block)
+          if video_block:
+              # Put the player near the top so readers immediately see this is a video story.
+              paragraphs.insert(0, video_block)
           related = obj.get("relatedNews") or {}
           if isinstance(related, dict) and related.get("id") and related.get("title"):
               related_id = str(related.get("id"))
@@ -172,8 +172,8 @@ jobs:
               '<meta name="description" content="' + desc + '">',
               '<meta property="og:type" content="article">',
               '<meta property="og:site_name" content="बहल झलक">',
-              '<meta property="og:title" content="' + title + ' | बहल झलक">',
-              '<meta property="og:description" content="' + desc + '">',
+              '<meta property="og:title" content="' + (('▶️ वीडियो: ' + title) if video_url else title) + ' | बहल झलक">',
+              '<meta property="og:description" content="' + html.escape(('▶️ इस खबर में वीडियो देखें। ' if video_url else '') + str(obj["excerpt"]), quote=True) + '">',
               '<meta property="og:image" content="' + html.escape(image_url, quote=True) + '">',
               '<meta property="og:url" content="' + page_url + '">',
               '<meta name="twitter:card" content="summary_large_image">',
