@@ -42,6 +42,24 @@ img{max-width:100%;max-height:260px;object-fit:contain;border-radius:8px;backgro
 <div id="app">
 <div class="card"><button id="logoutBtn" type="button" class="secondary">Logout</button></div>
 
+<div class="card" id="liveBroadcastManager">
+<h2>🔴 बहल झलक LIVE नियंत्रण</h2>
+<p class="help">यह नियंत्रण Admin Login के बाद ही दिखता है। YouTube पर लाइव प्रसारण पहले शुरू करें, फिर उसका वीडियो लिंक यहाँ डालें। ON करने पर वेबसाइट पर वीडियो दिखेगा; OFF करने पर लाइव प्लेयर बंद हो जाएगा।</p>
+<label><strong>लाइव वीडियो का शीर्षक</strong></label>
+<input id="liveTitleInput" type="text" maxlength="120" value="बहल झलक LIVE" placeholder="जैसे: बहल झलक LIVE — मौके से सीधा प्रसारण">
+<label><strong>YouTube Live वीडियो लिंक या Video ID</strong></label>
+<input id="liveVideoInput" type="text" placeholder="https://www.youtube.com/watch?v=XXXXXXXXXXX">
+<p class="help">YouTube Live शुरू होने के बाद उसका वीडियो लिंक पेस्ट करें। लाइव बंद करना हो तो LIVE OFF चुनें।</p>
+<div class="check"><input id="liveIsOn" type="checkbox"><label for="liveIsOn">🔴 वेबसाइट पर LIVE चालू रखें</label></div>
+<button id="livePrepareBtn" type="button" style="background:#c62828">🚀 LIVE सेटिंग तैयार करें</button>
+<div id="liveManagerStatus" class="status">पहले YouTube Live लिंक डालें और LIVE चालू करें।</div>
+<div id="liveWorkflowBox" style="display:none;margin-top:12px;padding:12px;background:#fff7ed;border:2px solid #f97316;border-radius:10px">
+<strong>अगला सुरक्षित Publish चरण</strong>
+<p class="help">LIVE सेटिंग Clipboard में कॉपी होगी। Workflow खुलेगा; वहाँ Live Package वाले बॉक्स में इसे पेस्ट करके Run workflow दबाएँ। सेटिंग प्रकाशित होने के बाद वेबसाइट अपडेट होगी।</p>
+<button id="liveWorkflowBtn" type="button" style="background:#7c3aed">⚙️ LIVE सेटिंग वेबसाइट पर लागू करें</button>
+</div>
+</div>
+
 <div class="card">
 <h2>📰 नई खबर प्रकाशित करें</h2>
 <p class="help">अब JSON कॉपी करने की जरूरत नहीं है। खबर की जानकारी भरें, फोटो चुनें और Publish करें। फोटो चुनी गई तो वह उसी खबर से अपने-आप जुड़ जाएगी।</p>
@@ -547,6 +565,31 @@ async function handlePhotoUpload(replaceAll){
 $("uploadBtn").addEventListener("click",()=>handlePhotoUpload(false));
 $("replaceBtn").addEventListener("click",()=>handlePhotoUpload(true));
 $("deleteAllBtn").addEventListener("click",async()=>{const articleId=$("articleSelect").value;if(!articleId){$("status").textContent="पहले खबर चुनें।";return;}if(!confirm("इस खबर की सभी फोटो हटानी हैं?"))return;$("deleteAllBtn").disabled=true;$("status").textContent="⏳ सभी फोटो हटाई जा रही हैं...";try{const ur=await sb.auth.getUser(),uid=ur.data&&ur.data.user&&ur.data.user.id;if(!uid)throw new Error("Admin Login session नहीं मिला।");const db=await sb.from("article_images").upsert({article_id:articleId,image_url:"[]",updated_by:uid,updated_at:new Date().toISOString()},{onConflict:"article_id"});if(db.error)throw new Error("फोटो Database error: "+db.error.message);$("status").textContent="✅ इस खबर की सभी फोटो हटा दी गई हैं।";showCurrent();}catch(e){$("status").textContent="❌ "+e.message;}finally{$("deleteAllBtn").disabled=false;}});
+/* ================= LIVE BROADCAST MANAGER ================= */
+let latestLivePackage="";
+function extractYoutubeId(value){
+ const s=String(value||"").trim();
+ if(/^[A-Za-z0-9_-]{6,20}$/.test(s)) return s;
+ const m=s.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:[^#]*&)?v=|live\/|shorts\/|embed\/))([A-Za-z0-9_-]{6,20})/i);
+ return m?m[1]:"";
+}
+$("livePrepareBtn").addEventListener("click",async()=>{
+ const isLive=$("liveIsOn").checked;
+ const title=$("liveTitleInput").value.trim()||"बहल झलक LIVE";
+ const raw=$("liveVideoInput").value.trim();
+ const videoId=extractYoutubeId(raw);
+ if(isLive&&!videoId){$("liveManagerStatus").textContent="⚠️ LIVE चालू करने के लिए सही YouTube Live लिंक या Video ID डालें।";$("liveWorkflowBox").style.display="none";return;}
+ latestLivePackage=JSON.stringify({isLive,videoId:isLive?videoId:"",title},null,2);
+ $("liveManagerStatus").textContent=(isLive?"🔴 LIVE चालू करने की सेटिंग तैयार है।":"⚪ LIVE बंद करने की सेटिंग तैयार है.")+"\n\n"+latestLivePackage;
+ $("liveWorkflowBox").style.display="block";
+ try{await navigator.clipboard.writeText(latestLivePackage);$("liveManagerStatus").textContent+="\n\n✅ Package Clipboard में कॉपी हो गया।";}catch(e){$("liveManagerStatus").textContent+="\n\n⚠️ Clipboard कॉपी नहीं हुई; नीचे वाला बटन दबाएँ और package कॉपी करें।";}
+});
+$("liveWorkflowBtn").addEventListener("click",async()=>{
+ if(!latestLivePackage){$("liveManagerStatus").textContent="पहले LIVE सेटिंग तैयार करें।";return;}
+ try{await navigator.clipboard.writeText(latestLivePackage);$("liveManagerStatus").textContent="✅ Live Package कॉपी हो गया। Workflow खुल रहा है।";}catch(e){$("liveManagerStatus").textContent="⚠️ Package Clipboard में कॉपी नहीं हुई। ऊपर दिख रहे JSON को कॉपी करके Workflow में पेस्ट करें।";}
+ window.open("https://github.com/behaljhalaknews/behaljhalaknews.github.io/actions/workflows/set-live-status.yml","_blank","noopener");
+});
+/* ================= END LIVE BROADCAST MANAGER ================= */
 /* ================= DIRECT ADVERTISEMENT MANAGER ================= */
 let directAdsDraft=Array.isArray(window.BAHAL_DIRECT_ADS)?window.BAHAL_DIRECT_ADS.map(a=>({...a,selectedArticleIds:Array.isArray(a.selectedArticleIds)?[...a.selectedArticleIds]:[]})):[];let latestAdsPackage="";
 function adEscape(v){return String(v==null?"":v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
