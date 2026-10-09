@@ -115,6 +115,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Render local news FIRST so navigation/Back never waits for Supabase.
     renderHomepage();
     renderBreakingTicker();
+    renderPhotoBreakingNews();
 
     // CENTRAL IMAGE SOURCE:
     // Supabase photo overrides are now a non-blocking enhancement.
@@ -163,6 +164,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         : item;
                 });
                 renderHomepage();
+                renderPhotoBreakingNews();
             }
         } catch (error) {
             console.warn("Supabase image overrides unavailable; local images retained.", error);
@@ -208,6 +210,69 @@ document.addEventListener("DOMContentLoaded", async function () {
                 esc(getCleanTickerTitle(item)) + '</a>';
         }).join('<span class="breaking-news-separator" aria-hidden="true"> • </span>');
     }
+
+    // PHOTO BREAKING NEWS: a vertical, bottom-to-top loop using the newest published stories.
+    function renderPhotoBreakingNews() {
+        const track = document.getElementById("bj-breaking-photo-track");
+        if (!track) return;
+        const valid = news.filter(function (item) {
+            return item && getCleanTickerTitle(item) && (item.page || item.id);
+        });
+        if (!valid.length) {
+            track.innerHTML = '<p class="bj-breaking-photo-loading">अभी कोई ताज़ा खबर उपलब्ध नहीं है</p>';
+            return;
+        }
+        // Prefer stories with their own photo, then fill to at least three cards if needed.
+        const withPhotos = valid.filter(function (item) { return !!String(item.image || "").trim(); });
+        const chosen = withPhotos.slice(0, 6);
+        valid.forEach(function (item) {
+            if (chosen.length >= 3 || chosen.length >= 6) return;
+            if (chosen.indexOf(item) === -1) chosen.push(item);
+        });
+        if (chosen.length < 3) {
+            valid.forEach(function (item) {
+                if (chosen.length < Math.min(3, valid.length) && chosen.indexOf(item) === -1) chosen.push(item);
+            });
+        }
+        const fallbackImage = "./images/behal-jhalak-logo.svg";
+        function cardHtml(item, duplicate) {
+            const href = item.page || ("./article.html?id=" + encodeURIComponent(item.id));
+            const title = getCleanTickerTitle(item);
+            const image = String(item.image || fallbackImage).trim();
+            return '<a class="bj-breaking-photo-card" href="' + esc(href) + '"' +
+                (duplicate ? ' tabindex="-1" aria-hidden="true"' : '') + '>' +
+                '<img src="' + esc(image) + '" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'' + fallbackImage + '\'">' +
+                '<span class="bj-breaking-photo-copy"><strong>' + esc(title) + '</strong>' +
+                '<small>' + esc(item.location || item.category || "बहल झलक") + ' · ' + esc(item.date || "ताज़ा अपडेट") + '</small></span></a>';
+        }
+        const cards = chosen.slice(0, 6).map(function (item) { return cardHtml(item, false); }).join("");
+        // Duplicate the cards for a seamless vertical loop; reduced-motion users get a static list.
+        track.innerHTML = '<div class="bj-breaking-photo-group">' + cards + '</div><div class="bj-breaking-photo-group" aria-hidden="true">' +
+            chosen.slice(0, 6).map(function (item) { return cardHtml(item, true); }).join("") + '</div>';
+        track.classList.toggle("bj-breaking-photo-track-static", chosen.length < 2);
+    }
+
+    // Refresh the photo panel from the published news feed periodically without reloading the page.
+    // This leaves the homepage layout, ad slots, and admin tools untouched.
+    setInterval(async function () {
+        try {
+            const response = await fetch("./news-data.js?photo-breaking-refresh=" + Date.now(), { cache: "no-store" });
+            if (!response.ok) return;
+            const rawData = await response.text();
+            const marker = "window.BAHAL_JHALAK_NEWS =";
+            const markerIndex = rawData.indexOf(marker);
+            if (markerIndex < 0) return;
+            let jsonText = rawData.slice(markerIndex + marker.length).trim();
+            if (jsonText.endsWith(";")) jsonText = jsonText.slice(0, -1).trim();
+            const freshNews = Function('"use strict"; return (' + jsonText + ');')();
+            if (!Array.isArray(freshNews) || !freshNews.length) return;
+            news = freshNews.slice().reverse();
+            renderBreakingTicker();
+            renderPhotoBreakingNews();
+        } catch (error) {
+            console.warn("Photo breaking-news refresh skipped:", error);
+        }
+    }, 60000);
 
     function esc(value) {
         return String(value ?? "").replace(/[&<>"']/g, function (char) {
