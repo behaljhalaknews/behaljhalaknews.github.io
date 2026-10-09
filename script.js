@@ -225,8 +225,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         const cls = small ? "small-news-card" : "news-card";
         const contentCls = small ? "small-news-content" : "news-card-content";
         const href = item.page || ("./article.html?id=" + encodeURIComponent(item.id));
-        return '<article class="' + cls + '">' +
-            (item.image ? '<a href="' + esc(href) + '" class="news-card-image-link"><img src="' + esc(item.image) + '" alt="' + esc(item.title) + '" loading="lazy"></a>' : '') +
+        const cardImage = item.image || (item.videoUrl ? "./images/behal-jhalak-logo.svg" : "");
+        const videoBadge = item.videoUrl ? '<span class="bj-video-play-overlay" aria-label="वीडियो खबर"><span class="bj-video-play-icon">▶</span><span class="bj-video-play-text">वीडियो देखें</span></span>' : '';
+        return '<article class="' + cls + (item.videoUrl ? ' bj-has-video' : '') + '">' +
+            (cardImage ? '<a href="' + esc(href) + '" class="news-card-image-link' + (item.videoUrl ? ' bj-video-thumb' : '') + '"><img src="' + esc(cardImage) + '" alt="' + esc(item.title) + '" loading="lazy">' + videoBadge + '</a>' : '') +
             '<div class="' + contentCls + '">' +
             '<span class="category-tag' + (item.category === "हरियाणा" || item.category === "राज्य अपडेट" ? " dark" : "") + '">' + esc(item.category) + '</span>' +
             '<h3><a href="' + esc(href) + '">' + esc(item.title) + '</a></h3>' +
@@ -246,10 +248,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             news.find(item => !isMainExcluded(item)) || news[0];
         const latest = news.filter(item => item.id !== featured.id).slice(0, 2);
 
-        const featuredImage = featured.image || "";
+        const featuredImage = featured.image || (featured.videoUrl ? "./images/behal-jhalak-logo.svg" : "");
+        const featuredVideoBadge = featured.videoUrl ? '<span class="bj-video-play-overlay" aria-label="वीडियो खबर"><span class="bj-video-play-icon">▶</span><span class="bj-video-play-text">वीडियो देखें</span></span>' : '';
         document.getElementById("featured-news").innerHTML =
-            '<article class="featured-news-card" data-article-id="' + esc(featured.id) + '">' +
-            (featuredImage ? '<a href="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '" class="news-card-image-link"><img src="' + esc(featuredImage) + '" alt="' + esc(featured.title) + '" loading="lazy"></a>' : '') +
+            '<article class="featured-news-card' + (featured.videoUrl ? ' bj-has-video' : '') + '" data-article-id="' + esc(featured.id) + '">' +
+            (featuredImage ? '<a href="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '" class="news-card-image-link' + (featured.videoUrl ? ' bj-video-thumb' : '') + '"><img src="' + esc(featuredImage) + '" alt="' + esc(featured.title) + '" loading="lazy">' + featuredVideoBadge + '</a>' : '') +
             '<div class="featured-news-content"><span class="category-tag">' + esc(featured.category) + '</span>' +
             '<h2><a href="' + esc(featured.page || ("./article.html?id=" + encodeURIComponent(featured.id))) + '">' + esc(featured.title) + '</a></h2>' +
             '<p>' + esc(featured.excerpt) + '</p><div class="news-meta"><span>' + esc(featured.location || "बहल झलक") + '</span><span>•</span><span>' + esc(featured.date) + '</span></div>' +
@@ -263,7 +266,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             editorialGrid.innerHTML = picks.length ? picks.map(item => {
                 const href = item.page || ("./article.html?id=" + encodeURIComponent(item.id));
                 const image = item.image || (Array.isArray(item.images) ? item.images[0] : "") || "./images/behal-jhalak-logo.svg";
-                return '<article class="bj-editorial-card" data-article-id="' + esc(item.id) + '"><a href="' + esc(href) + '" aria-label="' + esc(item.title) + ' पढ़ें"><img src="' + esc(image) + '" alt="' + esc(item.title) + '" loading="lazy"></a><div class="bj-editorial-copy"><span class="bj-editorial-label">⭐ संपादकीय चयन</span><h3><a href="' + esc(href) + '">' + esc(item.title) + '</a></h3><p>' + esc(item.excerpt || "") + '</p><div class="news-meta"><span>' + esc(item.location || "बहल झलक") + '</span><span>•</span><span>' + esc(item.date || "") + '</span></div></div></article>';
+                const videoBadge = item.videoUrl ? '<span class="bj-video-play-overlay" aria-label="वीडियो खबर"><span class="bj-video-play-icon">▶</span><span class="bj-video-play-text">वीडियो देखें</span></span>' : '';
+                return '<article class="bj-editorial-card' + (item.videoUrl ? ' bj-has-video' : '') + '" data-article-id="' + esc(item.id) + '"><a class="' + (item.videoUrl ? 'bj-video-thumb' : '') + '" href="' + esc(href) + '" aria-label="' + esc(item.title) + ' पढ़ें"><img src="' + esc(image) + '" alt="' + esc(item.title) + '" loading="lazy">' + videoBadge + '</a><div class="bj-editorial-copy"><span class="bj-editorial-label">⭐ संपादकीय चयन</span><h3><a href="' + esc(href) + '">' + esc(item.title) + '</a></h3><p>' + esc(item.excerpt || "") + '</p><div class="news-meta"><span>' + esc(item.location || "बहल झलक") + '</span><span>•</span><span>' + esc(item.date || "") + '</span></div></div></article>';
             }).join("") : '<div class="category-placeholder"><strong>अभी कोई खबर चयनित नहीं है</strong><span>News Manager में “संपादकीय की पसंद” चुनकर खबर यहाँ दिखाएँ।</span></div>';
         }
         const groups = {
@@ -301,11 +305,18 @@ document.addEventListener("DOMContentLoaded", async function () {
         titleEl.textContent = data.title;
         document.getElementById("article-date").textContent = data.date;
         const image = document.getElementById("article-image");
-        image.src = data.image;
+        image.src = data.image || "";
         image.alt = data.title;
         const body = document.getElementById("article-body");
         const paragraphs = Array.isArray(data.content) ? data.content : [data.content];
-        body.innerHTML = paragraphs.map(p => "<p>" + esc(p) + "</p>").join("");
+        const videoUrl = String(data.videoUrl || "").trim();
+        const youtubeMatch = videoUrl.match(/(?:youtu\\.be\\/|youtube\\.com\\/(?:watch\\?(?:[^#]*&)?v=|shorts\\/|embed\\/))([A-Za-z0-9_-]{6,})/i);
+        const videoMarkup = youtubeMatch
+            ? '<div class="article-video"><div class="article-video-title">▶️ वीडियो देखें</div><div class="article-video-frame"><iframe src="https://www.youtube.com/embed/' + esc(youtubeMatch[1]) + '" title="बहल झलक वीडियो" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></div>'
+            : (videoUrl ? '<div class="article-video"><div class="article-video-title">▶️ वीडियो देखें</div><div class="article-video-frame"><video src="' + esc(videoUrl) + '" controls playsinline preload="metadata"></video></div></div>' : '');
+        if (videoUrl) image.style.display = "none";
+        else image.style.display = data.image ? "" : "none";
+        body.innerHTML = videoMarkup + paragraphs.map(p => "<p>" + esc(p) + "</p>").join("");
         const pageUrl = window.location.href;
         const encodedUrl = encodeURIComponent(pageUrl);
         const encodedTitle = encodeURIComponent(data.title);
