@@ -1,0 +1,144 @@
+/* Bahal Jhalak — restrained TV action-news visual refresh.
+   Intentionally does not target advertisement slots, publishing tools, or Admin Manager. */
+:root {
+  --bj-action-red: #c62828;
+  --bj-action-red-dark: #8f1515;
+  --bj-action-navy: #0b2545;
+  --bj-action-gold: #ffd54f;
+}
+
+/* Breaking-news ticker: stronger broadcast identity, unchanged content/behavior. */
+.breaking-news-container {
+  border: 1px solid #b91c1c;
+  border-radius: 7px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(11,37,69,.10);
+}
+.breaking-title {
+  background: linear-gradient(135deg, var(--bj-action-red-dark), var(--bj-action-red)) !important;
+  color: #fff !important;
+  font-weight: 900 !important;
+  letter-spacing: .15px;
+}
+.breaking-news-text {
+  background: #fff !important;
+  color: #172033;
+  font-weight: 750;
+}
+
+/* Clear broadcast-style section headings; no layout changes to ad elements. */
+.top-news-section,
+.news-section {
+  position: relative;
+}
+.section-heading-row {
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 8px;
+  margin-bottom: 13px;
+}
+.section-heading {
+  position: relative;
+  color: var(--bj-action-navy);
+  font-weight: 900;
+  letter-spacing: -.15px;
+}
+.section-heading::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 3px;
+  margin-top: 5px;
+  border-radius: 3px;
+  background: var(--bj-action-red);
+}
+.section-more-link {
+  color: var(--bj-action-red) !important;
+  font-weight: 850 !important;
+}
+
+/* Featured headline gets a newsroom-style frame while retaining its existing markup. */
+.featured-news-card {
+  border: 1px solid #dbe2ea !important;
+  border-top: 4px solid var(--bj-action-red) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 5px 18px rgba(11,37,69,.10) !important;
+}
+.featured-news-content h2,
+.featured-news-content h3 {
+  color: var(--bj-action-navy);
+  font-weight: 900;
+  line-height: 1.38;
+}
+.featured-news-content h2 a,
+.featured-news-content h3 a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.featured-news-content h2 a:hover,
+.featured-news-content h3 a:hover {
+  color: var(--bj-action-red);
+}
+
+/* Compact news cards: crisp borders and readable headlines, with existing grids preserved. */
+.news-card,
+.small-news-card {
+  border: 1px solid #e0e5ec;
+  border-radius: 9px;
+  box-shadow: 0 3px 12px rgba(11,37,69,.055);
+  transition: box-shadow .18s ease, border-color .18s ease;
+}
+.news-card:hover,
+.small-news-card:hover {
+  border-color: #efb2b2;
+  box-shadow: 0 7px 18px rgba(11,37,69,.11);
+}
+.news-card-content h3,
+.small-news-content h3 {
+  font-weight: 850;
+  line-height: 1.42;
+}
+.news-card-content h3 a,
+.small-news-content h3 a {
+  color: #172033;
+}
+.news-card-content h3 a:hover,
+.small-news-content h3 a:hover {
+  color: var(--bj-action-red);
+}
+
+/* Header menu button remains a simple three-line control on small screens. */
+.bj-more-btn {
+  font-size: 0 !important;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-color: #f0b5b5 !important;
+  background: #fff !important;
+}
+.bj-more-btn::before {
+  content: "";
+  width: 17px;
+  height: 12px;
+  display: block;
+  border-top: 2px solid var(--bj-action-red);
+  border-bottom: 2px solid var(--bj-action-red);
+  box-sizing: border-box;
+}
+.bj-more-btn::after {
+  content: "";
+  position: absolute;
+  width: 17px;
+  height: 2px;
+  background: var(--bj-action-red);
+  border-radius: 2px;
+}
+
+@media (max-width: 600px) {
+  .section-heading-row { padding-bottom: 7px; margin-bottom: 10px; }
+  .section-heading { font-size: 17px; }
+  .featured-news-card { border-radius: 8px !important; }
+  .news-card,
+  .small-news-card { box-shadow: 0 2px 8px rgba(11,37,69,.06); }
+}
