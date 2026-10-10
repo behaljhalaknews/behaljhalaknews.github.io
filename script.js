@@ -115,6 +115,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Render local news FIRST so navigation/Back never waits for Supabase.
     renderHomepage();
     renderBreakingTicker();
+    renderActionNewsTicker();
     renderPhotoBreakingNews();
 
     // CENTRAL IMAGE SOURCE:
@@ -164,6 +165,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         : item;
                 });
                 renderHomepage();
+                renderActionNewsTicker();
                 renderPhotoBreakingNews();
             }
         } catch (error) {
@@ -209,6 +211,28 @@ document.addEventListener("DOMContentLoaded", async function () {
             return '<a href="' + esc(href) + '" class="breaking-news-link">' +
                 esc(getCleanTickerTitle(item)) + '</a>';
         }).join('<span class="breaking-news-separator" aria-hidden="true"> • </span>');
+    }
+
+    // Independent action-news thumbnail ticker; reads the same published news data without changing existing cards or ads.
+    function renderActionNewsTicker() {
+        const track = document.getElementById("bj-action-news-track");
+        if (!track) return;
+        const items = news.filter(function (item) {
+            return item && item.id && getCleanTickerTitle(item);
+        }).slice(0, 12);
+        if (!items.length) {
+            track.textContent = "अभी कोई ताज़ा खबर उपलब्ध नहीं है";
+            return;
+        }
+        const makeCard = function (item) {
+            const href = item.page || ("./article.html?id=" + encodeURIComponent(item.id));
+            const image = item.image || (item.videoUrl ? "./images/behal-jhalak-logo.svg" : "./images/behal-jhalak-logo.svg");
+            return '<a class="bj-action-news-card" href="' + esc(href) + '">' +
+                '<span class="bj-action-news-thumb"><img src="' + esc(image) + '" alt="" loading="lazy"><span class="bj-action-news-tag">ताज़ा खबर</span></span>' +
+                '<span class="bj-action-news-title">' + esc(getCleanTickerTitle(item)) + '</span></a>';
+        };
+        const cards = items.map(makeCard).join("");
+        track.innerHTML = '<div class="bj-action-news-group">' + cards + '</div><div class="bj-action-news-group" aria-hidden="true">' + cards + '</div>';
     }
 
     // The date-aware popup is managed by the independent fallback in index.html.
