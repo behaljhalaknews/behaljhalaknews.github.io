@@ -109,7 +109,7 @@
   }
 
   function render(selector,kind,id){
-    var host=document.querySelector(selector);
+    var host=typeof selector==="string"?document.querySelector(selector):selector;
     if(!host)return;
     var list=ads.filter(function(a){return eligible(a,kind,id);});
     host.innerHTML="";
