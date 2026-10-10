@@ -1582,7 +1582,7 @@ window.BAHAL_JHALAK_NEWS = [
   {
     "id": "2-02-1791541139600",
     "title": "रामपुरा-गोलपुरा सड़क मार्ग के लिए ₹2.02 करोड़ मंजूर: ग्रामीणों में खुशी की लहर, जनप्रतिनिधियों ने जताया आभार",
-    "category": "हरियाणा",
+    "category": "वीडियो",
     "location": "दादरी",
     "date": "9 अक्टूबर 2026",
     "image": "https://behaljhalaknews.github.io/images/video-thumbnails/2-02-1791541139600.jpg",
