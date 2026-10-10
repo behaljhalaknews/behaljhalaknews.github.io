@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#101827"/><stop offset="1" stop-color="#260b12"/></linearGradient>
+  <linearGradient id="red" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d71920"/><stop offset="1" stop-color="#ff343b"/></linearGradient>
+</defs>
+<rect width="1200" height="630" fill="url(#bg)"/>
+<rect x="0" y="0" width="1200" height="18" fill="url(#red)"/>
+<circle cx="1050" cy="305" r="190" fill="#ffffff" opacity=".035"/>
+<circle cx="1050" cy="305" r="145" fill="#ffffff" opacity=".04"/>
+<rect x="58" y="52" width="360" height="66" rx="12" fill="#fff"/>
+<text x="80" y="96" font-family="Noto Sans Devanagari, sans-serif" font-size="34" font-weight="800" fill="#c81920">बहल झलक</text>
+<rect x="438" y="66" width="126" height="40" rx="20" fill="#e21b23"/>
+<circle cx="461" cy="86" r="7" fill="#fff"/>
+<text x="478" y="95" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#fff">VIDEO</text>
+<rect x="58" y="158" width="170" height="44" rx="7" fill="#e21b23"/>
+<text x="80" y="188" font-family="Noto Sans Devanagari, sans-serif" font-size="25" font-weight="700" fill="#fff">हरियाणा | रोहतक</text>
+<text x="58" y="278" font-family="Noto Sans Devanagari, sans-serif" font-size="51" font-weight="800" fill="#fff">ग्रामीणों ने पुलिसकर्मियों</text>
+<text x="58" y="345" font-family="Noto Sans Devanagari, sans-serif" font-size="51" font-weight="800" fill="#fff">को ही बनाया ‘बंधक’</text>
+<rect x="58" y="385" width="640" height="5" rx="2" fill="#e21b23"/>
+<text x="58" y="445" font-family="Noto Sans Devanagari, sans-serif" font-size="34" font-weight="700" fill="#ffd54a">वीडियो सोशल मीडिया पर वायरल</text>
+<g transform="translate(890 215)">
+  <circle cx="100" cy="100" r="112" fill="#e21b23" opacity=".95"/>
+  <circle cx="100" cy="100" r="88" fill="#fff" opacity=".12"/>
+  <path d="M76 50 Q76 42 86 48 L151 91 Q162 100 151 108 L86 151 Q76 158 76 147 Z" fill="#fff"/>
+</g>
+<rect x="58" y="532" width="1084" height="2" fill="#fff" opacity=".22"/>
+<text x="58" y="580" font-family="Noto Sans Devanagari, sans-serif" font-size="27" font-weight="700" fill="#fff">पूरी खबर और वीडियो देखने के लिए लिंक खोलें</text>
+<text x="1142" y="580" text-anchor="end" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#ffb9bc">BAHAL JHALAK</text>
+</svg>
