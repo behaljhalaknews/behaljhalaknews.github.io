@@ -16,8 +16,9 @@
 
   function safeFilePart(value) {
     return String(value || "bahal-jhalak-news")
-      .normalize("NFKD")
-      .replace(/[^a-zA-Z0-9_-]+/g, "-")
+      .replace(/[\\\\/:*?"<>|]+/g, "-")
+      .replace(/\\s+/g, "-")
+      .replace(/-+/g, "-")
       .replace(/^-+|-+$/g, "")
       .slice(0, 70) || "bahal-jhalak-news";
   }
