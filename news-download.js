@@ -144,7 +144,29 @@
     });
   }
 
+  function ensureStyles() {
+    if (document.getElementById("bj-news-download-styles")) return;
+    const style = document.createElement("style");
+    style.id = "bj-news-download-styles";
+    style.textContent = `
+      .bj-news-download-box{box-sizing:border-box;margin:12px auto 18px;padding:14px;width:100%;border:1px solid #f0b8b8;border-top:4px solid #c62828;border-radius:10px;background:#fff;box-shadow:0 3px 12px rgba(11,37,69,.07);color:#172033}
+      .bj-news-download-heading{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+      .bj-news-download-icon{display:flex;align-items:center;justify-content:center;width:42px;height:42px;flex:0 0 42px;border-radius:9px;background:#fff0f0;font-size:23px}
+      .bj-news-download-heading strong{display:block;font-size:17px;font-weight:900;color:#0b2545;line-height:1.35}
+      .bj-news-download-heading small{display:block;margin-top:3px;font-size:12px;color:#64748b;line-height:1.45}
+      .bj-news-download-label{display:block;margin:0 0 5px;font-size:12px;font-weight:800;color:#334155}
+      #bjNewsDownloadSelect{display:block;width:100%;min-width:0;box-sizing:border-box;margin:0 0 9px;padding:10px;border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#172033;font:inherit;font-size:13px}
+      .bj-news-download-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;max-width:100%;box-sizing:border-box;padding:10px 13px;border:0;border-radius:7px;background:#c62828;color:#fff;font-size:13px;font-weight:850;line-height:1.4;cursor:pointer}
+      .bj-news-download-button:disabled{opacity:.65;cursor:wait}
+      .bj-news-download-status{min-height:0;margin:7px 0 0;color:#64748b;font-size:11px;line-height:1.5}
+      .article-actions .bj-news-download-button{margin:5px 0}
+      @media(max-width:600px){.bj-news-download-box{padding:11px;margin:10px auto 15px}.bj-news-download-heading strong{font-size:16px}.bj-news-download-button{width:100%;font-size:12px}.article-actions .bj-news-download-button{width:100%}}
+    `;
+    document.head.appendChild(style);
+  }
+
   function init() {
+    ensureStyles();
     initHomepageBox();
     articlePageDownload();
   }
