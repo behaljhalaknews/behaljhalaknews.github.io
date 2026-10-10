@@ -76,10 +76,10 @@
   function loadDirectAdData(){
     if(window.BAHAL_DIRECT_ADS)return;
     var s=document.createElement("script");
-    s.src="./ads-data.js?v=20261009-article-carousel-01";
+    s.src="./ads-data.js?v=20261010-mid-ad-fix-01";
     s.onload=function(){
       var d=document.createElement("script");
-      d.src="./direct-ads.js?v=20261009-article-carousel-01";
+      d.src="./direct-ads.js?v=20261010-mid-ad-fix-01";
       document.body.appendChild(d);
     };
     document.head.appendChild(s);
