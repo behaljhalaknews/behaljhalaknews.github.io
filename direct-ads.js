@@ -142,7 +142,7 @@
     render(".ad-slot-header","top","");
     var id=articleId();
     if(document.body.classList.contains("direct-ad-article")||document.querySelector(".article-page")){
-      var mid=document.querySelector(".ad-slot-article");
+      var mid=document.querySelector(".article-page .article-body > .ad-slot-article") || document.querySelector(".article-page .ad-slot-article");
       if(mid)render(mid,"article",id);
     }
   }
