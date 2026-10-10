@@ -183,7 +183,19 @@
     panel.dataset.bjCompactReady = "1";
   }
 
+  function loadNewsDownload() {
+    if (window.__bahalJhalakNewsDownloadLoading || window.BAHAL_JHALAK_DOWNLOAD_NEWS) return;
+    window.__bahalJhalakNewsDownloadLoading = true;
+    const script = document.createElement("script");
+    script.src = "./news-download.js?v=20261010-download-01";
+    script.onload = function () { window.__bahalJhalakNewsDownloadLoading = false; };
+    script.onerror = function () { window.__bahalJhalakNewsDownloadLoading = false; };
+    document.body.appendChild(script);
+  }
+
   function init() {
+    // Download support is independent of ad rendering; failures do not affect ads.
+    try { loadNewsDownload(); } catch (e) { console.error("News download setup failed:", e); }
     // Sharing must work even if any advertising helper fails.
     try { ensureCompactShare(); } catch (e) { console.error("Bahal Jhalak share setup failed:", e); }
     try { loadDirectAdData(); } catch (e) { console.error("Direct ad data failed:", e); }
