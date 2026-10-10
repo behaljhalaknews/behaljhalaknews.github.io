@@ -29,17 +29,23 @@ jobs:
           python3 - <<'PY'
           from PIL import Image, ImageDraw, ImageFont
           from pathlib import Path
+          import glob
 
           W, H = 1200, 630
           BG, MAR, RED, WHITE, GOLD, RED2 = (16,24,39), (39,12,24), (205,25,35), (255,255,255), (255,213,74), (224,53,61)
           im = Image.new("RGB", (W,H), BG)
           d = ImageDraw.Draw(im)
-          base = "/usr/share/fonts/truetype/noto/"
-          reg = ImageFont.truetype(base+"NotoSansDevanagariUI-Regular.ttf", 25)
-          bold = ImageFont.truetype(base+"NotoSansDevanagari-Bold.ttf", 47)
-          brand = ImageFont.truetype(base+"NotoSansDevanagari-Bold.ttf", 34)
-          cat = ImageFont.truetype(base+"NotoSansDevanagari-Bold.ttf", 24)
-          sub = ImageFont.truetype(base+"NotoSansDevanagari-Bold.ttf", 32)
+          hindi_fonts = glob.glob("/usr/share/fonts/**/*.ttf", recursive=True)
+          hindi_fonts = [p for p in hindi_fonts if "devanagari" in p.lower()]
+          if not hindi_fonts:
+              raise SystemExit("No Devanagari font found after installing Noto fonts.")
+          regular_font = next((p for p in hindi_fonts if "bold" not in p.lower()), hindi_fonts[0])
+          bold_font = next((p for p in hindi_fonts if "bold" in p.lower()), regular_font)
+          reg = ImageFont.truetype(regular_font, 25)
+          bold = ImageFont.truetype(bold_font, 47)
+          brand = ImageFont.truetype(bold_font, 34)
+          cat = ImageFont.truetype(bold_font, 24)
+          sub = ImageFont.truetype(bold_font, 32)
           eng = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 21)
           eng_sm = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 18)
 
