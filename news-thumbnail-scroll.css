@@ -1,0 +1,16 @@
+/* Auto-repeating thumbnail ribbon. Independent of ad and news-card styles. */
+.bj-news-thumbnail-strip{display:block;width:100%;box-sizing:border-box;margin:10px 0 16px;padding:0;background:#fff;border:1px solid #e0e5ec;border-radius:8px;overflow:hidden}
+.bj-news-strip-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;background:#b71c1c;color:#fff;font-weight:900;font-size:13px}
+.bj-news-strip-heading small{font-size:10px;font-weight:700;color:#fff;opacity:.9}
+.bj-news-strip-viewport{width:100%;overflow:hidden;position:relative;touch-action:pan-y}
+.bj-news-strip-track{display:flex;align-items:stretch;width:max-content;gap:9px;padding:9px;animation:bjNewsStripScroll 48s linear infinite;will-change:transform}
+.bj-news-strip-card{display:flex;flex:0 0 240px;width:240px;min-width:0;min-height:78px;overflow:hidden;align-items:center;gap:9px;box-sizing:border-box;border:1px solid #e2e8f0;border-bottom:3px solid #c62828;border-radius:7px;background:#fff;color:#172033;text-decoration:none}
+.bj-news-strip-card img{display:block;flex:0 0 92px;width:92px;height:76px;object-fit:cover;background:#edf1f5}
+.bj-news-strip-card>span{display:flex;flex-direction:column;gap:4px;min-width:0;padding:6px 7px 6px 0}
+.bj-news-strip-card small{color:#b71c1c;font-size:10px;font-weight:900}
+.bj-news-strip-card strong{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;font-size:12px;line-height:1.4;font-weight:850}
+.bj-news-strip-card:focus-visible{outline:3px solid #0b2545;outline-offset:-3px}
+.bj-news-strip-viewport:hover .bj-news-strip-track{animation-play-state:paused}
+@keyframes bjNewsStripScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:600px){.bj-news-thumbnail-strip{margin:8px 0 12px}.bj-news-strip-track{gap:7px;padding:7px;animation-duration:40s}.bj-news-strip-card{flex-basis:214px;width:214px;min-height:72px}.bj-news-strip-card img{flex-basis:82px;width:82px;height:70px}.bj-news-strip-card strong{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.bj-news-strip-track{animation:none;transform:none}.bj-news-strip-copy{display:none}}
