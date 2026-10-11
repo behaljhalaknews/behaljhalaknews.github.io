@@ -221,15 +221,15 @@ window.BAHAL_DIRECT_ADS = [
     "sliderSeconds": 5
   },
   {
-    "id": "ad-1791650249592",
-    "name": "Jp",
-    "imageUrl": "https://exkoxaxbmspxsqdokdcg.supabase.co/storage/v1/object/public/news-images/direct-ads/1791650249104-4vodqh.jpg",
+    "id": "ad-1791705158230",
+    "name": "CJI",
+    "imageUrl": "https://exkoxaxbmspxsqdokdcg.supabase.co/storage/v1/object/public/news-images/direct-ads/1791705157768-zs88l3.jpg",
     "clickUrl": "https://behaljhalaknews.github.io",
-    "placement": "ALL_NEWS",
+    "placement": "TOP",
     "selectedArticleIds": [],
-    "displayType": "ANIMATED",
+    "displayType": "SLIDER",
     "startAt": "2026-10-10T00:00:00+05:30",
-    "endAt": "2026-10-14T23:59:59+05:30",
+    "endAt": "2026-10-11T23:59:59+05:30",
     "active": true,
     "sliderSeconds": 5
   }
