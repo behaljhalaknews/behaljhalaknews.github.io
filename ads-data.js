@@ -232,5 +232,18 @@ window.BAHAL_DIRECT_ADS = [
     "endAt": "2026-10-11T23:59:59+05:30",
     "active": true,
     "sliderSeconds": 5
+  },
+  {
+    "id": "ad-1791742290057",
+    "name": "कपिल सिब्बल",
+    "imageUrl": "https://exkoxaxbmspxsqdokdcg.supabase.co/storage/v1/object/public/news-images/direct-ads/1791742288552-6ekccf.jpg",
+    "clickUrl": "https://behaljhalaknews.github.io",
+    "placement": "TOP",
+    "selectedArticleIds": [],
+    "displayType": "SLIDER",
+    "startAt": "2026-10-11T00:00:00+05:30",
+    "endAt": "2026-10-12T23:59:59+05:30",
+    "active": true,
+    "sliderSeconds": 5
   }
 ];
