@@ -362,5 +362,18 @@ window.BAHAL_DIRECT_ADS = [
     "endAt": "2026-10-18T23:59:59+05:30",
     "active": true,
     "sliderSeconds": 5
+  },
+  {
+    "id": "ad-1792219257771",
+    "name": "L",
+    "imageUrl": "https://exkoxaxbmspxsqdokdcg.supabase.co/storage/v1/object/public/news-images/direct-ads/1792219256779-1u0qb1.jpg",
+    "clickUrl": "https://behaljhalaknews.github.io",
+    "placement": "TOP",
+    "selectedArticleIds": [],
+    "displayType": "SLIDER",
+    "startAt": "2026-10-17T00:00:00+05:30",
+    "endAt": "2026-10-18T23:59:59+05:30",
+    "active": true,
+    "sliderSeconds": 5
   }
 ];
